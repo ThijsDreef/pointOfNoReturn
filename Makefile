@@ -21,7 +21,10 @@ INCLUDE = $(sort $(TOINCLUDE))
 
 LDFLAGS=$(subst co,-Ico, $(INCLUDE))
 
-$(EXE): $(objects)
+
+
+
+$(EXE) : $(objects)
 	$(CC) -std=c++11 -static-libstdc++ -Wall -g -o $(EXE)$(TARGET) $(objects) $(LDFLAGS) -Lcore/libs/ -lglew32 -lgdi32 -lopengl32
 $(BUILD)%.o : $(SOURCE)%.cpp $(BUILD)
 	$(CC)$(LDFLAGS) -std=c++11 -Wall -g -c $< -o $@
@@ -29,3 +32,10 @@ $(BUILD)%.o : $(SOURCE)%.cpp $(BUILD)
 $(BUILD):
 
 $(EXE):
+
+init :
+	md build
+	robocopy core/source build /e /xf * >nul
+
+clean:
+	rmdir build /S /Q
