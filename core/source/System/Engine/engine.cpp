@@ -38,7 +38,7 @@ void Engine::run()
 {
   double elapsedTime = 0;
   double inputResetTimer = 0;
-  while (!window.done)
+  while (!window.done && running)
   {
     auto start = std::chrono::system_clock::now();
     if (elapsedTime > frameCap)
@@ -60,6 +60,8 @@ void Engine::run()
     elapsedTime += elapsed.count();
     inputResetTimer += elapsedTime;
   }
+  if (!window.done)
+    window.killWindow();
 }
 
 void Engine::stop()
@@ -69,6 +71,11 @@ void Engine::stop()
     delete scene.top();
     scene.pop();
   }
+}
+
+void Engine::quit()
+{
+  running = false;
 }
 
 GeometryLib * Engine::getGeoLib()

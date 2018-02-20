@@ -17,6 +17,8 @@ private:
   ShaderManager shaderManager;
   Input * input;
   std::stack<Scene*> scene;
+  void run();
+  void stop();
   bool running;
   double frameCap;
 
@@ -24,8 +26,7 @@ public:
   Engine (std::string title, int width, int height, int bitDepth, bool fullScreen, double frameCap);
   Engine (double frameCap);
   void start(Scene * start);
-  void run();
-  void stop();
+  void quit();
   GeometryLib * getGeoLib();
   MaterialLib * getMatLib();
   ShaderManager * getShaderManger();
