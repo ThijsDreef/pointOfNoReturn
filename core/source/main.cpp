@@ -9,8 +9,8 @@ int main(int argc, char const *argv[])
 {
   Engine engine(1/60.0f);
   Object * object = new Object({});
-  object->addComponent(new RotateTransform(Vec3<float>(0, 0, -0.5f), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "obj_hammer_triangle", {"initialShadingGroup", "Material.001"}, Vec3<float>(0, 0, 0), engine.getInput(), object));
-  object->addComponent(new OrbitalCamera(-5, Vec3<bool>(true, false, true), Vec3<float>(-15, -90, 0), &object->getComponent<Transform>()->getRot(), &object->getComponent<Transform>()->getPos(), object));
+  object->addComponent(new RotateTransform(Vec3<float>(0, 0, -0.5f), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "wizard", {"initialShadingGroup", "Material.001"}, Vec3<float>(0, 0, 0), engine.getInput(), object));
+  object->addComponent(new OrbitalCamera(-5, Vec3<bool>(false, false, true), Vec3<float>(-15, -90, 0), &object->getComponent<Transform>()->getRot(), &object->getComponent<Transform>()->getPos(), true, object));
   engine.start(new BasicScene
     (
       {
