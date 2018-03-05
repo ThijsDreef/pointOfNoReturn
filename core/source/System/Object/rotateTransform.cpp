@@ -13,7 +13,7 @@ void RotateTransform::update()
 {
   if (input->getMouseButtonDown(0))
   {
-    rotationSpeed[0] = (input->getDy());
+    rotationSpeed[0] = (input->getDy() / 3);
     rotationSpeed[1] = (input->getDx());
     lastX = input->getDx();
     lastY = input->getDy();

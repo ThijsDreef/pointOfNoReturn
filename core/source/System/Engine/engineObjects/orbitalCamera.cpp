@@ -22,13 +22,13 @@ void OrbitalCamera::update()
   //if interpolated == true lerp the interpolrot and use that instead of locked/normal rot
   interpolRot = lerp(interpolRot, *rotPoint, 0.1);
   //todo fix this with operater makes a vector negative
-  Vec3<float> negativeIntePolRot = Vec3<float>(0, 0, 0) - interpolRot;
+  Vec3<float> negativeIntePolRot = -interpolRot;
   if (locked[0])
     matrix.setAxisrotation(rot[0], X);
   else if (interpolated)
       matrix.setAxisrotation(negativeIntePolRot[0] + rot[0], X);
-    else
-      matrix.setAxisrotation(-(*rotPoint)[0] + rot[0], X);
+  else
+    matrix.setAxisrotation(-(*rotPoint)[0] + rot[0], X);
   *getMatrix() = getMatrix()->multiplyByMatrix(matrix);
   if (locked[2])
     matrix.setAxisrotation(rot[2], Z);
@@ -50,7 +50,7 @@ void OrbitalCamera::update()
 
 Vec3<float> OrbitalCamera::lerp(Vec3<float> current, Vec3<float> target, float speed)
 {
-  return current + Vec3<float>(speed, speed, speed) * (target - current);
+  return current + speed * (target - current);
 }
 
 float * OrbitalCamera::getOffset()

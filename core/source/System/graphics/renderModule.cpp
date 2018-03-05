@@ -2,7 +2,7 @@
 
 RenderModule::RenderModule(GeometryLib * geo, MaterialLib * mat, ShaderManager * shader)
 {
-  projection.perspectiveView(60, 1920.0f/1080.0f, 0.01, 10.0);
+  projection.perspectiveView(60, 1920.0f/1080.0f, 0.01, 100.0);
   camera.translateMatrix(Vec3<float>(0, 0, -2));
   geoLib = geo;
   matLib = mat;
