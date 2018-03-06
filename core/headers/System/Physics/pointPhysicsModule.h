@@ -3,6 +3,7 @@
 #include "module.h"
 #include "object.h"
 #include "physicsGrid.h"
+#include <iostream>
 
 class PointPhysicsModule : public Module
 {

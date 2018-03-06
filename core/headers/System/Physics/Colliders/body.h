@@ -5,6 +5,7 @@
 #include <vector>
 #include <math.h>
 #include "component.h"
+#include <iostream>
 
 class Body : public Component
 {
@@ -17,6 +18,6 @@ public:
   Vec3<float> getAveragePos();
   float getHeight(Vec3<float> & pos);
   bool getCollision(Point & other);
-  void getWeights(float & w1, float & w2, float & w3, Vec3<float> pos);
+  Vec3<float> getWeights(Vec3<float> pos);
 };
 #endif

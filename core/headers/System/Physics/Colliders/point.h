@@ -16,7 +16,7 @@ public:
   Point(Vec3<float> & pos, Vec3<float> rad, bool isStatic, Object * object);
   virtual ~Point();
   Vec3<float> & getRadius();
-  Vec3<float> getPos();
+  Vec3<float> & getPos();
   void moveForce(float delta);
   void applyForce(Vec3<float> other);
   bool checkCollision(Point & point);

@@ -17,7 +17,7 @@ Vec3<float> & Point::getRadius()
   return radius;
 }
 
-Vec3<float> Point::getPos()
+Vec3<float> & Point::getPos()
 {
   return position;
 }

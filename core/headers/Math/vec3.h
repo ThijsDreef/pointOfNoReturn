@@ -118,6 +118,13 @@ public:
   {
     (*this) += speed * (target - (*this));
   }
+  T dot(Vec3<T> other)
+  {
+    T result;
+    for (unsigned int i = 0; i < 3; i++)
+      result += components[i] * other[i];
+    return result;
+  }
   friend Vec3<T> operator/ (T other, Vec3<T> otherVec)
   {
     return otherVec / other;

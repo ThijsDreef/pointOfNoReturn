@@ -26,7 +26,8 @@ void PointPhysicsModule::update()
         checkCells(grid.getPhysicsCell(x, y), grid.getPhysicsCell(x, y + 1));
       if (x != gridSize -1 && y != gridSize -1)
         checkCells(grid.getPhysicsCell(x, y), grid.getPhysicsCell(x + 1, y + 1));
-      removeDynamic(grid.getPhysicsCell(x, y).getPoints());
+
+      // removeDynamic(grid.getPhysicsCell(x, y).getPoints());
     }
   }
 
@@ -108,7 +109,9 @@ void PointPhysicsModule::addObject(Object * object)
 
 void PointPhysicsModule::resolveHeight(Body & body, Point & point)
 {
-
+  float height = body.getHeight(point.getPos());
+  point.getPos()[1] = height;
+  std::cout << height;
 }
 
 void PointPhysicsModule::resolvePoints(Point & point, Point & other)
