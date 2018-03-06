@@ -27,7 +27,7 @@ void PointPhysicsModule::update()
       if (x != gridSize -1 && y != gridSize -1)
         checkCells(grid.getPhysicsCell(x, y), grid.getPhysicsCell(x + 1, y + 1));
 
-      // removeDynamic(grid.getPhysicsCell(x, y).getPoints());
+      removeDynamic(grid.getPhysicsCell(x, y).getPoints());
     }
   }
 
@@ -40,7 +40,7 @@ void PointPhysicsModule::removeDynamic(std::vector<Point*> & points)
   {
     if (points[i]->getStatic())
     {
-      std::swap(points[i], points[points.size() - 1 - toPop]);
+      std::iter_swap(points[i], points[points.size() - 1 - toPop]);
       toPop++;
     }
   }
@@ -48,12 +48,11 @@ void PointPhysicsModule::removeDynamic(std::vector<Point*> & points)
   pop.reserve(toPop);
   for (unsigned int i = 0; i < toPop; i++)
   {
-    pop.push_back(points[points.size() - i]);
+    pop.push_back(&*points[points.size() - 1]);
     points.pop_back();
   }
   for (unsigned int i = 0; i < pop.size(); i++)
     grid.trickle(pop[i]);
-
 }
 
 void PointPhysicsModule::checkCells(PhysicsCell & cell, PhysicsCell & other)
@@ -111,7 +110,6 @@ void PointPhysicsModule::resolveHeight(Body & body, Point & point)
 {
   float height = body.getHeight(point.getPos());
   point.getPos()[1] = height;
-  std::cout << height;
 }
 
 void PointPhysicsModule::resolvePoints(Point & point, Point & other)
