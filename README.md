@@ -15,7 +15,11 @@ Point of no return
 - [structure](#structure)
 - [Point of no Return](#Point-of-no-Return)
   - [Engine](#engine)
-  - [Scene](#scene)
+    - [Scene](#scene)
+      - [Object](#object)
+      - [Component](#component)  
+      - [Transform](#transform)
+    - [Module](#module)
 
 ### structure
 
@@ -117,3 +121,31 @@ methods
   - decreases refCounter
 - void isRemoved()
   - returns true if no module has a reference and the container can be deleted
+
+### transform
+
+transform is a class that is used in the rendering pipeline to get a matrix for rendering based on the position
+rotation and scale vector
+
+extends Component
+
+methods
+- Vec3 getPos()
+  - returns the position
+- Vec3 getScale()
+  - returns the scale
+- Vec3 getRot()
+  - returns the rotation in degrees
+
+### camera
+
+camera is a class that holds a reference to the cameraMatrix that gets used by a rendering module
+
+extends Component
+
+methods
+
+- Matrix getCameraMatrix()
+ - returns a pointer to the camera Matrix
+- void setCameraMatrix(Matrix * )
+ - sets the camera pointer to the pointer specified
