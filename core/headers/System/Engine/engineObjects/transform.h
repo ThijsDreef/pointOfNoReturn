@@ -5,6 +5,8 @@
 #include "object.h"
 #include <string>
 #include "matrixBufferObject.h"
+#include <iostream>
+
 class Transform : public Component
 {
 protected:

@@ -20,6 +20,7 @@ Transform::Transform(Vec3<float> pos, Vec3<float> scale, Vec3<float> rot, std::s
   this->pos = pos;
   this->scale = scale;
   this->rot = rot;
+  std::cout << "pos in transform: " << &this->pos;
 }
 
 Vec3<float> & Transform::getPos()

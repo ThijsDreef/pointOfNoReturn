@@ -1,10 +1,10 @@
 #include "point.h"
 
-Point::Point(Vec3<float> & pos, Vec3<float> rad, bool isStatic, Object * object) : Component(object)
+Point::Point(Vec3<float> & pos, Vec3<float> rad, bool isStatic, Object * object) : Component(object), position(pos)
 {
-  position = pos;
   radius = rad;
   this->isStatic = isStatic;
+  std::cout << "pos in point: " << &position << "position passed into: " << &pos << "\n";
 }
 
 Point::~Point()

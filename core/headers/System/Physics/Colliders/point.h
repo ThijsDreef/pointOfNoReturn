@@ -3,11 +3,12 @@
 #include "component.h"
 #include "vec3.h"
 #include <math.h>
+#include <iostream>
 
 class Point : public Component
 {
 private:
-  Vec3<float> position;
+  Vec3<float> & position;
   Vec3<float> radius;
   Vec3<float> force;
   Vec3<float> actualForce;
