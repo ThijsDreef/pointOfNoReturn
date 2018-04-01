@@ -8,12 +8,16 @@ objects =  $(patsubst $(SOURCE)%.cpp,$(BUILD)%.o, $(wildcard $(SOURCE)*.cpp))
 objects += $(patsubst $(SOURCE)%.cpp,$(BUILD)%.o, $(wildcard $(SOURCE)*/*.cpp))
 objects += $(patsubst $(SOURCE)%.cpp,$(BUILD)%.o, $(wildcard $(SOURCE)*/*/*.cpp))
 objects += $(patsubst $(SOURCE)%.cpp,$(BUILD)%.o, $(wildcard $(SOURCE)*/*/*/*.cpp))
+objects += $(patsubst $(SOURCE)%.cpp,$(BUILD)%.o, $(wildcard $(SOURCE)*/*/*/*/*.cpp))
+
 
 #again lazy multiple directories solution
 TOINCLUDE =  $(sort $(dir $(wildcard core/headers/)))
 TOINCLUDE += $(sort $(dir $(wildcard core/headers/*/)))
 TOINCLUDE += $(sort $(dir $(wildcard core/headers/*/*/)))
 TOINCLUDE += $(sort $(dir $(wildcard core/headers/*/*/*/)))
+TOINCLUDE += $(sort $(dir $(wildcard core/headers/*/*/*/*/)))
+
 
 #warning make files make you lazy
 #warning dont write lazy code
