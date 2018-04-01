@@ -44,7 +44,7 @@ void OrbitalCamera::update()
   else
     matrix.setAxisrotation(-(*rotPoint)[1] + rot[1], Y);
   *getMatrix() = getMatrix()->multiplyByMatrix(matrix);
-  matrix.translateMatrix(Vec3<float>(-(*posPoint)[0], -(*posPoint)[1], -(*posPoint)[2]));
+  matrix.translateMatrix(-(*posPoint));
   *getMatrix() = getMatrix()->multiplyByMatrix(matrix);
 }
 

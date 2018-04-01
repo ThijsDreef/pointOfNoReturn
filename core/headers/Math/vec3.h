@@ -120,10 +120,14 @@ public:
   }
   T dot(Vec3<T> other)
   {
-    T result;
+    T result = 0;
     for (unsigned int i = 0; i < 3; i++)
       result += components[i] * other[i];
     return result;
+  }
+  T cross(Vec3<T> other, Vec3<T> another)
+  {
+    return ((other[0] - components[0]) * (another[1] - components[1]) - (other[1] - components[1]) * (another[0] - components[0]));
   }
   friend Vec3<T> operator/ (T other, Vec3<T> otherVec)
   {

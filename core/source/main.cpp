@@ -4,30 +4,24 @@
 #include "basicScene.h"
 #include "engine.h"
 #include "orbitalCamera.h"
-#include "pointPhysicsModule.h"
-#include "body.h"
-#include "point.h"
 
 int main(int argc, char const *argv[])
 {
   Engine engine(1/60.0f);
   Object * object = new Object({});
-  object->addComponent(new RotateTransform(Vec3<float>(0, 0, -0.5f), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "wizard", {"initialShadingGroup", "Material.001"}, Vec3<float>(0, 0, 0), engine.getInput(), object));
+  object->addComponent(new RotateTransform(Vec3<float>(0, 3, 0), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "wizard", {"initialShadingGroup", "Material.001"}, Vec3<float>(0, 0, 0), engine.getInput(), object));
   object->addComponent(new OrbitalCamera(-5, Vec3<bool>(false, false, true), Vec3<float>(-15, -90, 0), &object->getComponent<Transform>()->getRot(), &object->getComponent<Transform>()->getPos(), true, object));
-  object->addComponent(new Point(object->getComponent<Transform>()->getPos(), Vec3<float>(1, 2, 1), true, object));
-  object->addComponent(new Body({Vec3<float>(-1, 2, -1),  Vec3<float>(1, 2, 1), Vec3<float>(-1, 2, 1)}, 0));
   engine.start(new BasicScene
     (
       {
         object,
-        new Object({new Transform(Vec3<float>(-2, 0, -2), Vec3<float>(1, 1, 1), Vec3<float>(0, 90, 0), "wizard", {"Material.001", "initialShadingGroup"}, 0)}),
-        new Object({new Transform(Vec3<float>(2, 0, -2), Vec3<float>(1, 1, 1), Vec3<float>(0, 90, 0), "wizard", {"Material.001", "initialShadingGroup"}, 0)}),
-        new Object({new Transform(Vec3<float>(2, 0, 2), Vec3<float>(1, 1, 1), Vec3<float>(0, 90, 0), "wizard", {"Material.001", "initialShadingGroup"}, 0)}),
-        new Object({new Transform(Vec3<float>(-2, 0, 2), Vec3<float>(1, 1, 1), Vec3<float>(0, 90, 0), "wizard", {"Material.001", "initialShadingGroup"}, 0)})
+        new Object({new Transform(Vec3<float>(8, 2, 0), Vec3<float>(1, 1, 1), Vec3<float>(0, 90, 0), "wizard", {"Material.001", "initialShadingGroup"}, 0)}),
+        new Object({new Transform(Vec3<float>(0, 1, 0), Vec3<float>(1, 1, 1), Vec3<float>(0, 90, 0), "wizard", {"Material.001", "initialShadingGroup"}, 0)}),
+        new Object({new Transform(Vec3<float>(0, 1, 8), Vec3<float>(1, 1, 1), Vec3<float>(0, 90, 0), "wizard", {"Material.001", "initialShadingGroup"}, 0)}),
+        new Object({new Transform(Vec3<float>(8, 1, 8), Vec3<float>(1, 1, 1), Vec3<float>(0, 90, 0), "wizard", {"Material.001", "initialShadingGroup"}, 0)}),
       },
       {
         new RenderModule(engine.getGeoLib(), engine.getMatLib(), engine.getShaderManger()),
-        new PointPhysicsModule(500, 3)
       }
     ));
   return 0;

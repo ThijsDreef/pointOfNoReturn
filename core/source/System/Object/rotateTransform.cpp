@@ -24,13 +24,13 @@ void RotateTransform::update()
     rotationSpeed[1] = 0;
   }
   if (input->getKeyDown(37))
-    rot[1]++;
+    pos[2] += 0.01f;
   if (input->getKeyDown(38))
-    rot[0]++;
+    pos[0] += 0.01f;
   if (input->getKeyDown(39))
-    rot[1]--;
+    pos[2] -= 0.01f;
   if (input->getKeyDown(40))
-    rot[0]--;
+    pos[0] -= 0.01f;
   rot = rot + rotationSpeed;
 }
 
