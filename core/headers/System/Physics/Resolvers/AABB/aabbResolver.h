@@ -1,3 +1,4 @@
+#ifndef AABBRESOLVER__
 class Aabb;
 class AabbResolver
 {
@@ -9,3 +10,4 @@ public:
   virtual ~AabbResolver ();
   virtual void resolve(Aabb & main, Aabb & other);
 };
+#endif

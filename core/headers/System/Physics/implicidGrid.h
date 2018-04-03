@@ -1,3 +1,4 @@
+#ifndef IMPLICIDGRID__
 #include <vector>
 #include <math.h>
 class ImplicidGrid
@@ -13,3 +14,4 @@ public:
   std::vector<int> getColliders(int cell);
   void clear();
 };
+#endif

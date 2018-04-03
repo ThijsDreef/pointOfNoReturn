@@ -6,13 +6,13 @@ layout (std140,binding = 0) uniform materialBuffer
 };
 in vec3 out_normal;
 in vec4 eye;
-float ambient = 0.2;
-void main(void)
+float ambient = 0.4;
+
+vec4 getExposure(vec3 eye, vec3 normal, vec3 ldir, vec4 color)
 {
-  vec3 e = vec3(normalize(eye));
-  vec3 n = normalize(out_normal);
-  vec3 ldir = vec3(0, 0.5, 1);
   vec4 spec = vec4(0);
+  vec3 e = vec3(normalize(eye));
+  vec3 n = normalize(normal);
   float power = max(dot(n, ldir), 0.0);
   if (power > 0.0)
   {
@@ -20,5 +20,12 @@ void main(void)
     float intSpec = max(dot(h,n), 0.0);
     spec = vec4(0.5) * pow(intSpec, 5);
   }
-  out_color = color * min(power + ambient, 1) + spec;
+  return color * min(power, 1);
+}
+
+void main(void)
+{
+  out_color = vec4(0);
+  out_color += getExposure(eye.xyz, out_normal, vec3(0, 0.5, 1.0), color);
+  out_color += getExposure(eye.xyz, out_normal, vec3(0, 0.5, -1.0), color);
 }

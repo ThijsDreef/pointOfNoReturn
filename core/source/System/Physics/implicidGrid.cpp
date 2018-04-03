@@ -16,11 +16,12 @@ int ImplicidGrid::hash(int sumPos)
 {
   unsigned int h = std::abs(sumPos);
   h /= gridSize;
-  return h & gridSize;
+  return h & (gridSize - 1);
 }
 
 void ImplicidGrid::addCollider(int sumpos, int index)
 {
+  // std::cout << "added collider" << index << "\n";
   colliders[hash(sumpos)].push_back(index);
 }
 

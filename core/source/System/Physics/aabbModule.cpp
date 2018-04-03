@@ -39,10 +39,10 @@ void AabbModule::update()
     {
       for (unsigned int n = j + 1; n < colliderIndice.size(); n++)
       {
-        if (colliders[colliderIndice[i]]->intersect(*colliders[colliderIndice[j]]))
+        if (colliders[colliderIndice[j]]->intersect(*colliders[colliderIndice[n]]))
         {
-          colliders[colliderIndice[i]]->resolve(*colliders[colliderIndice[j]]);
-          colliders[colliderIndice[j]]->resolve(*colliders[colliderIndice[i]]);
+          colliders[colliderIndice[n]]->resolve(*colliders[colliderIndice[j]]);
+          colliders[colliderIndice[j]]->resolve(*colliders[colliderIndice[n]]);
         }
       }
     }

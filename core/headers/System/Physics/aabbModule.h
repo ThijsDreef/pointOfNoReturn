@@ -1,7 +1,9 @@
+#ifndef AABBMODULE__
 #include "aabb.h"
 #include "module.h"
 #include "object.h"
 #include "implicidGrid.h"
+#include <iostream>
 
 class AabbModule : public Module
 {
@@ -15,3 +17,4 @@ public:
   void update();
   void addObject(Object * object);
 };
+#endif
