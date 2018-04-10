@@ -1,5 +1,5 @@
 #include "aabb.h"
-#include <iostream>
+#include <string>
 class CharacterResolver : public AabbResolver
 {
 private:

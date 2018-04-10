@@ -12,7 +12,7 @@ CharacterResolver::~CharacterResolver()
 
 void CharacterResolver::resolve(Aabb & main, Aabb & other)
 {
-  int axis = main.getCollisionAxis(other.getPos());
+  int axis = other.getCollisionAxis(main.getPos());
   switch (axis)
   {
     case LEFT:
@@ -34,4 +34,5 @@ void CharacterResolver::resolve(Aabb & main, Aabb & other)
       main.getPos()[2] = other.getPos()[2] + main.radius[2] + other.radius[2];
       break;
   }
+  main.getObject()->sendMessage("collided", &other);
 }

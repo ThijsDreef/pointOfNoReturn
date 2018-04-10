@@ -16,9 +16,9 @@ BasicScene::~BasicScene()
 
 void BasicScene::update()
 {
-  for (unsigned int i = 0; i < modules.size(); i++)
-    modules[i]->update();
   for (unsigned int i = 0; i < objects.size(); i++)
     if (!objects[i]->empty())
       objects[i]->updateComponents();
+  for (unsigned int i = 0; i < modules.size(); i++)
+    modules[i]->update();
 }

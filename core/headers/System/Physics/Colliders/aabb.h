@@ -3,7 +3,7 @@
 #include "vec3.h"
 #include <math.h>
 #include "aabbResolver.h"
-#include "component.h"
+#include "object.h"
 #include <string>
 
 enum CollisionAxis {LEFT = 0, RIGHT = 1, UP = 2, DOWN = 3, FRONT = 4, BACK = 5};

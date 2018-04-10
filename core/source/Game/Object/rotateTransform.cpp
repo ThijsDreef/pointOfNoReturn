@@ -1,12 +1,12 @@
 #include "rotateTransform.h"
 
-RotateTransform::RotateTransform(Vec3<float> pos, Vec3<float> scale, Vec3<float> rot, std::string model, std::vector<std::string> materials, Vec3<float> rotSpeed, Input * input, Object* object)
+RotateTransform::RotateTransform(Vec3<float> pos, Vec3<float> scale, Vec3<float> rot, std::string model, std::vector<std::string> materials, Input * input, Object* object)
 :
 Transform(pos, scale, rot, model, materials, object)
 {
   this->input = input;
   input->setMouseLock(true);
-  rotationSpeed = rotSpeed;
+  rotation = rot;
 }
 
 void RotateTransform::update()
@@ -23,7 +23,8 @@ void RotateTransform::update()
     rotationSpeed[0] = 0;
     rotationSpeed[1] = 0;
   }
-  rot = rot + rotationSpeed;
+  rotation = rotation + rotationSpeed;
+  rot[1] = rotation[1];
 }
 
 RotateTransform::~RotateTransform()

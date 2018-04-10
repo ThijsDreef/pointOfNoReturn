@@ -1,5 +1,6 @@
 #ifndef COMPONENT__
 #define COMPONENT__
+#include <string>
 class Object;
 class Component
 {
@@ -16,6 +17,8 @@ public:
   void added();
   void setRemoved();
   bool isRemoved();
+  virtual void receiveMessage(const std::string & message, void* data);
+  Object* getObject();
   virtual void start();
   virtual void update();
 };

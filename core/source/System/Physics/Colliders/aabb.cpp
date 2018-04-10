@@ -1,4 +1,5 @@
 #include "aabb.h"
+#include <iostream>
 
 Aabb::Aabb(Vec3<float> & position, Vec3<float> radiuses, AabbResolver * resolver, const std::string tag, Object * object) : Component(object), position(position)
 {
@@ -33,24 +34,24 @@ void Aabb::resolve(Aabb & other)
 int Aabb::getCollisionAxis(Vec3<float> & pos)
 {
 
-  float dx = position[0] - pos[0];
-  float dy = position[1] - pos[1];
-  float dz = position[2] - pos[2];
+  float dx = (position[0] + radius[0]) - pos[0];
+  float dy = (position[1] + radius[1]) - pos[1];
+  float dz = (position[2] + radius[2]) - pos[2];
   float adx = std::fabs(dx);
   float ady = std::fabs(dy);
   float adz = std::fabs(dz);
-  if (adx > adz && adx > ady)
+  if (adx < adz && adx < ady)
   {
     //return right or left
-    if (dx > 0)
+    if (dx < 0)
       return RIGHT;
     else
       return LEFT;
   }
-  else if (ady > adz)
+  else if (ady < adz)
   {
     // return top or bottom
-    if (dy > 0)
+    if (dy < 0)
       return UP;
     else
       return DOWN;
@@ -59,14 +60,13 @@ int Aabb::getCollisionAxis(Vec3<float> & pos)
   {
     // return front or back
     if (dz > 0)
-      return FRONT;
-    else
       return BACK;
+    else
+      return FRONT;
   }
 }
 
 void Aabb::update()
 {
   position += velocity;
-  velocity *= 0.99f;
 }

@@ -1,4 +1,5 @@
 #include "component.h"
+#include <iostream>
 
 Component::Component(Object * object)
 {
@@ -12,11 +13,16 @@ Component::~Component()
 
 void Component::start()
 {
-  
+
 }
 bool Component::isDead()
 {
   return dead;
+}
+
+void Component::receiveMessage(const std::string & message, void* data)
+{
+
 }
 
 bool Component::isRemoved()
@@ -42,4 +48,9 @@ void Component::added()
 void Component::update()
 {
 
+}
+
+Object* Component::getObject()
+{
+  return object;
 }

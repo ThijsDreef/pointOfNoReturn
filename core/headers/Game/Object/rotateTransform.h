@@ -11,7 +11,8 @@ private:
   int lastX, lastY;
   Input * input;
 public:
-  RotateTransform (Vec3<float> pos, Vec3<float> scale, Vec3<float> rot, std::string model, std::vector<std::string> materials, Vec3<float> rotSpeed, Input * input, Object * object);
+  Vec3<float> rotation;
+  RotateTransform (Vec3<float> pos, Vec3<float> scale, Vec3<float> rot, std::string model, std::vector<std::string> materials, Input * input, Object * object);
   void update();
   virtual ~RotateTransform ();
 };
