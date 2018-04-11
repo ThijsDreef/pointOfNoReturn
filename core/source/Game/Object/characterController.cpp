@@ -48,7 +48,7 @@ void CharacterController::update()
     gravity += (gravity - -limit[1] * 2) * 0.4;
     jump = false;
     goingUp = true;
-    if (gravity >= limit[1] * 2)
+    if (gravity >= limit[1] * 3)
       goingUp = false;
   }
   gravity -= (gravity - -limit[1]) * 0.15;

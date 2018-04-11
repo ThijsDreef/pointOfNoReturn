@@ -23,8 +23,18 @@ void Object::addComponent(Component * component)
 
 void Object::sendMessage(const std::string & message, void* data)
 {
+  Component * c = 0;
   for (unsigned int i = 0; i < event[message].size(); i++)
-    event[message][i]->receiveMessage(message, data);
+  {
+    c = event[message][i];
+    if (c) c->receiveMessage(message, data);
+    else
+    {
+      event[message].erase(event[message].begin() + i);
+      i--;
+    }
+
+  }
 }
 
 void Object::updateComponents()
