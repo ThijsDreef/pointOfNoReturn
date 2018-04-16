@@ -46,10 +46,10 @@ void Engine::run()
       window.handleMessages();
       scene.top()->update();
       elapsedTime -= frameCap;
+      window.updateFrameBuffer();
     }
     else
       std::this_thread::sleep_for(std::chrono::milliseconds((int)((frameCap - elapsedTime) * 1000)));
-    window.updateFrameBuffer();
     if (inputResetTimer > 1.0 / 4.0)
     {
       window.updateInput();
