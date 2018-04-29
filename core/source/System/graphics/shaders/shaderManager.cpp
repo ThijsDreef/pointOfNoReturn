@@ -13,11 +13,6 @@ std::string ShaderManager::readShader(const char * fileName)
   std::string line;
   while (std::getline(file, line))
     shaderCode += line + "\n";
-  // file.seekg(0, std::ios::end);
-  // shaderCode.resize((unsigned int)file.tellg());
-  // file.seekg(0, std::ios::beg);
-  // file.read(&shaderCode[0], shaderCode.size());
-  // file.close();
   return shaderCode;
 }
 
@@ -65,6 +60,15 @@ unsigned int ShaderManager::createShaderProgram(const char* vertex, const char* 
 		std::cout << "Shader Loader : Link Error " << std::endl << &program_log[0] << std::endl;
 		return 0;
 	}
+  else
+  {
+    for (unsigned int i = 0; i < 16; i++)
+    {
+      std::size_t found = std::string(fragment).find(textureHandles[i]);
+      if (found != std::string::npos)
+        glUniform1i(glGetUniformLocation(program, textureHandles[i].c_str()), i);
+    }
+  }
 	shaderlist[shader] = program;
 	return program;
 }

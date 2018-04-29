@@ -7,6 +7,7 @@
 #include "aabbModule.h"
 #include "characterResolver.h"
 #include "characterController.h"
+#include "defferedRenderModule.h"
 #include <iostream>
 
 int main(int argc, char const *argv[])
@@ -28,7 +29,7 @@ int main(int argc, char const *argv[])
         object
       },
       {
-        new RenderModule(engine.getGeoLib(), engine.getMatLib(), engine.getShaderManger())
+        new DefferedRenderModule(engine.getGeoLib(), engine.getMatLib(), engine.getShaderManger())
       }
     ));
   return 0;

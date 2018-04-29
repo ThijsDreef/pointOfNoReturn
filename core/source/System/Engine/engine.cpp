@@ -21,7 +21,10 @@ window("default", 1920, 1080, 32, true)
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
   this->frameCap = frameCap;
+  shaderManager.createShaderProgram("shaders/defferedStandard.vert", "shaders/defferedStandard.frag", "deffered");
   shaderManager.createShaderProgram("shaders/standard.vert", "shaders/standard.frag", "standard");
+  shaderManager.createShaderProgram("shaders/defferedFinish.vert", "shaders/defferedFinish.frag", "deffered-finish");
+
   UtilLoader::loadResources(geometryLib, materialLib);
   input = window.getInput();
 }

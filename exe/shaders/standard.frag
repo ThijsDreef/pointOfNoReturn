@@ -27,5 +27,4 @@ void main(void)
 {
   out_color = vec4(0);
   out_color += getExposure(eye.xyz, out_normal, vec3(0, 0.5, 1.0), color);
-  out_color += getExposure(eye.xyz, out_normal, vec3(0, 0.5, -1.0), color);
 }

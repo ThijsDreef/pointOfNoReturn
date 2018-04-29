@@ -71,7 +71,6 @@ Matrix<float> * RenderModule::getCameraMatrix()
 void RenderModule::updatePerspective(int width, int height, int fov, float near, float far)
 {
   projection.perspectiveView(60, 1920.0f/1080.0f, 0.01, 10.0);
-
 }
 
 void RenderModule::addObject(Object * transform)

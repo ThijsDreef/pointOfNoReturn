@@ -7,6 +7,7 @@ class Fbo
 private:
   int w;
   int h;
+  unsigned int renderBufferId;
   unsigned int id;
   std::vector<Texture> textures;
   std::vector<unsigned int> attachments;
@@ -15,6 +16,7 @@ public:
   void attach(unsigned int internal, unsigned int format, unsigned int dataType);
   void attachDepth();
   void bind();
+  void prepareDraw();
   unsigned int getTextureIndex(unsigned int attachment);
   virtual ~Fbo ();
 };

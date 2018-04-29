@@ -20,6 +20,11 @@ Material& MaterialLib::getMaterial(const std::string& name)
   return map[name];
 }
 
+unsigned int MaterialLib::getMaterialId(std::string & name)
+{
+  return loc[name] / sizeof(Material);
+}
+
 unsigned int MaterialLib::getMaterialLoc(const std::string& name)
 {
   return loc[name];
@@ -28,16 +33,14 @@ unsigned int MaterialLib::getMaterialLoc(const std::string& name)
 void MaterialLib::setUpBuffer()
 {
   unsigned int size = 0;
-  unsigned int indiceOffset = 0;
   //get the total buffer size
   std::vector<Material> allMats;
   //and prepare a buffer
   for (auto & i : map)
   {
-    loc[i.first] = indiceOffset;
+    loc[i.first] = size;
     allMats.push_back(i.second);
     size += sizeof(Material);
-    indiceOffset += sizeof(Material);
   }
   //create a buffer with that size;
   matBuffer.bufferData(size, &allMats[0], GL_STATIC_DRAW);

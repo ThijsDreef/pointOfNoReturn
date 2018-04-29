@@ -18,6 +18,7 @@ public:
   void setUpBuffer();
   void addMaterial(const std::string& name, Material mat);
   void removeMaterial(const std::string& name);
+  unsigned int getMaterialId(std::string& name);
   unsigned int getMaterialLoc(const std::string& name);
   Material& getMaterial(const std::string& name);
   virtual ~MaterialLib ();
