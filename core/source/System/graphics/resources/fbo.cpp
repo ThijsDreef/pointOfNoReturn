@@ -22,6 +22,11 @@ void Fbo::attachDepth()
   glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBufferId);
 }
 
+unsigned int Fbo::getDepth()
+{
+  return renderBufferId;
+}
+
 unsigned int Fbo::getTextureIndex(unsigned int attachment)
 {
   return textures[attachment].getId();

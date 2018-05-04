@@ -17,6 +17,7 @@ public:
   void attachDepth();
   void bind();
   void prepareDraw();
+  unsigned int getDepth();
   unsigned int getTextureIndex(unsigned int attachment);
   virtual ~Fbo ();
 };

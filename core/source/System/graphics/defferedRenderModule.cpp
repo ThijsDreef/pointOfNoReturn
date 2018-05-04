@@ -115,7 +115,7 @@ void DefferedRenderModule::update()
   }
 
   //draw all lights
-
+  
   //draw one screen aligned quad
   glUseProgram(shaderManager->getShader("deffered-finish"));
   glBindFramebuffer(GL_FRAMEBUFFER, 0);

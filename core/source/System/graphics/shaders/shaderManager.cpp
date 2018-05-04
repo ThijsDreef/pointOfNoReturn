@@ -62,11 +62,16 @@ unsigned int ShaderManager::createShaderProgram(const char* vertex, const char* 
 	}
   else
   {
+    glUseProgram(program);
     for (unsigned int i = 0; i < 16; i++)
     {
-      std::size_t found = std::string(fragment).find(textureHandles[i]);
+      std::size_t found = fragmentShaderCode.find(textureHandles[i]);
       if (found != std::string::npos)
-        glUniform1i(glGetUniformLocation(program, textureHandles[i].c_str()), i);
+      {
+        unsigned int glLocation = glGetUniformLocation(program, textureHandles[i].c_str());
+        glUniform1i(glLocation, i);
+        std::cout << "found: " << i << "glLocation: " << glLocation << " at: " << textureHandles[i].c_str() << "\n";
+      }
     }
   }
 	shaderlist[shader] = program;

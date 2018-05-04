@@ -7,13 +7,10 @@ layout(std140, binding = 1) buffer MatrixBuffer
   mat4 mvp;
   mat4 modelView;
   mat4 normal;
-  mat4 model;
+  mat4 light;
 };
-out vec3 out_normal;
-out vec4 eye;
+
 void main()
 {
-  out_normal = mat3(normal) * in_normal;
-  eye = (modelView * vec4(in_position, 1));
-  gl_Position = mvp * vec4(in_position, 1);
+  gl_Position = mvp * vec4(in_position, 1)
 }
