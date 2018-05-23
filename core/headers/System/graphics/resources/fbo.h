@@ -11,9 +11,11 @@ private:
   unsigned int id;
   std::vector<Texture> textures;
   std::vector<unsigned int> attachments;
+  std::vector<unsigned int> bindingPoints;
 public:
   Fbo (int width, int height);
-  void attach(unsigned int internal, unsigned int format, unsigned int dataType);
+  void attach(unsigned int internal, unsigned int format, unsigned int dataType, unsigned int bindingPoint);
+  void attach(Texture * texture, unsigned int bindingPoint);
   void attachDepth();
   void bind();
   void prepareDraw();

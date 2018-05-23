@@ -134,7 +134,7 @@ bool Window::createWindow(const char* title, int width, int height, int bits, bo
     0,						//shift bit ignored
     0,						//no accumulation buffer
     0, 0, 0, 0,				//accumulation bits ignored
-    24,						//24bit Z-Buffer (depth Buffer)
+    32,						//32bit Z-Buffer (depth Buffer)
     0,						//no stencil buffer
     0,						//no Auxilliary buffer
     PFD_MAIN_PLANE,         //main drawing layer

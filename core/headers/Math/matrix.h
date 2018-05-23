@@ -23,10 +23,146 @@ public:
 	void scaleMatrix(Vec3<T> vec);
 	Matrix();
 	~Matrix();
+	Matrix<T> inverse();
 	Matrix<T> multiplyByMatrix(Matrix<T> otherMatrix);
 	Vec3<T> multiplyByVector(Vec3<T> vec);
 	Vec3<T> translateVector(Vec3<T> vec);
+	void lightBias();
 };
+
+template<class T>
+inline Matrix<T> Matrix<T>::inverse()
+{
+	double det;
+	Matrix<float> inv;
+  int i;
+
+  inv.matrix[0] = matrix[5]  * matrix[10] * matrix[15] -
+           matrix[5]  * matrix[11] * matrix[14] -
+           matrix[9]  * matrix[6]  * matrix[15] +
+           matrix[9]  * matrix[7]  * matrix[14] +
+           matrix[13] * matrix[6]  * matrix[11] -
+           matrix[13] * matrix[7]  * matrix[10];
+
+  inv.matrix[4] = -matrix[4]  * matrix[10] * matrix[15] +
+            matrix[4]  * matrix[11] * matrix[14] +
+            matrix[8]  * matrix[6]  * matrix[15] -
+            matrix[8]  * matrix[7]  * matrix[14] -
+            matrix[12] * matrix[6]  * matrix[11] +
+            matrix[12] * matrix[7]  * matrix[10];
+
+  inv.matrix[8] = matrix[4]  * matrix[9] * matrix[15] -
+           matrix[4]  * matrix[11] * matrix[13] -
+           matrix[8]  * matrix[5] * matrix[15] +
+           matrix[8]  * matrix[7] * matrix[13] +
+           matrix[12] * matrix[5] * matrix[11] -
+           matrix[12] * matrix[7] * matrix[9];
+
+  inv.matrix[12] = -matrix[4]  * matrix[9] * matrix[14] +
+             matrix[4]  * matrix[10] * matrix[13] +
+             matrix[8]  * matrix[5] * matrix[14] -
+             matrix[8]  * matrix[6] * matrix[13] -
+             matrix[12] * matrix[5] * matrix[10] +
+             matrix[12] * matrix[6] * matrix[9];
+
+  inv.matrix[1] = -matrix[1]  * matrix[10] * matrix[15] +
+            matrix[1]  * matrix[11] * matrix[14] +
+            matrix[9]  * matrix[2] * matrix[15] -
+            matrix[9]  * matrix[3] * matrix[14] -
+            matrix[13] * matrix[2] * matrix[11] +
+            matrix[13] * matrix[3] * matrix[10];
+
+  inv.matrix[5] = matrix[0]  * matrix[10] * matrix[15] -
+           matrix[0]  * matrix[11] * matrix[14] -
+           matrix[8]  * matrix[2] * matrix[15] +
+           matrix[8]  * matrix[3] * matrix[14] +
+           matrix[12] * matrix[2] * matrix[11] -
+           matrix[12] * matrix[3] * matrix[10];
+
+  inv.matrix[9] = -matrix[0]  * matrix[9] * matrix[15] +
+            matrix[0]  * matrix[11] * matrix[13] +
+            matrix[8]  * matrix[1] * matrix[15] -
+            matrix[8]  * matrix[3] * matrix[13] -
+            matrix[12] * matrix[1] * matrix[11] +
+            matrix[12] * matrix[3] * matrix[9];
+
+  inv.matrix[13] = matrix[0]  * matrix[9] * matrix[14] -
+            matrix[0]  * matrix[10] * matrix[13] -
+            matrix[8]  * matrix[1] * matrix[14] +
+            matrix[8]  * matrix[2] * matrix[13] +
+            matrix[12] * matrix[1] * matrix[10] -
+            matrix[12] * matrix[2] * matrix[9];
+
+  inv.matrix[2] = matrix[1]  * matrix[6] * matrix[15] -
+           matrix[1]  * matrix[7] * matrix[14] -
+           matrix[5]  * matrix[2] * matrix[15] +
+           matrix[5]  * matrix[3] * matrix[14] +
+           matrix[13] * matrix[2] * matrix[7] -
+           matrix[13] * matrix[3] * matrix[6];
+
+  inv.matrix[6] = -matrix[0]  * matrix[6] * matrix[15] +
+            matrix[0]  * matrix[7] * matrix[14] +
+            matrix[4]  * matrix[2] * matrix[15] -
+            matrix[4]  * matrix[3] * matrix[14] -
+            matrix[12] * matrix[2] * matrix[7] +
+            matrix[12] * matrix[3] * matrix[6];
+
+  inv.matrix[10] = matrix[0]  * matrix[5] * matrix[15] -
+            matrix[0]  * matrix[7] * matrix[13] -
+            matrix[4]  * matrix[1] * matrix[15] +
+            matrix[4]  * matrix[3] * matrix[13] +
+            matrix[12] * matrix[1] * matrix[7] -
+            matrix[12] * matrix[3] * matrix[5];
+
+  inv.matrix[14] = -matrix[0]  * matrix[5] * matrix[14] +
+             matrix[0]  * matrix[6] * matrix[13] +
+             matrix[4]  * matrix[1] * matrix[14] -
+             matrix[4]  * matrix[2] * matrix[13] -
+             matrix[12] * matrix[1] * matrix[6] +
+             matrix[12] * matrix[2] * matrix[5];
+
+  inv.matrix[3] = -matrix[1] * matrix[6] * matrix[11] +
+            matrix[1] * matrix[7] * matrix[10] +
+            matrix[5] * matrix[2] * matrix[11] -
+            matrix[5] * matrix[3] * matrix[10] -
+            matrix[9] * matrix[2] * matrix[7] +
+            matrix[9] * matrix[3] * matrix[6];
+
+  inv.matrix[7] = matrix[0] * matrix[6] * matrix[11] -
+           matrix[0] * matrix[7] * matrix[10] -
+           matrix[4] * matrix[2] * matrix[11] +
+           matrix[4] * matrix[3] * matrix[10] +
+           matrix[8] * matrix[2] * matrix[7] -
+           matrix[8] * matrix[3] * matrix[6];
+
+  inv.matrix[11] = -matrix[0] * matrix[5] * matrix[11] +
+             matrix[0] * matrix[7] * matrix[9] +
+             matrix[4] * matrix[1] * matrix[11] -
+             matrix[4] * matrix[3] * matrix[9] -
+             matrix[8] * matrix[1] * matrix[7] +
+             matrix[8] * matrix[3] * matrix[5];
+
+  inv.matrix[15] = matrix[0] * matrix[5] * matrix[10] -
+            matrix[0] * matrix[6] * matrix[9] -
+            matrix[4] * matrix[1] * matrix[10] +
+            matrix[4] * matrix[2] * matrix[9] +
+            matrix[8] * matrix[1] * matrix[6] -
+            matrix[8] * matrix[2] * matrix[5];
+
+  det = matrix[0] * inv.matrix[0] + matrix[1] * inv.matrix[4] + matrix[2] * inv.matrix[8] + matrix[3] * inv.matrix[12];
+
+  if (det == 0) {
+		inv.resetMatrix();
+		return inv;
+	}
+
+  det = 1.0 / det;
+
+  for (i = 0; i < 16; i++)
+      inv.matrix[i] *= det;
+
+	return inv;
+}
 
 template<class T>
 inline void Matrix<T>::resetMatrix()
@@ -70,10 +206,25 @@ template<class T>
 inline void Matrix<T>::orthographicView(float width, float height, float zNear, float zFar)
 {
 	resetMatrix();
-	matrix[0] = 1 / width;
-	matrix[5] = 1 / height;
-	matrix[10] = -(2 / (zFar - zNear));
-	matrix[11] = -((zFar + zNear) / zFar -zNear);
+	matrix[0] = 2 / (width - -width);
+	matrix[5] = 2 / (height - -height);
+	matrix[10] = -2 / (zFar - zNear);
+	matrix[11] = - (zFar + zNear) / (zFar - zNear);
+	matrix[7] = - (height + -height) / (height - -height);
+	matrix[3] = - (width + -width) / (width - -width);
+	matrix[15] = 1;
+}
+
+template<class T>
+inline void Matrix<T>::lightBias()
+{
+	resetMatrix();
+	matrix[0] = 0.5;
+	matrix[5] = 0.5;
+	matrix[10] = 0.5;
+	matrix[12] = 0.5;
+	matrix[13] = 0.5;
+	matrix[14] = 0.5;
 	matrix[15] = 1;
 }
 

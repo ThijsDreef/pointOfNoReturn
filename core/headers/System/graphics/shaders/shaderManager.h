@@ -11,7 +11,8 @@
 class ShaderManager
 {
 private:
-  std::map<std::string, unsigned int> shaderlist;
+  std::map<std::string, std::map<std::string, unsigned int>> uniforms;
+  std::map<const std::string, unsigned int> shaderlist;
   std::string readShader(const char* fileName);
   unsigned int createShader(GLenum shadertype, std::string source, const char* shaderName);
   std::string textureHandles[16] = {
@@ -36,6 +37,7 @@ public:
   unsigned int getShader(std::string shader);
   void deleteShader(std::string shader);
   unsigned int createShaderProgram(const char* vertex, const char* fragment, std::string shader);
+  unsigned int uniformLocation(std::string shader, std::string uniform);
   ShaderManager ();
   virtual ~ShaderManager ();
 

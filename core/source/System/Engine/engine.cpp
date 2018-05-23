@@ -8,7 +8,9 @@ window(title.c_str(), width, height, bitDepth, fullScreen)
   unsigned int vao;
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
+  shaderManager.createShaderProgram("shaders/defferedStandard.vert", "shaders/defferedStandard.frag", "deffered");
   shaderManager.createShaderProgram("shaders/standard.vert", "shaders/standard.frag", "standard");
+  shaderManager.createShaderProgram("shaders/defferedFinish.vert", "shaders/defferedFinish.frag", "deffered-finish");
   UtilLoader::loadResources(geometryLib, materialLib);
   input = window.getInput();
 }

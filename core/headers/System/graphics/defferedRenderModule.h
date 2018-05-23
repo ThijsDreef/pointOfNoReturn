@@ -24,6 +24,7 @@ private:
   ShaderManager * shaderManager;
   std::vector<Transform*> transforms;
   Fbo renderFbo;
+  Fbo shadowFbo;
   Matrix<float> camera;
   Matrix<float> projection;
   void setUpFormat();

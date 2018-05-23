@@ -6,7 +6,6 @@ std::string ShaderManager::readShader(const char * fileName)
   std::ifstream file(fileName, std::ios::in);
   if (!file.good())
   {
-    std::cout << "cant read shader: " << fileName << "\n";
     file.close();
     return shaderCode;
   }
@@ -28,12 +27,14 @@ unsigned int ShaderManager::createShader(GLenum shaderType, std::string source, 
 	//error check time
 	if (compileResult == GL_FALSE)
 	{
-    std::cout << "shadercode size = " <<source.size() << "\n\n\n" << source << "\n";
 		int infoLogLength = 0;
 		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
 		std::vector<char> shaderLog(infoLogLength);
 		glGetShaderInfoLog(shader, infoLogLength, NULL, &shaderLog[0]);
-		std::cout << "error compiling shader: " << shaderName << std::endl << &shaderLog[0] << std::endl;
+    std::cout << "error in: " << source << "\n";
+    for (unsigned int i = 0; i < shaderLog.size(); i++)
+      std::cout << shaderLog[i];
+    std::cout << "\n";
 		return 0;
 	}
 	return shader;
@@ -57,21 +58,38 @@ unsigned int ShaderManager::createShaderProgram(const char* vertex, const char* 
 		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
 		std::vector<char> program_log(infoLogLength);
 		glGetProgramInfoLog(program, infoLogLength, NULL, &program_log[0]);
-		std::cout << "Shader Loader : Link Error " << std::endl << &program_log[0] << std::endl;
 		return 0;
 	}
   else
   {
     glUseProgram(program);
+    std::size_t found;
+    std::string code;
+    code += vertexShaderCode;
+    code += fragmentShaderCode;
     for (unsigned int i = 0; i < 16; i++)
     {
-      std::size_t found = fragmentShaderCode.find(textureHandles[i]);
+      found = code.find(textureHandles[i]);
       if (found != std::string::npos)
       {
         unsigned int glLocation = glGetUniformLocation(program, textureHandles[i].c_str());
+        std::cout << "textureHandle: " << textureHandles[i].c_str() << " " << glLocation << "\n";
         glUniform1i(glLocation, i);
-        std::cout << "found: " << i << "glLocation: " << glLocation << " at: " << textureHandles[i].c_str() << "\n";
+
       }
+    }
+    found = code.find("\nuniform", 0);
+    while (found != std::string::npos)
+    {
+      std::size_t point = code.find(";", found);
+      std::size_t first = code.rfind(" ", point);
+      std::string key = code.substr(first + 1, point - first - 1);
+
+      found = code.find("uniform", found + 1);
+      unsigned int location = glGetUniformLocation(program, key.c_str());
+      uniforms[shader][key] = location;
+      std::cout << key << " " << location << " " << shader << " program: " << program<<"\n";
+
     }
   }
 	shaderlist[shader] = program;
@@ -83,11 +101,16 @@ unsigned int ShaderManager::getShader(std::string shader)
   return shaderlist[shader];
 }
 
+unsigned int ShaderManager::uniformLocation(std::string shader, std::string uniform)
+{
+  return uniforms[shader][uniform];
+}
+
 void ShaderManager::deleteShader(std::string shader)
 {
   unsigned int p = shaderlist[shader];
   glDeleteProgram(p);
-  shaderlist.erase(shader);
+  // shaderlist.erase(shader);
 }
 
 ShaderManager::ShaderManager()
@@ -97,6 +120,8 @@ ShaderManager::ShaderManager()
 
 ShaderManager::~ShaderManager()
 {
-  for (auto const &x : shaderlist)
+  for (auto const &x : shaderlist) {
     deleteShader(x.first);
+
+  }
 }

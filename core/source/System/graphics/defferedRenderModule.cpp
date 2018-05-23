@@ -1,6 +1,7 @@
 #include "defferedRenderModule.h"
+#define _USE_MATH_DEFINES
 
-DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat, ShaderManager * shader) : renderFbo(Fbo(1920, 1080))
+DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat, ShaderManager * shader) : renderFbo(Fbo(1920, 1080)), shadowFbo(Fbo(1920, 1080))
 {
   geoLib = geo;
   matLib = mat;
@@ -10,12 +11,14 @@ DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat,
   setUpFormat();
   projection.perspectiveView(60, 1920.0f / 1080.0f, 0.01, 100.0);
   camera.translateMatrix(Vec3<float>(0, 0, -2));
-  renderFbo.attach(GL_RGB16F, GL_RGB, GL_FLOAT);
-  renderFbo.attach(GL_RGB16F, GL_RGB, GL_FLOAT);
-  renderFbo.attach(GL_RGBA, GL_RGBA, GL_FLOAT);
+  renderFbo.bind();
+  renderFbo.attach(GL_RGBA16F, GL_RGBA, GL_FLOAT, 0);
+  renderFbo.attach(GL_RGB16F, GL_RGB, GL_FLOAT, 1);
+  renderFbo.attach(GL_RGB16F, GL_RGB, GL_FLOAT, 2);
   renderFbo.attachDepth();
-  glUseProgram(shaderManager->getShader("deffered"));
-  std::cout << shaderManager->getShader("deffered-finish");
+  shadowFbo.bind();
+  shadowFbo.attach(GL_RGBA16F, GL_RGBA, GL_FLOAT, 0);
+  shadowFbo.attachDepth();
 }
 
 DefferedRenderModule::~DefferedRenderModule()
@@ -114,10 +117,12 @@ void DefferedRenderModule::update()
     }
   }
 
-  //draw all lights
-  
-  //draw one screen aligned quad
+  Vec3<float> directionalLight(0.8, 0.5, 0);
+
+  // draw one screen aligned quad
   glUseProgram(shaderManager->getShader("deffered-finish"));
+  glUniform3f(shaderManager->uniformLocation("deffered-finish", "directionalLight"), directionalLight[0], directionalLight[1], directionalLight[2]);
+
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
   std::vector<unsigned int> indice = geoLib->getIndice("quad", 0);
   glDrawElements(GL_TRIANGLES, indice.size(), GL_UNSIGNED_INT, &indice[0]);
