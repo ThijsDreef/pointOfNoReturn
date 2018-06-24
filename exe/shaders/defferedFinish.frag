@@ -7,21 +7,30 @@ uniform sampler2D texture2;
 uniform sampler2D texture3;
 
 uniform vec3 directionalLight;
+uniform mat4 uLightVP;
 
 in vec2 out_uv;
 
-float getShadow(vec4 fragPosLight) {
-  // perform perspective divide
-  vec3 projCoords = ((fragPosLight.xyz - 0.5) * 2.) / fragPosLight.w;
-  // transform to [0,1] range
-  projCoords = projCoords * 0.5 + 0.5;
-  // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
-  float closestDepth = texture(texture3, projCoords.xy).r;
-
-  // get depth of current fragment from light's perspective
-  float currentDepth = projCoords.z;
-  // check whether current frag pos is in shadow
-  return currentDepth > closestDepth ? 1.0 : 0.0;
+float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal)
+{
+    // perform perspective divide
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(texture3, projCoords.xy).r;
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    // check whether current frag pos is in shadow
+    float bias = 0.00015;
+    float shadow = 0;
+    for (int x = -2; x <= 2; x++) {
+      for (int y= -2; y <= 2; y++) {
+        // shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
+        shadow += currentDepth > texture(texture3, projCoords.xy + vec2(x * (1.0 / 4096.0), y * (1.0 / 4096.0))).r + bias ? 1.0 : 0.0;
+      }
+    }
+    return (shadow / 16.) * 0.5;
 }
 
 vec4 getExposure(vec3 eye, vec3 normal, vec3 ldir, vec4 color)
@@ -43,7 +52,9 @@ vec4 getExposure(vec3 eye, vec3 normal, vec3 ldir, vec4 color)
 void main(void)
 {
   vec4 diffuse = texture(texture2, out_uv);
+  vec3 normal = texture(texture1, out_uv).xyz;
   vec4 pos = texture(texture0, out_uv);
-  out_color = getExposure(pos.xyz, texture(texture1, out_uv).xyz, directionalLight, diffuse);
-  out_color += diffuse * 0.25;
+  out_color = getExposure(pos.xyz, normal, -directionalLight, diffuse);
+  out_color *= vec4(1.0) - vec4(ShadowCalculation(uLightVP * pos, normal));
+  out_color += diffuse * 0.2;
 }

@@ -8,10 +8,7 @@ layout(std140, binding = 0) uniform MaterialBuffer
   vec4 color;
 };
 
-float ambient = 0.2;
-
 in vec4 out_position;
-in vec4 out_eye;
 in vec3 out_normal;
 in vec2 out_uv;
 

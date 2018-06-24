@@ -16,7 +16,7 @@ public:
   Fbo (int width, int height);
   void attach(unsigned int internal, unsigned int format, unsigned int dataType, unsigned int bindingPoint);
   void attach(Texture * texture, unsigned int bindingPoint);
-  void attachDepth();
+  void attachDepth(int width, int height);
   void bind();
   void prepareDraw();
   unsigned int getDepth();

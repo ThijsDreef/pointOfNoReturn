@@ -32,6 +32,7 @@ public:
   DefferedRenderModule (GeometryLib * geo, MaterialLib * mat, ShaderManager * shader);
   virtual ~DefferedRenderModule ();
   void update();
+  void drawGeometry(std::vector<std::vector<std::pair<unsigned int, Transform*>>> & renderList, bool materials);
   void updatePerspective(int width, int height, int fov, float near, float far);
   void addObject(Object * object);
   Matrix<float> * getCameraMatrix();

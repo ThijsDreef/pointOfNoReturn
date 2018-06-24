@@ -6,6 +6,7 @@ DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat,
   geoLib = geo;
   matLib = mat;
   shaderManager = shader;
+  glEnable(GL_CULL_FACE);
   geoLib->setUpBuffer();
   matLib->setUpBuffer();
   setUpFormat();
@@ -15,10 +16,10 @@ DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat,
   renderFbo.attach(GL_RGBA16F, GL_RGBA, GL_FLOAT, 0);
   renderFbo.attach(GL_RGB16F, GL_RGB, GL_FLOAT, 1);
   renderFbo.attach(GL_RGB16F, GL_RGB, GL_FLOAT, 2);
-  renderFbo.attachDepth();
+  renderFbo.attachDepth(1920, 1080);
   shadowFbo.bind();
-  shadowFbo.attach(GL_RGBA16F, GL_RGBA, GL_FLOAT, 0);
-  shadowFbo.attachDepth();
+  shadowFbo.attachDepth(4096, 4096);
+  // shadowFbo.attachDepth();
 }
 
 DefferedRenderModule::~DefferedRenderModule()
@@ -71,6 +72,8 @@ void DefferedRenderModule::update()
 
   //bind fbo
   renderFbo.bind();
+  glViewport(0, 0, 1920, 1080);
+
   //bind the fbo textures to the gldrawTarget
   renderFbo.prepareDraw();
   //clear the fbo
@@ -101,9 +104,50 @@ void DefferedRenderModule::update()
   }
 
   //primary render loop
+  glCullFace(GL_BACK);
+
+  drawGeometry(renderList, true);
+
+  //shadow map rendering
+  Vec3<float> directionalLight(0, -8, -4);
+
+  //shadow matrix setup
+  Matrix<float> lightMatrix;
+  Matrix<float> temp;
+  lightMatrix.orthographicView(4, 4, 0.01, 20);
+  temp.translateMatrix(Vec3<float>(0, -8, -4));
+  temp = temp.multiplyByMatrix(temp.rotation(directionalLight));
+  lightMatrix = lightMatrix.multiplyByMatrix(temp);
+
+  //draw shadow map
+  shadowFbo.bind();
+  glViewport(0, 0, 4096, 4096);
+  glCullFace(GL_BACK);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glUseProgram(shaderManager->getShader("directionalLight"));
+  glUniformMatrix4fv(shaderManager->uniformLocation("directionalLight", "uLightVP"), 1, false, &lightMatrix.matrix[0]);
+  drawGeometry(renderList, false);
+
+  // draw one screen aligned quad
+  glCullFace(GL_BACK);
+  glViewport(0, 0, 1920, 1080);
+
+  glUseProgram(shaderManager->getShader("deffered-finish"));
+  glUniformMatrix4fv(shaderManager->uniformLocation("deffered-finish", "uLightVP"), 1, false, &lightMatrix.matrix[0]);
+  glUniform3f(shaderManager->uniformLocation("deffered-finish", "directionalLight"), directionalLight[0], directionalLight[1], directionalLight[2]);
+  glActiveTexture(GL_TEXTURE3);
+  glBindTexture(GL_TEXTURE_2D, shadowFbo.getDepth());
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  std::vector<unsigned int> indice = geoLib->getIndice("quad", 0);
+  glDrawElements(GL_TRIANGLES, indice.size(), GL_UNSIGNED_INT, &indice[0]);
+}
+
+void DefferedRenderModule::drawGeometry(std::vector<std::vector<std::pair<unsigned int, Transform*>>> & renderList, bool materials)
+{
   for (unsigned int i = 0; i < renderList.size(); i++)
   {
-    glBindBufferRange(GL_UNIFORM_BUFFER, 0, matLib->matBuffer.getBufferId(), i * sizeof(Material), sizeof(Material));
+    if (materials) glBindBufferRange(GL_UNIFORM_BUFFER, 0, matLib->matBuffer.getBufferId(), i * sizeof(Material), sizeof(Material));
     unsigned int bufferIndex = -1;
     for (unsigned int j = 0; j < renderList[i].size(); j++)
     {
@@ -116,14 +160,4 @@ void DefferedRenderModule::update()
       glDrawElements(GL_TRIANGLES, indice.size(), GL_UNSIGNED_INT, &indice[0]);
     }
   }
-
-  Vec3<float> directionalLight(0.8, 0.5, 0);
-
-  // draw one screen aligned quad
-  glUseProgram(shaderManager->getShader("deffered-finish"));
-  glUniform3f(shaderManager->uniformLocation("deffered-finish", "directionalLight"), directionalLight[0], directionalLight[1], directionalLight[2]);
-
-  glBindFramebuffer(GL_FRAMEBUFFER, 0);
-  std::vector<unsigned int> indice = geoLib->getIndice("quad", 0);
-  glDrawElements(GL_TRIANGLES, indice.size(), GL_UNSIGNED_INT, &indice[0]);
 }

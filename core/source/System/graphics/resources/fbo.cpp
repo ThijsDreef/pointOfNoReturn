@@ -13,13 +13,18 @@ Fbo::~Fbo()
 
 }
 
-void Fbo::attachDepth()
+void Fbo::attachDepth(int width, int height)
 {
   bind();
-  glGenRenderbuffers(1, &renderBufferId);
-  glBindRenderbuffer(GL_RENDERBUFFER, renderBufferId);
-  glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, w, h);
-  glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBufferId);
+  glGenTextures(1, &renderBufferId);
+  glBindTexture(GL_TEXTURE_2D, renderBufferId);
+  glTexImage2D(GL_TEXTURE_2D, 0,GL_DEPTH_COMPONENT32, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+  glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, renderBufferId, 0);
 }
 
 unsigned int Fbo::getDepth()
