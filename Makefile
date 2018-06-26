@@ -30,7 +30,7 @@ LDFLAGS=$(subst co,-Ico, $(INCLUDE))
 
 $(EXE) : $(objects)
 	$(CC) -std=c++11 -static-libgcc -static-libstdc++ -Wall -g -o $(EXE)$(TARGET) $(objects) $(LDFLAGS) -Lcore/libs/ -lglew32 -lgdi32 -lopengl32 -m64
-$(BUILD)%.o : $(SOURCE)%.cpp $(BUILD)
+$(BUILD)%.o : $(SOURCE)%.cpp
 	$(CC)$(LDFLAGS) -std=c++11 -Wall -g -c $< -o $@ -m64
 
 $(BUILD):

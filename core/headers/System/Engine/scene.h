@@ -10,7 +10,7 @@ protected:
   std::vector<Object*> objects;
   std::vector<Module*> modules;
 public:
-  Scene ();
+  Scene (std::vector<Object*> startObjects, std::vector<Module*> startModules);
   void addModule(Module * module);
   void addObject(Object * object);
   virtual void update();

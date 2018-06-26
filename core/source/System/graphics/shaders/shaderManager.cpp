@@ -110,7 +110,7 @@ void ShaderManager::deleteShader(std::string shader)
 {
   unsigned int p = shaderlist[shader];
   glDeleteProgram(p);
-  // shaderlist.erase(shader);
+  shaderlist.erase(shader);
 }
 
 ShaderManager::ShaderManager()

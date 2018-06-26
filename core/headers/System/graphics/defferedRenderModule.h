@@ -28,8 +28,9 @@ private:
   Matrix<float> camera;
   Matrix<float> projection;
   void setUpFormat();
+  int w, h;
 public:
-  DefferedRenderModule (GeometryLib * geo, MaterialLib * mat, ShaderManager * shader);
+  DefferedRenderModule (GeometryLib * geo, MaterialLib * mat, ShaderManager * shader, int width, int height);
   virtual ~DefferedRenderModule ();
   void update();
   void drawGeometry(std::vector<std::vector<std::pair<unsigned int, Transform*>>> & renderList, bool materials);

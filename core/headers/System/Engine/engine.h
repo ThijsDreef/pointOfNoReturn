@@ -21,10 +21,13 @@ private:
   void stop();
   bool running;
   double frameCap;
+  int width, height;
 
 public:
-  Engine (std::string title, int width, int height, int bitDepth, bool fullScreen, double frameCap);
-  Engine (double frameCap);
+  int getWidth();
+  int getHeight();
+  Engine (std::string title, int iWidth, int iHeight, int bitDepth, bool fullScreen, double frameCap);
+  Engine (double frameCap, int iWidth, int iHeight);
   void start(Scene * start);
   void quit();
   GeometryLib * getGeoLib();

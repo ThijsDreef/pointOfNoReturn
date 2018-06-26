@@ -1,8 +1,10 @@
 #include "defferedRenderModule.h"
 #define _USE_MATH_DEFINES
 
-DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat, ShaderManager * shader) : renderFbo(Fbo(1920, 1080)), shadowFbo(Fbo(1920, 1080))
+DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat, ShaderManager * shader, int width, int height) : renderFbo(Fbo(width, height)), shadowFbo(Fbo(width, height))
 {
+  w = width;
+  h = height;
   geoLib = geo;
   matLib = mat;
   shaderManager = shader;
@@ -16,7 +18,7 @@ DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat,
   renderFbo.attach(GL_RGBA16F, GL_RGBA, GL_FLOAT, 0);
   renderFbo.attach(GL_RGB16F, GL_RGB, GL_FLOAT, 1);
   renderFbo.attach(GL_RGB16F, GL_RGB, GL_FLOAT, 2);
-  renderFbo.attachDepth(1920, 1080);
+  renderFbo.attachDepth(w, h);
   shadowFbo.bind();
   shadowFbo.attachDepth(4096, 4096);
   // shadowFbo.attachDepth();
@@ -72,7 +74,7 @@ void DefferedRenderModule::update()
 
   //bind fbo
   renderFbo.bind();
-  glViewport(0, 0, 1920, 1080);
+  glViewport(0, 0, w, h);
 
   //bind the fbo textures to the gldrawTarget
   renderFbo.prepareDraw();
@@ -130,7 +132,7 @@ void DefferedRenderModule::update()
 
   // draw one screen aligned quad
   glCullFace(GL_BACK);
-  glViewport(0, 0, 1920, 1080);
+  glViewport(0, 0, w, h);
 
   glUseProgram(shaderManager->getShader("deffered-finish"));
   glUniformMatrix4fv(shaderManager->uniformLocation("deffered-finish", "uLightVP"), 1, false, &lightMatrix.matrix[0]);

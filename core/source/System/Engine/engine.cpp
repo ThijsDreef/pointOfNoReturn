@@ -1,9 +1,11 @@
 #include "engine.h"
 
-Engine::Engine(std::string title, int width, int height, int bitDepth, bool fullScreen, double frameCap)
+Engine::Engine(std::string title, int iWidth, int iHeight, int bitDepth, bool fullScreen, double frameCap)
 :
-window(title.c_str(), width, height, bitDepth, fullScreen)
+window(title.c_str(), iWidth, iHeight, bitDepth, fullScreen)
 {
+  width = iWidth;
+  height = iHeight;
   this->frameCap = frameCap;
   unsigned int vao;
   glGenVertexArrays(1, &vao);
@@ -15,10 +17,12 @@ window(title.c_str(), width, height, bitDepth, fullScreen)
   input = window.getInput();
 }
 
-Engine::Engine(double frameCap)
+Engine::Engine(double frameCap, int iWidth, int iHeight)
 :
-window("default", 1920, 1080, 32, true)
+window("default", iWidth, iHeight, 32, true)
 {
+  width = iWidth;
+  height = iHeight;
   unsigned int vao;
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
@@ -107,4 +111,14 @@ Input * Engine::getInput()
 Engine::~Engine()
 {
 
+}
+
+int Engine::getWidth()
+{
+  return width;
+}
+
+int Engine::getHeight()
+{
+  return height;
 }
