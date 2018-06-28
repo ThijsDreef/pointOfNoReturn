@@ -10,9 +10,6 @@ window(title.c_str(), iWidth, iHeight, bitDepth, fullScreen)
   unsigned int vao;
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
-  shaderManager.createShaderProgram("shaders/defferedStandard.vert", "shaders/defferedStandard.frag", "deffered");
-  shaderManager.createShaderProgram("shaders/standard.vert", "shaders/standard.frag", "standard");
-  shaderManager.createShaderProgram("shaders/defferedFinish.vert", "shaders/defferedFinish.frag", "deffered-finish");
   UtilLoader::loadResources(geometryLib, materialLib);
   input = window.getInput();
 }
@@ -27,11 +24,6 @@ window("default", iWidth, iHeight, 32, true)
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
   this->frameCap = frameCap;
-  shaderManager.createShaderProgram("shaders/defferedStandard.vert", "shaders/defferedStandard.frag", "deffered");
-  shaderManager.createShaderProgram("shaders/standard.vert", "shaders/standard.frag", "standard");
-  shaderManager.createShaderProgram("shaders/defferedFinish.vert", "shaders/defferedFinish.frag", "deffered-finish");
-  shaderManager.createShaderProgram("shaders/directionalLight.vert", "shaders/directionalLight.frag", "directionalLight");
-
   UtilLoader::loadResources(geometryLib, materialLib);
   input = window.getInput();
 }

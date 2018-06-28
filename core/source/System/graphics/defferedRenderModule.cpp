@@ -8,6 +8,10 @@ DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat,
   geoLib = geo;
   matLib = mat;
   shaderManager = shader;
+  shaderManager->createShaderProgram("shaders/defferedStandard.vert", "shaders/defferedStandard.frag", "deffered");
+  shaderManager->createShaderProgram("shaders/standard.vert", "shaders/standard.frag", "standard");
+  shaderManager->createShaderProgram("shaders/defferedFinish.vert", "shaders/defferedFinish.frag", "deffered-finish");
+  shaderManager->createShaderProgram("shaders/directionalLight.vert", "shaders/directionalLight.frag", "directionalLight");
   glEnable(GL_CULL_FACE);
   geoLib->setUpBuffer();
   matLib->setUpBuffer();
