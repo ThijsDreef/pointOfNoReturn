@@ -19,26 +19,17 @@ public:
   void subscribe(const std::string & message, Component * c);
   virtual ~Object ();
   template<class T>
-  void removeComponent(int toSkip)
+  void removeComponents()
   {
-    int found = 0;
     for (unsigned int i = 0; i < components.size(); i ++)
     {
       if (dynamic_cast<T*>(components[i]))
       {
-        found++;
-        if(found > toSkip)
-        {
           delete components[i];
           components.erase(components.begin() + i);
-        }
+          i --;
       }
     }
-  }
-  template<class T>
-  void removeComponent()
-  {
-    removeComponent<T>(0);
   }
   template<class T>
   T * getComponent()
