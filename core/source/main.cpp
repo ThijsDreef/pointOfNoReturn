@@ -4,9 +4,6 @@
 #include "scene.h"
 #include "engine.h"
 #include "orbitalCamera.h"
-#include "aabbModule.h"
-#include "characterResolver.h"
-#include "characterController.h"
 #include "defferedRenderModule.h"
 #include <iostream>
 
@@ -16,7 +13,6 @@ int main(int argc, char const *argv[])
   Object * object = new Object({});
   object->addComponent(new RotateTransform(Vec3<float>(0, 1.8, 0), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "bunny", {"Material.001", "initialShadingGroup"}, engine.getInput(), object));
   object->addComponent(new OrbitalCamera(-8, Vec3<bool>(false, false, true), Vec3<float>(-15, 0, 0), &object->getComponent<RotateTransform>()->rotation, &object->getComponent<Transform>()->getPos(), true, object));
-  object->addComponent(new Aabb(object->getComponent<Transform>()->getPos(), Vec3<float>(1, 1.4, 1), new CharacterResolver(), "player", object));
 
   Object * box = new Object({new Transform(Vec3<float>(0, 0, 0), Vec3<float>(3, 1, 3), Vec3<float>(0, 0, 0), "cube", {"Material.001", "initialShadingGroup"}, 0)});
 
