@@ -16,7 +16,7 @@ DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat,
   geoLib->setUpBuffer();
   matLib->setUpBuffer();
   setUpFormat();
-  projection.perspectiveView(60, 1920.0f / 1080.0f, 0.01, 100.0);
+  projection.perspectiveView(60, width / (float)height, 0.01, 100.0);
   camera.translateMatrix(Vec3<float>(0, 0, -2));
   renderFbo.bind();
   renderFbo.attach(GL_RGBA16F, GL_RGBA, GL_FLOAT, 0);
@@ -25,7 +25,6 @@ DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat,
   renderFbo.attachDepth(w, h);
   shadowFbo.bind();
   shadowFbo.attachDepth(4096, 4096);
-  // shadowFbo.attachDepth();
 }
 
 DefferedRenderModule::~DefferedRenderModule()
