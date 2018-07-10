@@ -10,6 +10,11 @@ Window::~Window()
   killWindow();
 }
 
+void Window::vsync(bool vsync)
+{
+  wglSwapIntervalEXT(vsync);
+}
+
 void Window::updateInput()
 {
   if (input.getMouseLock())

@@ -27,6 +27,7 @@ public:
   Window (const char* title, int width, int height, int bits, bool fullscreen);
   void resize(unsigned int width, unsigned int height);
   void handleMessages();
+  void vsync(bool vsync);
   void updateFrameBuffer();
   void updateInput();
   void killWindow();

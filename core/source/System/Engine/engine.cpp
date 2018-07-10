@@ -12,6 +12,7 @@ window(title.c_str(), iWidth, iHeight, bitDepth, fullScreen)
   glBindVertexArray(vao);
   UtilLoader::loadResources(geometryLib, materialLib);
   input = window.getInput();
+  window.vsync(true);
 }
 
 Engine::Engine(double frameCap, int iWidth, int iHeight)
@@ -26,6 +27,8 @@ window("default", iWidth, iHeight, 32, true)
   this->frameCap = frameCap;
   UtilLoader::loadResources(geometryLib, materialLib);
   input = window.getInput();
+  window.vsync(true);
+  
 }
 
 void Engine::start(Scene * start)
