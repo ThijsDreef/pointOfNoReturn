@@ -23,7 +23,7 @@ void RotateTransform::update()
     rotationSpeed[0] = 0;
     rotationSpeed[1] = 0;
   }
-  rotation = rotation + rotationSpeed;
+  rotation += rotationSpeed;
   rot[1] = rotation[1];
 }
 

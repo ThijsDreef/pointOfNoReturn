@@ -7,6 +7,8 @@ MaterialLib::MaterialLib() : matBuffer("matBuffer", GL_UNIFORM_BUFFER)
 
 void MaterialLib::addMaterial(const std::string& name, Material mat)
 {
+  if (map.find(name) != map.end())
+    std::cout << "warning at " << name << " material collision \n";
   map[name] = mat;
 }
 

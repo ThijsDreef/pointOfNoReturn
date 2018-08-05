@@ -1,12 +1,17 @@
 #include "AABB.h"
 
-AABB::AABB(Vec3<float> pos, Vec3<float> radius)
+AABB::AABB(Vec3<float> pos, Vec3<float> radius) : Collider()
 {
   p = pos;
   r = radius;
 }
 
-Vec3<float> AABB::intersectA(Collider & other)
+AABB::AABB()
+{
+
+}
+
+Vec3<float> AABB::intersectA(Collider * other)
 {
   AABB * aabb = dynamic_cast<AABB*>(other);
   if (aabb)
@@ -14,17 +19,20 @@ Vec3<float> AABB::intersectA(Collider & other)
     Vec3<float> otherPos = aabb->getPos();
     Vec3<float> otherRadius = aabb->getRadius();
     Vec3<float> resolution;
-    resolution[0] = otherPos[0] - std::abs(p[0] - otherPos[0] - r[0])
-    resolution[0] = (otherPos[0] > p[0]) ? ;
-    resolution[1] = (otherPos[1] > p[1]) ? ;
-    resolution[2] = (otherPos[2] > p[2]) ? ;
+    resolution[0] = otherPos[0] - std::fabs(p[0] - otherPos[0] - r[0] - otherRadius[0]);
+    resolution[1] = otherPos[1] - std::fabs(p[1] - otherPos[1] - r[1] - otherRadius[1]);
+    resolution[2] = otherPos[2] - std::fabs(p[2] - otherPos[2] - r[2] - otherRadius[2]);
+
+    resolution[0] = (otherPos[0] > p[0]) ? resolution[0] : -resolution[0];
+    resolution[1] = (otherPos[1] > p[1]) ? resolution[1] : -resolution[1];
+    resolution[2] = (otherPos[2] > p[2]) ? resolution[2] : -resolution[2];
 
     return resolution;
   }
   return Vec3<float>();
 }
 
-bool AABB::intersectB(Collider & other)
+bool AABB::intersectB(Collider * other)
 {
   AABB * aabb = dynamic_cast<AABB*>(other);
   if (aabb)
@@ -50,6 +58,16 @@ Vec3<float> AABB::getPos()
 Vec3<float> AABB::getRadius()
 {
   return r;
+}
+
+void AABB::setPos(Vec3<float> pos)
+{
+  p = pos;
+}
+
+void AABB::setRadius(Vec3<float> rad)
+{
+  r = rad;
 }
 
 AABB::~AABB()
