@@ -111,3 +111,11 @@ std::vector<Collision> & Octree::getCollisions()
 
   return collisions;
 }
+
+void Octree::cleanDynamic()
+{
+  for (unsigned int i = 0; i < allBuckets.size(); i++)
+  {
+    allBuckets[i]->cleanDynamic();
+  }
+}

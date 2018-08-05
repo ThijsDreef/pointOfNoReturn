@@ -5,7 +5,6 @@
 
 class AABB : public Collider {
 private:
-  Vec3<float> p;
   Vec3<float> r;
 public:
   AABB (Vec3<float> pos, Vec3<float> radius);

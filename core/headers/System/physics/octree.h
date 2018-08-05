@@ -18,7 +18,7 @@ private:
   Bucket * root;
   AABB space;
   std::vector<Collision> collisions;
-  
+
   std::vector<Bucket*> allBuckets;
   Bucket * getLowestBucket(Collider * coll);
   Bucket * getLowerBucket(Bucket * b, Collider * coll);
@@ -31,6 +31,7 @@ public:
   bool addStaticCollider(Collider * coll);
   bool addDynamicCollider(Collider * coll);
   std::vector<Collision> & getCollisions();
+  void cleanDynamic();
   // std::vector<Collision> & queryTreeCollider(Collider * col);
   // std::vector<Collision> & querTreeLine(Vec3<float> start, Vec3<float> end, Vec3<float> tolerance);
 };
