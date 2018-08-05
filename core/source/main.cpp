@@ -6,7 +6,7 @@
 #include "orbitalCamera.h"
 #include "defferedRenderModule.h"
 #include <iostream>
-
+#include "octree.h"
 int main(int argc, char const *argv[])
 {
   Engine engine(1/60.0f, 1920, 1080);
