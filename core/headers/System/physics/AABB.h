@@ -11,9 +11,7 @@ public:
   AABB ();
   Vec3<float> intersectA(Collider * other);
   bool intersectB(Collider * other);
-  Vec3<float> getPos();
   Vec3<float> getRadius();
-  void setPos(Vec3<float> pos);
   void setRadius(Vec3<float> rad);
   virtual ~AABB ();
 };

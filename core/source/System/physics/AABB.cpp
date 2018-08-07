@@ -2,7 +2,7 @@
 
 AABB::AABB(Vec3<float> pos, Vec3<float> radius) : Collider()
 {
-  p = pos;
+  setPos(pos);
   r = radius;
 }
 
@@ -16,6 +16,7 @@ Vec3<float> AABB::intersectA(Collider * other)
   AABB * aabb = dynamic_cast<AABB*>(other);
   if (aabb)
   {
+    Vec3<float> p = getPos();
     Vec3<float> otherPos = aabb->getPos();
     Vec3<float> otherRadius = aabb->getRadius();
     Vec3<float> resolution;
@@ -37,6 +38,8 @@ bool AABB::intersectB(Collider * other)
   AABB * aabb = dynamic_cast<AABB*>(other);
   if (aabb)
   {
+    Vec3<float> p = getPos();
+    
     Vec3<float> otherPos = aabb->getPos();
     Vec3<float> otherRadius = aabb->getRadius();
 
@@ -50,19 +53,9 @@ bool AABB::intersectB(Collider * other)
   return false;
 }
 
-Vec3<float> AABB::getPos()
-{
-  return p;
-}
-
 Vec3<float> AABB::getRadius()
 {
   return r;
-}
-
-void AABB::setPos(Vec3<float> pos)
-{
-  p = pos;
 }
 
 void AABB::setRadius(Vec3<float> rad)

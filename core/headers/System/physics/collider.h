@@ -3,7 +3,8 @@
 #include "vec3.h"
 #include <string>
 class Collider {
-protected:
+private:
+  Vec3<float> * posPointer;
   Vec3<float> p;
 public:
   std::string resolve = "default";
@@ -12,7 +13,9 @@ public:
   virtual bool intersectB(Collider * other);
   virtual Vec3<float> intersectA(Collider * other);
   void setResolver(std::string resolver);
-  void syncPos(Vec3<float> & pos);
+  void setPos(Vec3<float> & pos);
+  Vec3<float> & getPos();
+  void syncPos(Vec3<float> * pos);
 };
 
 #endif

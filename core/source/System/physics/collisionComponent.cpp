@@ -14,7 +14,7 @@ CollisionComponent::~CollisionComponent()
 
 void CollisionComponent::update()
 {
-  coll->syncPos(transform->getPos());
+
 }
 
 bool CollisionComponent::getStatic()

@@ -25,7 +25,20 @@ void Collider::setResolver(std::string resolver)
   resolve = resolver;
 }
 
-void Collider::syncPos(Vec3<float> & pos)
+void Collider::setPos(Vec3<float> & pos)
 {
   p = pos;
+}
+
+Vec3<float> & Collider::getPos()
+{
+  if (posPointer)
+    return *posPointer;
+  else
+    return p;
+}
+
+void Collider::syncPos(Vec3<float> * pos)
+{
+  posPointer = pos;
 }
