@@ -5,6 +5,8 @@ CollisionComponent::CollisionComponent(bool isStatic, Collider * collider, Trans
   moveAble = isStatic;
   coll = collider;
   transform = t;
+  if (transform)
+    coll->syncPos(&transform->getPos());
 }
 
 CollisionComponent::~CollisionComponent()

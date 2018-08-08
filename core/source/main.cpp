@@ -5,6 +5,7 @@
 #include "engine.h"
 #include "orbitalCamera.h"
 #include "defferedRenderModule.h"
+#include "collisionModule.h"
 #include <iostream>
 #include "octree.h"
 int main(int argc, char const *argv[])
@@ -24,7 +25,8 @@ int main(int argc, char const *argv[])
         box
       },
       {
-        new DefferedRenderModule(engine.getGeoLib(), engine.getMatLib(), engine.getShaderManger(), engine.getWidth(), engine.getHeight())
+        new DefferedRenderModule(engine.getGeoLib(), engine.getMatLib(), engine.getShaderManger(), engine.getWidth(), engine.getHeight()),
+        new CollisionModule(50, 4)
       }
     ));
   return 0;

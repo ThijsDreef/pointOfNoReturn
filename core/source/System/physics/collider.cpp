@@ -42,3 +42,8 @@ void Collider::syncPos(Vec3<float> * pos)
 {
   posPointer = pos;
 }
+
+std::string & Collider::getResolver()
+{
+  return resolve;
+}
