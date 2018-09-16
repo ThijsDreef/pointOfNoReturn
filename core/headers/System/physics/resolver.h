@@ -1,7 +1,7 @@
 #ifndef RESOLVER__
 #define RESOLVER__
-#include "collider.h"
-
+// #include "collider.h"
+class Collider;
 class Resolver {
 public:
   Resolver ();

@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include <map>
-#include "component.h"
+#include "System/Engine/EngineObjects/component.h"
 
 class Object
 {

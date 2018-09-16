@@ -1,4 +1,4 @@
-#include "collider.h"
+#include "System/Physics/collider.h"
 
 Collider::Collider()
 {

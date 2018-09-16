@@ -1,4 +1,4 @@
-#include "orbitalCamera.h"
+#include "System/Engine/EngineObjects/orbitalCamera.h"
 
 OrbitalCamera::OrbitalCamera(float offset, Vec3<bool> locked, Vec3<float> camRot, Vec3<float> * rotation, Vec3<float> * pos, bool interpolated, Object * object) : Camera(object)
 {

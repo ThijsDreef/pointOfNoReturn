@@ -1,6 +1,6 @@
 #ifndef MATERIAL__
 #define MATERIAL__
-#include "vec4.h"
+#include "Math/vec4.h"
 struct Material
 {
   Vec4<float> color;

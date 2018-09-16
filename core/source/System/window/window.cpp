@@ -1,4 +1,4 @@
-#include "window.h"
+#include "System/Window/window.h"
 
 Window::Window(const char* title, int width, int height, int bits, bool fullscreen)
 {

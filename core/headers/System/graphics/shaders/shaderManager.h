@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
-#include <glew.h>
+#include <System/Window/glew.h>
 
 
 class ShaderManager

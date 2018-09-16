@@ -1,12 +1,12 @@
 #ifndef ENGINE__
 #define ENGINE__
-#include "window.h"
-#include "geometryLib.h"
-#include "shaderManager.h"
-#include "scene.h"
-#include "util.h"
-#include "materialLib.h"
-#include "input.h"
+#include "System/Window/window.h"
+#include "System/Graphics/Geometry/geometryLib.h"
+#include "System/Graphics/Shaders/shaderManager.h"
+#include "System/Engine/scene.h"
+#include "Util/util.h"
+#include "System/Graphics/Geometry/materialLib.h"
+#include "System/Input/input.h"
 #include <stack>
 #include <chrono>
 class Engine {

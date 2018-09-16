@@ -1,4 +1,4 @@
-#include "geometryLib.h"
+#include "System/Graphics/Geometry/geometryLib.h"
 
 GeometryLib::GeometryLib() : geoBuffer("geometryBuffer", GL_ARRAY_BUFFER)
 {

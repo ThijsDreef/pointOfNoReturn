@@ -1,4 +1,4 @@
-#include "shaderManager.h"
+#include "System/Graphics/Shaders/shaderManager.h"
 
 std::string ShaderManager::readShader(const char * fileName)
 {

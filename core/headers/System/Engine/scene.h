@@ -1,8 +1,8 @@
 #ifndef SCENE__
 #define SCENE__
 #include <vector>
-#include "module.h"
-#include "object.h"
+#include "System/module.h"
+#include "System/Engine/EngineObjects/object.h"
 
 class Scene
 {

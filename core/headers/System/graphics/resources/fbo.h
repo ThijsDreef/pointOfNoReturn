@@ -1,6 +1,6 @@
-#include "texture.h"
+#include "System/Graphics/Resources/texture.h"
 #include <vector>
-#include "glew.h"
+#include "System/Window/glew.h"
 
 class Fbo
 {

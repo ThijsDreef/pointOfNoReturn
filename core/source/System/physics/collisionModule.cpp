@@ -1,4 +1,4 @@
-#include "collisionModule.h"
+#include "System/Physics/collisionModule.h"
 
 CollisionModule::CollisionModule(int width, int octreeDepth) : octree(AABB(Vec3<float>(0, 0, 0), Vec3<float>(width, width, width)), octreeDepth)
 {

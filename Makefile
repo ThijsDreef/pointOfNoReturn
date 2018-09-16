@@ -13,11 +13,6 @@ objects += $(patsubst $(SOURCE)%.cpp,$(BUILD)%.o, $(wildcard $(SOURCE)*/*/*/*/*.
 
 #again lazy multiple directories solution
 TOINCLUDE =  $(sort $(dir $(wildcard core/headers/)))
-TOINCLUDE += $(sort $(dir $(wildcard core/headers/*/)))
-TOINCLUDE += $(sort $(dir $(wildcard core/headers/*/*/)))
-TOINCLUDE += $(sort $(dir $(wildcard core/headers/*/*/*/)))
-TOINCLUDE += $(sort $(dir $(wildcard core/headers/*/*/*/*/)))
-
 
 #warning make files make you lazy
 #warning dont write lazy code

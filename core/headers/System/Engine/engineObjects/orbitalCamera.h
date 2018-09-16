@@ -1,7 +1,7 @@
 #ifndef ORBITALCAMERA__
 #define ORBITALCAMERA__
-#include "camera.h"
-#include "transform.h"
+#include "System/Engine/EngineObjects/camera.h"
+#include "System/Engine/EngineObjects/transform.h"
 
 class OrbitalCamera : public Camera
 {

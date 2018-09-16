@@ -1,4 +1,4 @@
-#include "object.h"
+#include "System/Engine/EngineObjects/object.h"
 
 Object::Object(std::vector<Component*> comp)
 {

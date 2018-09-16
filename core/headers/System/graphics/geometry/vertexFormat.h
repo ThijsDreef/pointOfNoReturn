@@ -1,8 +1,8 @@
 #ifndef VERTEXFORMAT__
 #define VERTEXFORMAT__
 
-#include "vec2.h"
-#include "vec3.h"
+#include "Math/vec2.h"
+#include "Math/vec3.h"
 struct VertexFormat
 {
   Vec3<float> pos;

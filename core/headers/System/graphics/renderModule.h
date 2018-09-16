@@ -1,19 +1,19 @@
 #ifndef RENDERMODULE__
 #define RENDERMODULE__
-#include "module.h"
-#include "matrixBufferer.h"
-#include "shaderManager.h"
-#include "matrix.h"
-#include "MatrixBufferObject.h"
-#include "buffer.h"
-#include "util.h"
-#include "transform.h"
-#include "wglew.h"
-#include "object.h"
+#include "System/module.h"
+#include "System/Graphics/matrixBufferer.h"
+#include "System/Graphics/Shaders/shaderManager.h"
+#include "Math/matrix.h"
+#include "System/Graphics/MatrixBufferObject.h"
+#include "System/Graphics/buffer.h"
+#include "Util/util.h"
+#include "System/Engine/EngineObjects/transform.h"
+#include "System/Window/wglew.h"
+#include "System/Engine/EngineObjects/object.h"
+#include "System/Engine/EngineObjects/camera.h"
 #include <iostream>
 #include <math.h>
 #include <utility>
-#include "camera.h"
 
 class RenderModule : public Module
 {

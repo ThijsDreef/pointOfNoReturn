@@ -1,10 +1,10 @@
 #ifndef TRANSFORM__
 #define TRANSFORM__
-#include "matrix.h"
-#include "component.h"
-#include "object.h"
+#include "Math/matrix.h"
+#include "System/Engine/EngineObjects/component.h"
+#include "System/Engine/EngineObjects/object.h"
 #include <string>
-#include "matrixBufferObject.h"
+#include "System/Graphics/matrixBufferObject.h"
 #include <iostream>
 
 class Transform : public Component

@@ -3,10 +3,10 @@
 #include <mingw.thread.h>
 #include <iostream>
 #include <vector>
-#include <glew.h>
-#include <wglew.h>
+#include <System/Window/glew.h>
+#include <System/Window/wglew.h>
 #include <Windows.h>
-#include "input.h"
+#include "System/Input/input.h"
 
 class Window
 {

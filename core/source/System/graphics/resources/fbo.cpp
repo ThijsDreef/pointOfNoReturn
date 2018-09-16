@@ -1,4 +1,4 @@
-#include "fbo.h"
+#include "System/Graphics/Resources/fbo.h"
 #include <iostream>
 Fbo::Fbo(int width, int height)
 {

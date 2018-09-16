@@ -1,7 +1,7 @@
 #ifndef CAMERA__
 #define CAMERA__
-#include "component.h"
-#include "matrix.h"
+#include "System/Engine/EngineObjects/component.h"
+#include "Math/matrix.h"
 class Camera : public Component
 {
 private:

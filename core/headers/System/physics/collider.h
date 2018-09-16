@@ -1,12 +1,12 @@
 #ifndef COLLIDER__
 #define COLLIDER__
-#include "vec3.h"
+#include "Math/vec3.h"
 #include <string>
 class Collider {
 protected:
   Vec3<float> p;
-  std::string resolve;
 public:
+  std::string resolve;
   Collider ();
   virtual ~Collider ();
   virtual bool intersectB(Collider * other);

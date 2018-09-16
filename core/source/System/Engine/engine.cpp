@@ -1,4 +1,4 @@
-#include "engine.h"
+#include "System/Engine/engine.h"
 
 Engine::Engine(std::string title, int iWidth, int iHeight, int bitDepth, bool fullScreen, double frameCap)
 :
@@ -28,7 +28,7 @@ window("default", iWidth, iHeight, 32, true)
   UtilLoader::loadResources(geometryLib, materialLib);
   input = window.getInput();
   window.vsync(true);
-  
+
 }
 
 void Engine::start(Scene * start)

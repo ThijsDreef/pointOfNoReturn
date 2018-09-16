@@ -1,7 +1,7 @@
 #ifndef GEOMETRYLIB__
 #define GEOMETRYLIB__
-#include "geometry.h"
-#include "buffer.h"
+#include "System/Graphics/Geometry/geometry.h"
+#include "System/Graphics/buffer.h"
 #include <string>
 #include <map>
 

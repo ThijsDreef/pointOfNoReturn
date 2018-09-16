@@ -1,19 +1,19 @@
 #ifndef DEFFEREDRENDERMODULE__
 #define DEFFEREDRENDERMODULE__
-#include "module.h"
-#include "matrixBufferer.h"
-#include "shaderManager.h"
-#include "MatrixBufferObject.h"
-#include "matrix.h"
-#include "buffer.h"
-#include "util.h"
-#include "transform.h"
-#include "glew.h"
-#include "object.h"
+#include "System/module.h"
+#include "System/Graphics/matrixBufferer.h"
+#include "System/Graphics/Shaders/shaderManager.h"
+#include "System/Graphics/MatrixBufferObject.h"
+#include "Math/matrix.h"
+#include "System/Graphics/buffer.h"
+#include "Util/util.h"
+#include "System/Engine/EngineObjects/transform.h"
+#include "System/Window/glew.h"
+#include "System/Engine/EngineObjects/object.h"
 #include <math.h>
 #include <utility>
-#include "camera.h"
-#include "fbo.h"
+#include "System/Engine/EngineObjects/camera.h"
+#include "System/Graphics/Resources/fbo.h"
 
 class DefferedRenderModule : public Module
 {

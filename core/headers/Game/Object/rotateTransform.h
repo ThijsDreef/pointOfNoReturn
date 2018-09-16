@@ -1,9 +1,9 @@
 #ifndef ROTATETRANSFORM__
 #define ROTATETRANSFORM__
-#include "transform.h"
-#include "input.h"
-#include "orbitalCamera.h"
-#include "object.h"
+#include "System/Engine/EngineObjects/transform.h"
+#include "System/Input/input.h"
+#include "System/Engine/EngineObjects/orbitalCamera.h"
+#include "System/Engine/EngineObjects/object.h"
 class RotateTransform : public Transform
 {
 private:

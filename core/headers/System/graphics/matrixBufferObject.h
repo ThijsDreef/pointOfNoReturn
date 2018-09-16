@@ -1,6 +1,6 @@
 #ifndef MATRIXBUFFEROBJECT__
 #define MATRIXBUFFEROBJECT__
-#include "matrix.h"
+#include "Math/matrix.h"
 struct MatrixBufferObject
 {
   Matrix<float> mvp;

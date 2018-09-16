@@ -1,4 +1,4 @@
-#include "camera.h"
+#include "System/Engine/EngineObjects/camera.h"
 
 Camera::Camera(Object * object) : Component(object)
 {

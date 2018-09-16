@@ -1,4 +1,4 @@
-#include "resolver.h"
+#include "System/Physics/resolver.h"
 
 Resolver::Resolver()
 {

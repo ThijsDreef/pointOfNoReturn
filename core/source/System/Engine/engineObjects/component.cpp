@@ -1,4 +1,4 @@
-#include "component.h"
+#include "System/Engine/EngineObjects/component.h"
 #include <iostream>
 
 Component::Component(Object * object)

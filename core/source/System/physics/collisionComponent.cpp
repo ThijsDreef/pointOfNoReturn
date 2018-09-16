@@ -1,4 +1,4 @@
-#include "collisionComponent.h"
+#include "System/Physics/collisionComponent.h"
 
 CollisionComponent::CollisionComponent(bool isStatic, Collider * collider, Transform * t, Object * object) : Component(object)
 {

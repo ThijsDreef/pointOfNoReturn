@@ -5,10 +5,10 @@
 #include <map>
 #include <fstream>
 #include <iostream>
-#include "vec3.h"
-#include "vec4.h"
-#include "materialLib.h"
-#include "vertexFormat.h"
+#include "Math/vec3.h"
+#include "Math/vec4.h"
+#include "System/Graphics/Geometry/materialLib.h"
+#include "System/Graphics/Geometry/vertexFormat.h"
 class Geometry
 {
 private:

@@ -1,4 +1,4 @@
-#include "rotateTransform.h"
+#include "Game/Object/rotateTransform.h"
 
 RotateTransform::RotateTransform(Vec3<float> pos, Vec3<float> scale, Vec3<float> rot, std::string model, std::vector<std::string> materials, Input * input, Object* object)
 :

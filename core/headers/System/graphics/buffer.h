@@ -1,6 +1,6 @@
 #ifndef BUFFER__
 #define BUFFER__
-#include "glew.h"
+#include "System/Window/glew.h"
 #include <iostream>
 #include <string>
 class Buffer

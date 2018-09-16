@@ -1,13 +1,15 @@
 #include <mingw.thread.h>
-#include "rotateTransform.h"
-#include "renderModule.h"
-#include "scene.h"
-#include "engine.h"
-#include "orbitalCamera.h"
-#include "defferedRenderModule.h"
-#include "collisionModule.h"
+#include "System/Physics/collider.h"
+#include "Game/Object/rotateTransform.h"
+#include "System/Graphics/renderModule.h"
+#include "System/Engine/scene.h"
+#include "System/Engine/engine.h"
+#include "System/Engine/EngineObjects/orbitalCamera.h"
+#include "System/Graphics/defferedRenderModule.h"
+#include "System/Physics/collisionModule.h"
+#include "System/Physics/octree.h"
 #include <iostream>
-#include "octree.h"
+
 int main(int argc, char const *argv[])
 {
   Engine engine(1/60.0f, 1920, 1080);

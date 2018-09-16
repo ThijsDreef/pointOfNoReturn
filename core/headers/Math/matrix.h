@@ -1,6 +1,6 @@
 #ifndef MATRIX__
 #define MATRIX__
-#include "vec3.h"
+#include "Math/vec3.h"
 #define _USE_MATH_DEFINES
 #ifndef M_PI
     #define M_PI 3.14159265358979323846

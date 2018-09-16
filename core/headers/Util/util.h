@@ -1,5 +1,5 @@
-#include "geometryLib.h"
-#include "materialLIb.h"
+#include "System/Graphics/Geometry/geometryLib.h"
+#include "System/Graphics/Geometry/materialLib.h"
 
 namespace UtilLoader
 {

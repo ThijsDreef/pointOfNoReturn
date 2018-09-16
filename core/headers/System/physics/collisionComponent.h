@@ -1,9 +1,9 @@
 #ifndef COLLISIONCOMPONENT__
 #define COLLISIONCOMPONENT__
 
-#include "collider.h"
-#include "resolver.h"
-#include "transform.h"
+#include "System/Physics/collider.h"
+#include "System/Physics/resolver.h"
+#include "System/Engine/EngineObjects/transform.h"
 
 class CollisionComponent : public Component
 {

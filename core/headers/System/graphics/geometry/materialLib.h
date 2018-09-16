@@ -1,10 +1,10 @@
 #ifndef MATERIALLIB__
 #define MATERIALLIB__
 
-#include "material.h"
+#include "System/Graphics/Geometry/material.h"
 #include <vector>
 #include <map>
-#include "buffer.h"
+#include "System/Graphics/buffer.h"
 #include <string>
 class MaterialLib
 {

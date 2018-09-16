@@ -1,4 +1,4 @@
-#include "materialLib.h"
+#include "System/Graphics/Geometry/materialLib.h"
 
 MaterialLib::MaterialLib() : matBuffer("matBuffer", GL_UNIFORM_BUFFER)
 {

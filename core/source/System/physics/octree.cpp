@@ -1,6 +1,5 @@
-#include "octree.h"
+#include "System/Physics/octree.h"
 
-#include <iostream>
 Octree::Octree(AABB size, int layers)
 {
 

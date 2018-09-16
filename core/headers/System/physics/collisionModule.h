@@ -2,10 +2,10 @@
 #define COLLISIONMODULE__
 
 
-#include "module.h"
-#include "octree.h"
-#include "object.h"
-#include "collisionComponent.h"
+#include "System/module.h"
+#include "System/Physics/octree.h"
+#include "System/Engine/EngineObjects/object.h"
+#include "System/Physics/collisionComponent.h"
 
 class CollisionModule : public Module
 {
