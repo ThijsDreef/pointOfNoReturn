@@ -12,7 +12,7 @@ window(title.c_str(), iWidth, iHeight, bitDepth, fullScreen)
   glBindVertexArray(vao);
   UtilLoader::loadResources(geometryLib, materialLib);
   input = window.getInput();
-  window.vsync(true);
+  window.vsync(false);
 }
 
 Engine::Engine(double frameCap, int iWidth, int iHeight)
@@ -27,7 +27,7 @@ window("default", iWidth, iHeight, 32, true)
   this->frameCap = frameCap;
   UtilLoader::loadResources(geometryLib, materialLib);
   input = window.getInput();
-  window.vsync(true);
+  window.vsync(false);
 
 }
 
@@ -43,6 +43,8 @@ void Engine::run()
 {
   double elapsedTime = 0;
   double inputResetTimer = 0;
+  double fpsTimer;
+  frames = 0;
   while (!window.done && running)
   {
     auto start = std::chrono::system_clock::now();
@@ -51,7 +53,13 @@ void Engine::run()
       window.handleMessages();
       scene.top()->update();
       elapsedTime -= frameCap;
+      frames ++;
       window.updateFrameBuffer();
+      if (fpsTimer > 1000) {
+        // log frames here or update them
+        frames = 0;
+        fpsTimer = 0;
+      }
     }
     else
       std::this_thread::sleep_for(std::chrono::milliseconds((int)((frameCap - elapsedTime) * 1000)));
@@ -63,6 +71,7 @@ void Engine::run()
     auto end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed = end - start;
     elapsedTime += elapsed.count();
+    fpsTimer += elapsed.count() * 1000;
     inputResetTimer += elapsedTime;
   }
   if (!window.done)

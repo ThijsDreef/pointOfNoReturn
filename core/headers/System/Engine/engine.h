@@ -24,6 +24,7 @@ private:
   int width, height;
 
 public:
+  unsigned int frames;
   int getWidth();
   int getHeight();
   Engine (std::string title, int iWidth, int iHeight, int bitDepth, bool fullScreen, double frameCap);
