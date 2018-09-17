@@ -3,6 +3,10 @@
 
 DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat, ShaderManager * shader, int width, int height) : renderFbo(Fbo(width, height)), shadowFbo(Fbo(width, height))
 {
+  glGenVertexArrays(1, &normalVao);
+  glGenVertexArrays(1, &instancedVao);
+
+  glBindVertexArray(normalVao);
   w = width;
   h = height;
   geoLib = geo;

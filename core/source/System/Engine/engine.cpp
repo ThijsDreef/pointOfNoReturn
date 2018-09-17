@@ -7,12 +7,9 @@ window(title.c_str(), iWidth, iHeight, bitDepth, fullScreen)
   width = iWidth;
   height = iHeight;
   this->frameCap = frameCap;
-  unsigned int vao;
-  glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);
   UtilLoader::loadResources(geometryLib, materialLib);
   input = window.getInput();
-  window.vsync(false);
+  window.vsync(true);
 }
 
 Engine::Engine(double frameCap, int iWidth, int iHeight)
@@ -21,13 +18,10 @@ window("default", iWidth, iHeight, 32, true)
 {
   width = iWidth;
   height = iHeight;
-  unsigned int vao;
-  glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);
   this->frameCap = frameCap;
   UtilLoader::loadResources(geometryLib, materialLib);
   input = window.getInput();
-  window.vsync(false);
+  window.vsync(true);
 
 }
 

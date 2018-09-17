@@ -18,6 +18,8 @@
 class DefferedRenderModule : public Module
 {
 private:
+  unsigned int normalVao;
+  unsigned int instancedVao;
   GeometryLib * geoLib;
   MaterialLib * matLib;
   MatrixBufferer matBufferer;
