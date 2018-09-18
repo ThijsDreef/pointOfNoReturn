@@ -28,7 +28,7 @@ DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat,
   renderFbo.attach(GL_RGB16F, GL_RGB, GL_FLOAT, 2);
   renderFbo.attachDepth(w, h);
   shadowFbo.bind();
-  shadowFbo.attachDepth(4096, 4096);
+  shadowFbo.attachDepth(2048, 2048);
 }
 
 DefferedRenderModule::~DefferedRenderModule()
@@ -38,6 +38,7 @@ DefferedRenderModule::~DefferedRenderModule()
 
 void DefferedRenderModule::setUpFormat()
 {
+  glBindVertexArray(normalVao);
   // stream, buffer, offset, stride
   glBindVertexBuffer(0, geoLib->getGeoBufferId(), 0, 32);
   glEnableVertexAttribArray(0);
@@ -49,6 +50,41 @@ void DefferedRenderModule::setUpFormat()
   glEnableVertexAttribArray(2);
   glVertexAttribFormat(2, 2, GL_FLOAT, false, 24); // texcoord
   glVertexAttribBinding(2, 0); // texcoord -> stream 0
+}
+
+void DefferedRenderModule::setUpInstancedFormat(int bufferId) 
+{
+  glBindVertexArray(instancedVao);
+  glBindVertexBuffer(0, geoLib->getGeoBufferId(), 0, 32);
+  glEnableVertexAttribArray(0);
+  glVertexAttribFormat(0, 3, GL_FLOAT, false,  0); // position
+  glVertexAttribBinding(0, 0); // position -> stream 0
+  glEnableVertexAttribArray(1);
+  glVertexAttribFormat(1, 3, GL_FLOAT, false, 12); // normal
+  glVertexAttribBinding(1, 0); // normal   -> stream 0
+  glEnableVertexAttribArray(2);
+  glVertexAttribFormat(2, 2, GL_FLOAT, false, 24); // texcoord
+  glVertexAttribBinding(2, 0); // texcoord -> stream 0
+
+  glBindVertexBuffer(1, bufferId, 0, 64);
+
+  glEnableVertexAttribArray(3);
+  glVertexAttribFormat(3, 4, GL_FLOAT, false, 0);
+  glVertexAttribBinding(3, 1);
+  glEnableVertexAttribArray(4);
+  glVertexAttribFormat(4, 4, GL_FLOAT, false, 16);
+  glVertexAttribBinding(4, 1);
+  glEnableVertexAttribArray(5);
+  glVertexAttribFormat(5, 4, GL_FLOAT, false, 32);
+  glVertexAttribBinding(5, 1);
+  glEnableVertexAttribArray(6);
+  glVertexAttribFormat(6, 4, GL_FLOAT, false, 48);
+  glVertexAttribBinding(6, 1);
+
+  glVertexAttribDivisor(3, 1);
+  glVertexAttribDivisor(4, 1);
+  glVertexAttribDivisor(5, 1);
+  glVertexAttribDivisor(6, 1);
 }
 
 void DefferedRenderModule::updatePerspective(int width, int height, int fov, float near, float far)
@@ -130,7 +166,7 @@ void DefferedRenderModule::update()
 
   //draw shadow map
   shadowFbo.bind();
-  glViewport(0, 0, 4096, 4096);
+  glViewport(0, 0, 2048, 2048);
   glCullFace(GL_BACK);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glUseProgram(shaderManager->getShader("directionalLight"));

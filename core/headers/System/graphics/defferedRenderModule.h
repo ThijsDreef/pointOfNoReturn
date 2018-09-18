@@ -30,6 +30,9 @@ private:
   Matrix<float> camera;
   Matrix<float> projection;
   void setUpFormat();
+  void setUpInstancedFormat(int bufferId);
+  void bindInstance();
+  void bindNormal();
   int w, h;
 public:
   DefferedRenderModule (GeometryLib * geo, MaterialLib * mat, ShaderManager * shader, int width, int height);
