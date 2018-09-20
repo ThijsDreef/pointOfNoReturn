@@ -5,7 +5,7 @@ RotateTransform::RotateTransform(Vec3<float> pos, Vec3<float> scale, Vec3<float>
 Transform(pos, scale, rot, model, materials, object)
 {
   this->input = input;
-  input->setMouseLock(true);
+  // input->setMouseLock(true);
   rotation = rot;
 }
 

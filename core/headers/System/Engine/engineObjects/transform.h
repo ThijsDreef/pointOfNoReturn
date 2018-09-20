@@ -14,6 +14,7 @@ protected:
   Vec3<float> scale;
   Vec3<float> rot;
 public:
+  bool shouldRender = true;
   std::vector<std::string> materials;
   std::string model;
   unsigned int bufferIndex;
