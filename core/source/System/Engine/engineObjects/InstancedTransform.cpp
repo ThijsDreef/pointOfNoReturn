@@ -24,7 +24,7 @@ void InstancedTransform::prepareBuffer(Matrix<float> & view, Matrix<float> & p)
         if (i >= bufferData.size()) bufferData.push_back(o.modelView);
         else bufferData[i] = (o.modelView);
     }
-    matrixBuffer.bufferData(sizeof(float) * 16 * bufferData.size(), &bufferData[0].matrix[0], GL_STATIC_DRAW);
+    matrixBuffer.bufferData(sizeof(float) * 16 * bufferData.size(), &bufferData[0], GL_DYNAMIC_READ);
 }
 
 std::string & InstancedTransform::getModel() 

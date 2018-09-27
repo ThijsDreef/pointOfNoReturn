@@ -46,7 +46,6 @@ bool Window::initGL()
 
   glDepthFunc(GL_LEQUAL);
   glCullFace(GL_BACK);
-  glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
   return true;
 }
 

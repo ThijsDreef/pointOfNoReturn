@@ -22,6 +22,7 @@ DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat,
   geoLib->setUpBuffer();
   matLib->setUpBuffer();
   setUpFormat();
+  setUpInstancedFormat();
   projection.perspectiveView(60, width / (float)height, 0.01, 100.0);
   camera.translateMatrix(Vec3<float>(0, 0, -2));
   renderFbo.bind();
@@ -57,34 +58,39 @@ void DefferedRenderModule::setUpFormat()
 void DefferedRenderModule::setUpInstancedFormat() 
 {
   glBindVertexArray(instancedVao);
-  glBindVertexBuffer(0, geoLib->getGeoBufferId(), 0, 32);
+
   glEnableVertexAttribArray(0);
   glVertexAttribFormat(0, 3, GL_FLOAT, false,  0); // position
   glVertexAttribBinding(0, 0); // position -> stream 0
+
   glEnableVertexAttribArray(1);
   glVertexAttribFormat(1, 3, GL_FLOAT, false, 12); // normal
   glVertexAttribBinding(1, 0); // normal   -> stream 0
+  
   glEnableVertexAttribArray(2);
   glVertexAttribFormat(2, 2, GL_FLOAT, false, 24); // texcoord
   glVertexAttribBinding(2, 0); // texcoord -> stream 0
 
   glEnableVertexAttribArray(3);
   glVertexAttribFormat(3, 4, GL_FLOAT, false, 0);
+  glVertexAttribDivisor(3, 1);
   glVertexAttribBinding(3, 1);
+
   glEnableVertexAttribArray(4);
   glVertexAttribFormat(4, 4, GL_FLOAT, false, 16);
+  glVertexAttribDivisor(4, 1);
   glVertexAttribBinding(4, 1);
+
   glEnableVertexAttribArray(5);
   glVertexAttribFormat(5, 4, GL_FLOAT, false, 32);
+  glVertexAttribDivisor(5, 1);
   glVertexAttribBinding(5, 1);
+
   glEnableVertexAttribArray(6);
   glVertexAttribFormat(6, 4, GL_FLOAT, false, 48);
+  glVertexAttribDivisor(6, 1);
   glVertexAttribBinding(6, 1);
 
-  glVertexAttribDivisor(3, 1);
-  glVertexAttribDivisor(4, 1);
-  glVertexAttribDivisor(5, 1);
-  glVertexAttribDivisor(6, 1);
 }
 
 void DefferedRenderModule::updatePerspective(int width, int height, int fov, float near, float far)
@@ -159,6 +165,9 @@ void DefferedRenderModule::update()
     }
   }
 
+  // for (unsigned int i = 0; i < instancedTransforms.size(); i++)
+    // instancedTransforms[i]->prepareBuffer(camera, projection);
+
   //primary render loop
   glCullFace(GL_BACK);
 
@@ -217,11 +226,13 @@ void DefferedRenderModule::drawInstanced()
 
   for (unsigned int i = 0; i < instancedTransforms.size(); i++)
   {
-    instancedTransforms[i]->prepareBuffer(camera, projection);
     glBindVertexBuffer(0, geoLib->getGeoBufferId(), 0, 32);
     glBindVertexBuffer(1, instancedTransforms[i]->getBufferId(), 0, 64);
     std::vector<unsigned int> indice = geoLib->getIndice(instancedTransforms[i]->getModel(), 0);
-    glDrawElementsInstanced(GL_TRIANGLES, indice.size(), GL_UNSIGNED_INT, &indice[0], instancedTransforms[i]->getTransformSize());
+    // std::cout << glGetError();
+    glDrawElementsInstanced(GL_TRIANGLES, indice.size(), GL_UNSIGNED_INT, &indice[0], 5);
+    // glDrawElements(GL_TRIANGLES, indice.size(), GL_UNSIGNED_INT, &indice[0]);
+
   }
 }
 

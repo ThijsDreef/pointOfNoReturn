@@ -13,7 +13,7 @@ private:
 public:
   Buffer (const char * name, unsigned int target);
   void bufferData(unsigned int size, const GLvoid* data, unsigned int usage);
-  void bufferSubData(unsigned int offset, unsigned int dataSize, const GLvoid * data);
+  void bufferSubData(unsigned int offset, unsigned int dataSize, const void * data);
   void bindBuffer();
   void invalidateBuffer();
   const unsigned int getBufferId();

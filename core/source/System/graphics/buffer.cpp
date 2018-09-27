@@ -19,7 +19,7 @@ std::string Buffer::getName()
   return bufferName;
 }
 
-void Buffer::bufferSubData(unsigned int offset, unsigned int dataSize, const GLvoid* data)
+void Buffer::bufferSubData(unsigned int offset, unsigned int dataSize, const void* data)
 {
   glBindBuffer(target, bufferId);
   glBufferSubData(target, offset, dataSize, data);
