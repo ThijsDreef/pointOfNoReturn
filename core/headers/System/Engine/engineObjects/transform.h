@@ -23,6 +23,7 @@ public:
   Vec3<float> & getPos();
   Vec3<float> & getScale();
   Vec3<float> & getRot();
+  bool castShadow = true;
   MatrixBufferObject getBuffer(Matrix<float>& view, Matrix<float>& p);
   virtual ~Transform ();
 };

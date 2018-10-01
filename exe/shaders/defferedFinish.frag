@@ -22,12 +22,12 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal)
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
-    float bias = 0.00015;
+    float bias = 0.0001;
     float shadow = 0;
     for (int x = -2; x <= 2; x++) {
       for (int y= -2; y <= 2; y++) {
         // shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
-        shadow += currentDepth > texture(texture3, projCoords.xy + vec2(x * (1.0 / 4096.0), y * (1.0 / 4096.0))).r + bias ? 1.0 : 0.0;
+        shadow += currentDepth > texture(texture3, projCoords.xy + vec2(x * (1.0 / 2048.0), y * (1.0 / 2048.0))).r + bias ? 1.0 : 0.0;
       }
     }
     return (shadow / 16.) * 0.5;
@@ -54,7 +54,7 @@ void main(void)
   vec4 diffuse = texture(texture2, out_uv);
   vec3 normal = texture(texture1, out_uv).xyz;
   vec4 pos = texture(texture0, out_uv);
-  out_color = getExposure(pos.xyz, normal, -directionalLight, diffuse);
+  out_color = getExposure(pos.xyz, normal, normalize(pos.xyz - directionalLight), diffuse);
   out_color *= vec4(1.0) - vec4(ShadowCalculation(uLightVP * pos, normal));
   out_color += diffuse * 0.2;
 }

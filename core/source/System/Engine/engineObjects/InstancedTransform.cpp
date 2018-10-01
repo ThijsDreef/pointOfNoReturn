@@ -14,6 +14,7 @@ void InstancedTransform::addToInstance(Transform * t)
 {
     t->shouldRender = false;
     instances.push_back(t);
+    bufferData.push_back(Matrix<float>());
 }
 
 void InstancedTransform::prepareBuffer(Matrix<float> & view, Matrix<float> & p) 
@@ -21,10 +22,9 @@ void InstancedTransform::prepareBuffer(Matrix<float> & view, Matrix<float> & p)
     for (unsigned int i = 0; i < instances.size(); i++) 
     {
         MatrixBufferObject o = instances[i]->getBuffer(view, p);
-        if (i >= bufferData.size()) bufferData.push_back(o.modelView);
-        else bufferData[i] = (o.modelView);
+        bufferData[i] = o.model;
     }
-    matrixBuffer.bufferData(sizeof(float) * 16 * bufferData.size(), &bufferData[0], GL_DYNAMIC_READ);
+    matrixBuffer.bufferData(sizeof(Matrix<float>) * bufferData.size(), &bufferData[0], GL_STATIC_DRAW);
 }
 
 std::string & InstancedTransform::getModel() 
