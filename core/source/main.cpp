@@ -18,23 +18,32 @@ int main(int argc, char const *argv[])
   object->addComponent(new RotateTransform(Vec3<float>(0, 1.8, 0), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "bunny", {"initialShadingGroup"}, engine.getInput(), object));
   object->addComponent(new OrbitalCamera(-18, Vec3<bool>(false, false, true), Vec3<float>(-15, 0, 0), &object->getComponent<RotateTransform>()->rotation, &object->getComponent<Transform>()->getPos(), true, object));
   Object * box = new Object({});
-  box->addComponent(new Transform(Vec3<float>(0, 0, 0), Vec3<float>(3, 1, 3), Vec3<float>(0, 0, 0), "cube", {"Material.001", "initialShadingGroup"}, box));
+  box->addComponent(new Transform(Vec3<float>(0, 0, 0), Vec3<float>(10, 1, 10), Vec3<float>(0, 0, 0), "cube", {"Material.001", "initialShadingGroup"}, box));
   box->getComponent<Transform>()->castShadow = false;
 
   Object * instanced = new Object({});
+
+  std::vector<Object*> objects;
+
   InstancedTransform * it = new InstancedTransform(instanced);
-  for (int x = -10; x < 10; x++)
-    for (int y = 2; y < 10; y++)
-      for (int z = -10; z < 10; z++)
-        it->addToInstance(new Transform(Vec3<float>(x * 2, y, z * 2), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "bunny", {"initialShadingGroup"}, instanced));
+  for (int x = -5; x < 5; x++) {
+    for (int y = 0; y < 5; y++) {
+      for (int z = -5; z < 5; z++) {
+        Object * o = new Object({});
+        o->addComponent(new RotateTransform(Vec3<float>(x, 1.8 + y * 1.8, z), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "bunny", {"initialShadingGroup"}, engine.getInput(), o));
+        objects.push_back(o);
+        it->addToInstance(o->getComponent<Transform>());
+      }
+    }
+  }
   instanced->addComponent(it);
+  objects.push_back(instanced);
+  objects.push_back(object);
+  objects.push_back(box);
+
   engine.start(new Scene
     (
-      {
-        object,
-        box
-        // instanced
-      },
+      objects,
       {
         new DefferedRenderModule(engine.getGeoLib(), engine.getMatLib(), engine.getShaderManger(), engine.getWidth(), engine.getHeight()),
         new CollisionModule(50, 4)

@@ -25,7 +25,7 @@ DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat,
   matLib->setUpBuffer();
   setUpFormat();
   setUpInstancedFormat();
-  projection.perspectiveView(60, width / (float)height, 0.01, 100.0);
+  projection.perspectiveView(45, width / (float)height, 0.01, 100.0);
   camera.translateMatrix(Vec3<float>(0, 0, -2));
   renderFbo.bind();
   renderFbo.attach(GL_RGBA16F, GL_RGBA, GL_FLOAT, 0);
@@ -33,7 +33,7 @@ DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat,
   renderFbo.attach(GL_RGB16F, GL_RGB, GL_FLOAT, 2);
   renderFbo.attachDepth(w, h);
   shadowFbo.bind();
-  shadowFbo.attachDepth(2048, 2048);
+  shadowFbo.attachDepth(4096, 4096);
 }
 
 DefferedRenderModule::~DefferedRenderModule()
@@ -101,7 +101,7 @@ void DefferedRenderModule::updatePerspective(int width, int height, int fov, flo
 void DefferedRenderModule::addObject(Object * object)
 {
   Transform *  transObj = object->getComponent<Transform>();
-  if (transObj)
+  if (transObj && transObj->shouldRender)
   {
     transObj->added();
     transforms.push_back(transObj);
@@ -180,19 +180,20 @@ void DefferedRenderModule::update()
   drawInstanced();
 
   //shadow map rendering
-  Vec3<float> directionalLight(0, -10, -5);
+  Vec3<float> directionalLight(0, -30, -10.5);
 
   //shadow matrix setup
   Matrix<float> lightMatrix;
   Matrix<float> temp;
-  lightMatrix.orthographicView(5, 5, 2.5f, 50.0f);
+  lightMatrix.orthographicView(10, 10, 1, 10.0f);
+  // lightMatrix.perspectiveView(45, 1, 2, 50);
   temp.translateMatrix(directionalLight);
-  temp = temp.multiplyByMatrix(temp.rotation(Vec3<float>(1.2, 0, 1.6)));
+  temp = temp.multiplyByMatrix(temp.rotation(Vec3<float>(-45, 0, 0)));
   lightMatrix = lightMatrix.multiplyByMatrix(temp);
 
   //draw shadow map
   shadowFbo.bind();
-  glViewport(0, 0, 2048, 2048);
+  glViewport(0, 0, 4096, 4096);
   glCullFace(GL_BACK);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glUseProgram(shaderManager->getShader("directionalLight"));
