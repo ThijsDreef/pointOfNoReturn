@@ -54,3 +54,14 @@ MatrixBufferObject Transform::getBuffer(Matrix<float>& view, Matrix<float>& p)
 
   return MatrixBufferObject(mvp, mv, normal, model);
 }
+
+Matrix<float> Transform::getModelMatrix()
+{
+  Matrix<float> mvp;
+  Matrix<float> normal;
+  Matrix<float> temp;
+  normal = normal.rotation(rot);
+  temp.scaleMatrix(scale);
+  mvp.translateMatrix(pos);
+  return mvp.multiplyByMatrix(normal).multiplyByMatrix(temp);
+}

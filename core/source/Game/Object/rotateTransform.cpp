@@ -25,6 +25,7 @@ void RotateTransform::update()
   }
   rotation += rotationSpeed;
   rot[1] = rotation[1];
+  rot[0] = rotation[0];
 }
 
 RotateTransform::~RotateTransform()

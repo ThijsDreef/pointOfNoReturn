@@ -1,7 +1,7 @@
 #ifndef VEC2__
 #define VEC2__
 template<class T>
-class Vec2
+struct Vec2
 {
 private:
   T components[2];

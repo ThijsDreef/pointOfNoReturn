@@ -12,7 +12,7 @@ enum axis
 	X,Y,Z
 };
 template <class T>
-class Matrix
+struct Matrix
 {
 private:
 	void resetMatrix();
@@ -38,11 +38,9 @@ inline Matrix<T> Matrix<T>::inverse()
 {
 	double det;
 	Matrix<float> inv;
-  int i;
+  	int i;
 
-  inv.matrix[0] = matrix[5]  * matrix[10] * matrix[15] -
-           matrix[5]  * matrix[11] * matrix[14] -
-           matrix[9]  * matrix[6]  * matrix[15] +
+  	inv.matrix[0] = matrix[5]  * matrix[10] * matrix[15] - matrix[5]  * matrix[11] * matrix[14] - matrix[9]  * matrix[6]  * matrix[15] +
            matrix[9]  * matrix[7]  * matrix[14] +
            matrix[13] * matrix[6]  * matrix[11] -
            matrix[13] * matrix[7]  * matrix[10];

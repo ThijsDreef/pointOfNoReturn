@@ -25,6 +25,7 @@ public:
   Vec3<float> & getRot();
   bool castShadow = true;
   MatrixBufferObject getBuffer(Matrix<float>& view, Matrix<float>& p);
+  Matrix<float> getModelMatrix();
   virtual ~Transform ();
 };
 #endif

@@ -1,7 +1,7 @@
 #ifndef VEC4__
 #define VEC4__
 template<class T>
-class Vec4
+struct Vec4
 {
 private:
   T components[4];

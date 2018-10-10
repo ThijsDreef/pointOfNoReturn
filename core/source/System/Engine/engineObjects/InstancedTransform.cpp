@@ -21,8 +21,8 @@ void InstancedTransform::prepareBuffer(Matrix<float> & view, Matrix<float> & p)
 {
     for (unsigned int i = 0; i < instances.size(); i++) 
     {
-        MatrixBufferObject o = instances[i]->getBuffer(view, p);
-        bufferData[i] = o.model;
+        // MatrixBufferObject o = instances[i]->getBuffer(view, p);
+        bufferData[i] = instances[i]->getModelMatrix();
     }
     matrixBuffer.bufferData(sizeof(Matrix<float>) * bufferData.size(), &bufferData[0], GL_STATIC_DRAW);
 }

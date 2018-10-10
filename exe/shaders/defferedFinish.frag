@@ -27,7 +27,7 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal)
     for (int x = -2; x <= 2; x++) {
       for (int y= -2; y <= 2; y++) {
         // shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
-        shadow += currentDepth > texture(texture3, projCoords.xy + vec2(x * (1.0 / 2048.0), y * (1.0 / 2048.0))).r + bias ? 1.0 : 0.0;
+        shadow += currentDepth > texture(texture3, projCoords.xy + vec2(x * (1.0 / 4096.0), y * (1.0 / 4096.0))).r + bias ? 1.0 : 0.0;
       }
     }
     return (shadow / 16.) * 0.5;
@@ -57,4 +57,5 @@ void main(void)
   out_color = getExposure(pos.xyz, normal, normalize(pos.xyz - directionalLight), diffuse);
   out_color *= vec4(1.0) - vec4(ShadowCalculation(uLightVP * pos, normal));
   out_color += diffuse * 0.2;
+  // out_color = texture(texture3, out_uv);
 }

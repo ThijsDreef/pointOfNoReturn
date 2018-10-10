@@ -180,15 +180,15 @@ void DefferedRenderModule::update()
   drawInstanced();
 
   //shadow map rendering
-  Vec3<float> directionalLight(0, -30, -10.5);
+  Vec3<float> directionalLight(0, -30, -2);
 
   //shadow matrix setup
   Matrix<float> lightMatrix;
   Matrix<float> temp;
-  lightMatrix.orthographicView(10, 10, 1, 10.0f);
-  // lightMatrix.perspectiveView(45, 1, 2, 50);
+  lightMatrix.orthographicView(3, 3, 1, 10.0f);
+
   temp.translateMatrix(directionalLight);
-  temp = temp.multiplyByMatrix(temp.rotation(Vec3<float>(-45, 0, 0)));
+  temp = temp.rotation(Vec3<float>(-45, 0, 0)).multiplyByMatrix(temp);
   lightMatrix = lightMatrix.multiplyByMatrix(temp);
 
   //draw shadow map
@@ -231,8 +231,10 @@ void DefferedRenderModule::drawInstanced()
   {
     glBindVertexBuffer(0, geoLib->getGeoBufferId(), 0, 32);
     glBindVertexBuffer(1, instancedTransforms[i]->getBufferId(), 0, 64);
-    std::vector<unsigned int> indice = geoLib->getIndice(instancedTransforms[i]->getModel(), 0);
-    glDrawElementsInstanced(GL_TRIANGLES, indice.size(), GL_UNSIGNED_INT, &indice[0], instancedTransforms[0]->getTransformSize());
+    for (unsigned int j = 0; j < geoLib->getTotalGroups(instancedTransforms[i]->getModel()); j++) {
+      std::vector<unsigned int> indice = geoLib->getIndice(instancedTransforms[i]->getModel(), j);
+      glDrawElementsInstanced(GL_TRIANGLES, indice.size(), GL_UNSIGNED_INT, &indice[0], instancedTransforms[0]->getTransformSize());
+    }
   }
 }
 
