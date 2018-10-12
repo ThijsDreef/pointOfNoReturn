@@ -3,8 +3,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <Windows.h>
-#include <Windowsx.h>
 
 
 class Input
@@ -22,9 +20,12 @@ public:
   Input ();
   int getMouseWheelDelta();
   bool getMouseLock();
+  void addMouseWheelDelta(int d);
   void setLockCoords(int lx, int ly);
   void setMouseLock(bool lock);
-  bool proccesWindowMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, HWND hWnd);
+  void setMouseButton(int button, bool down);
+  void setKey(int keyCode, bool down);
+  void setMousePosition(int ix, int iy);
   bool getKeyDown(int keyCode);
   bool getMouseButtonDown(int buttonCode);
   float getDx();

@@ -274,22 +274,80 @@ Input * Window::getInput()
 }
 LRESULT CALLBACK Window::realWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-  if (uMsg == WM_CLOSE)
-  {
-    done = true;
-    return 0;
+  switch (uMsg) {
+    case WM_CLOSE: 
+    {
+      done = true;
+      return 0;
+    }
+    case WM_SIZE:
+    {
+      resize(LOWORD(lParam), HIWORD(lParam));
+      return 0;
+    }
+    case WM_SIZING:
+    {
+      resize(LOWORD(lParam), HIWORD(lParam));
+      return 0;
+    }
+    case WM_KEYDOWN:
+    {
+      input.setKey(wParam, true);
+      return 0;
+    }
+    case WM_KEYUP: 
+    {
+      input.setKey(wParam, false);
+      return 0;
+    }
+    case WM_MOUSEMOVE:
+    {
+      POINT pt;
+      pt.x = GET_X_LPARAM(lParam);
+      pt.y = GET_Y_LPARAM(lParam);
+      ScreenToClient(hWnd, &pt);
+      input.setMousePosition(pt.x, pt.y);
+      return 0;
+    }
+    case WM_MOUSEWHEEL:
+    {
+      input.addMouseWheelDelta(GET_WHEEL_DELTA_WPARAM(wParam));
+      return 0;
+    }
+    case WM_LBUTTONDOWN:
+    {
+      input.setMouseButton(0, true);
+      return 0;
+    }
+    case WM_LBUTTONUP:
+    {
+      input.setMouseButton(0, false);
+      return 0;
+    }
+    case WM_MBUTTONDOWN:
+    {
+      input.setMouseButton(1, true);      
+      return 0;
+    }
+    case WM_MBUTTONUP:
+    {
+      input.setMouseButton(1, false);
+      return 0;
+    }
+    case WM_RBUTTONDOWN:
+    {
+      input.setMouseButton(2, true);      
+      return 0;
+    }
+    case WM_RBUTTONUP:
+    {
+      input.setMouseButton(2, false);      
+      return 0;
+    }
+    default: 
+    {
+      break;
+    }
   }
-  if (uMsg == WM_SIZE)
-  {
-    resize(LOWORD(lParam), HIWORD(lParam));
-    return 0;
-  }
-  if (uMsg == WM_SIZING)
-  {
-    resize(LOWORD(lParam), HIWORD(lParam));
-    return 0;
-  }
-  if (input.proccesWindowMessage(uMsg, wParam, lParam, hWnd))
-    return true;
   return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }

@@ -6,6 +6,7 @@
 #include <System/Window/glew.h>
 #include <System/Window/wglew.h>
 #include <Windows.h>
+#include <WindowsX.h>
 #include "System/Input/input.h"
 
 class Window

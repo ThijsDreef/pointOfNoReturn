@@ -17,75 +17,6 @@ int Input::getMouseWheelDelta()
 {
   return delta;
 }
-bool Input::proccesWindowMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, HWND hWnd)
-{
-  switch (uMsg)
-  {
-    case WM_KEYDOWN:
-    {
-      keys[wParam] = true;
-      return true;
-    }
-    case WM_KEYUP:
-    {
-      keys[wParam] = false;
-      return true;
-    }
-    case WM_MOUSEWHEEL:
-    {
-      delta += GET_WHEEL_DELTA_WPARAM(wParam);
-    }
-    case WM_MOUSEMOVE:
-    {
-      POINT pt;
-      pt.x = GET_X_LPARAM(lParam);
-      pt.y = GET_Y_LPARAM(lParam);
-      ScreenToClient(hWnd, &pt);
-      dx += (lockX - x) * 0.1;
-      dy += (lockY - y) * 0.1;
-      dx = (dx > 10) ? 10 : (dx < -10) ? -10 : dx;
-      dy = (dy > 10) ? 10 : (dy < -10) ? -10 : dy;
-      x = pt.x;
-      y = pt.y;
-      return true;
-    }
-    case WM_LBUTTONDOWN:
-    {
-      mouse[0] = true;
-      return true;
-    }
-    case WM_LBUTTONUP:
-    {
-      mouse[0] = false;
-      return true;
-    }
-    case WM_MBUTTONDOWN:
-    {
-      mouse[1] = true;
-      return true;
-    }
-    case WM_MBUTTONUP:
-    {
-      mouse[1] = false;
-      return true;
-    }
-    case WM_RBUTTONDOWN:
-    {
-      mouse[2] = true;
-      return true;
-    }
-    case WM_RBUTTONUP:
-    {
-      mouse[2] = false;
-      return true;
-    }
-    default:
-    {
-      return false;
-    }
-  }
-  return false;
-}
 
 void Input::resetDelta()
 {
@@ -148,4 +79,29 @@ int Input::getMouseX()
 int Input::getMouseY()
 {
   return y;
+}
+
+void Input::setMousePosition(int ix, int iy)
+{
+  dx += (lockX - x) * 0.1;
+  dy += (lockY - y) * 0.1;
+  dx = (dx > 10) ? 10 : (dx < -10) ? -10 : dx;
+  dy = (dy > 10) ? 10 : (dy < -10) ? -10 : dy;
+  x = ix;
+  y = iy;
+}
+
+void Input::setKey(int keyCode, bool down)
+{
+  keys[keyCode] = down;
+}
+
+void Input::addMouseWheelDelta(int d)
+{
+  delta += d;
+}
+
+void Input::setMouseButton(int button, bool down)
+{
+  mouse[button] = down;
 }
