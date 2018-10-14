@@ -180,21 +180,20 @@ void DefferedRenderModule::update()
   drawInstanced();
 
   //shadow map rendering
-  Vec3<float> directionalLight(0, -30, -2);
+  Vec3<float> directionalLight(0.5, 2, 1);
 
   //shadow matrix setup
+  Matrix<float> lightPerspective;
   Matrix<float> lightMatrix;
-  Matrix<float> temp;
-  lightMatrix.orthographicView(3, 3, 1, 10.0f);
-
-  temp.translateMatrix(directionalLight);
-  temp = temp.rotation(Vec3<float>(-45, 0, 0)).multiplyByMatrix(temp);
-  lightMatrix = lightMatrix.multiplyByMatrix(temp);
+  Matrix<float> lightViewMatrix;
+  lightPerspective.orthographicView(20, 20, -20, 20);
+  lightViewMatrix.lookAt(directionalLight, Vec3<float>(), Vec3<float>(0, 1, 0));
+  lightMatrix = lightPerspective.multiplyByMatrix(lightViewMatrix);
 
   //draw shadow map
   shadowFbo.bind();
   glViewport(0, 0, 4096, 4096);
-  glCullFace(GL_BACK);
+  glCullFace(GL_FRONT);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glUseProgram(shaderManager->getShader("directionalLight"));
   glUniformMatrix4fv(shaderManager->uniformLocation("directionalLight", "uLightVP"), 1, false, &lightMatrix.matrix[0]);

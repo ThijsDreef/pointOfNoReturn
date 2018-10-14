@@ -36,7 +36,7 @@ int main(int argc, char const *argv[])
     }
   }
   instanced->addComponent(it);
-  // objects.push_back(instanced);
+  objects.push_back(instanced);
   objects.push_back(object);
   objects.push_back(box);
 

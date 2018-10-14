@@ -22,6 +22,7 @@ public:
 	void perspectiveView(float fov, float aspect, float zNear, float zFar);
 	void orthographicView(float width, float height, float zNear, float zFar);
 	void setAxisrotation(T angle , int axis);
+	void lookAt(Vec3<float> eye, Vec3<float> center, Vec3<float> up);
 	Matrix<T> rotation(Vec3<T> rotation);
 	void scaleMatrix(Vec3<T> vec);
 	Matrix();
@@ -32,6 +33,84 @@ public:
 	Vec3<T> translateVector(Vec3<T> vec);
 	void lightBias();
 };
+
+template<class T>
+inline void Matrix<T>::lookAt(Vec3<float> eye, Vec3<float> center, Vec3<float> up)
+{
+	T x0, x1, x2, y0, y1, y2, z0, z1, z2, len,
+	eyex = eye[0],
+	eyey = eye[1],
+	eyez = eye[2],
+	upx = up[0],
+	upy = up[1],
+	upz = up[2],
+	centerx = center[0],
+	centery = center[1],
+	centerz = center[2];
+
+    if (abs(eyex - centerx) < 0.000001 &&
+        abs(eyey - centery) < 0.000001 &&
+        abs(eyez - centerz) < 0.000001) {
+        return;
+    }
+
+    z0 = eyex - centerx;
+    z1 = eyey - centery;
+    z2 = eyez - centerz;
+
+    len = 1 / sqrt(z0 * z0 + z1 * z1 + z2 * z2);
+    z0 *= len;
+    z1 *= len;
+    z2 *= len;
+
+    x0 = upy * z2 - upz * z1;
+    x1 = upz * z0 - upx * z2;
+    x2 = upx * z1 - upy * z0;
+    len = sqrt(x0 * x0 + x1 * x1 + x2 * x2);
+    if (!len) {
+        x0 = 0;
+        x1 = 0;
+        x2 = 0;
+    } else {
+        len = 1 / len;
+        x0 *= len;
+        x1 *= len;
+        x2 *= len;
+    }
+
+    y0 = z1 * x2 - z2 * x1;
+    y1 = z2 * x0 - z0 * x2;
+    y2 = z0 * x1 - z1 * x0;
+
+    len = sqrt(y0 * y0 + y1 * y1 + y2 * y2);
+    if (!len) {
+        y0 = 0;
+        y1 = 0;
+        y2 = 0;
+    } else {
+        len = 1 / len;
+        y0 *= len;
+        y1 *= len;
+        y2 *= len;
+    }
+
+    matrix[0] = x0;
+    matrix[1] = y0;
+    matrix[2] = z0;
+    matrix[3] = 0;
+    matrix[4] = x1;
+    matrix[5] = y1;
+    matrix[6] = z1;
+    matrix[7] = 0;
+    matrix[8] = x2;
+    matrix[9] = y2;
+    matrix[10] = z2;
+    matrix[11] = 0;
+    matrix[12] = -(x0 * eyex + x1 * eyey + x2 * eyez);
+    matrix[13] = -(y0 * eyex + y1 * eyey + y2 * eyez);
+    matrix[14] = -(z0 * eyex + z1 * eyey + z2 * eyez);
+    matrix[15] = 1;
+}
 
 template<class T>
 inline Matrix<T> Matrix<T>::inverse()
