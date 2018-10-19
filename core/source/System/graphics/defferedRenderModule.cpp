@@ -1,7 +1,7 @@
 #include "System/Graphics/defferedRenderModule.h"
 #define _USE_MATH_DEFINES
 
-DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat, ShaderManager * shader, int width, int height) : renderFbo(Fbo(width, height)), shadowFbo(Fbo(width, height))
+DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat, ShaderManager * shader, int width, int height) : renderFbo(Fbo(width, height)), shadowFbo(Fbo(4096, 4096))
 {
   glGenVertexArrays(1, &defaultVao);
   glGenVertexArrays(1, &instancedVao);
@@ -105,6 +105,11 @@ void DefferedRenderModule::addObject(Object * object)
   {
     transObj->added();
     transforms.push_back(transObj);
+    // unsigned int size = transObj->materials.size();
+    // for (unsigned int i = 0; i < (size - geoLib->getTotalGroups(transObj->model)); i++) 
+    int size = (int)geoLib->getTotalGroups(transObj->model) - (int)transObj->materials.size();
+    for (int i = 0; i < size; i++)
+      transObj->materials.push_back("None");
   }
   Camera * cam = object->getComponent<Camera>();
   if (cam) cam->setMatrix(&camera);
@@ -186,14 +191,14 @@ void DefferedRenderModule::update()
   Matrix<float> lightPerspective;
   Matrix<float> lightMatrix;
   Matrix<float> lightViewMatrix;
-  lightPerspective.orthographicView(20, 20, -20, 20);
+  lightPerspective.orthographicView(35, 35, -30, 30);
   lightViewMatrix.lookAt(directionalLight, Vec3<float>(), Vec3<float>(0, 1, 0));
   lightMatrix = lightPerspective.multiplyByMatrix(lightViewMatrix);
 
   //draw shadow map
   shadowFbo.bind();
   glViewport(0, 0, 4096, 4096);
-  glCullFace(GL_FRONT);
+  glCullFace(GL_NONE);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glUseProgram(shaderManager->getShader("directionalLight"));
   glUniformMatrix4fv(shaderManager->uniformLocation("directionalLight", "uLightVP"), 1, false, &lightMatrix.matrix[0]);

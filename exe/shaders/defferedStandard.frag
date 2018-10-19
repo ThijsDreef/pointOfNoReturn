@@ -8,6 +8,8 @@ layout(std140, binding = 0) uniform MaterialBuffer
   vec4 color;
 };
 
+uniform sampler2D texture4;
+
 in vec4 out_position;
 in vec3 out_normal;
 in vec2 out_uv;
