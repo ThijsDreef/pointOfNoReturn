@@ -105,11 +105,13 @@ void DefferedRenderModule::addObject(Object * object)
   {
     transObj->added();
     transforms.push_back(transObj);
-    // unsigned int size = transObj->materials.size();
-    // for (unsigned int i = 0; i < (size - geoLib->getTotalGroups(transObj->model)); i++) 
-    int size = (int)geoLib->getTotalGroups(transObj->model) - (int)transObj->materials.size();
-    for (int i = 0; i < size; i++)
-      transObj->materials.push_back("None");
+
+    unsigned int size = geoLib->getTotalGroups(transObj->model);
+    unsigned int i = transObj->materials.size();
+    std::vector<std::string> materials = geoLib->getGeometry(transObj->model).materials;
+  
+    for (; i < size; i++)
+      transObj->materials.push_back(materials[i]);
   }
   Camera * cam = object->getComponent<Camera>();
   if (cam) cam->setMatrix(&camera);
@@ -244,17 +246,22 @@ void DefferedRenderModule::drawInstanced()
 
 void DefferedRenderModule::drawGeometry(std::vector<std::vector<std::pair<unsigned int, Transform*>>> & renderList, bool materials)
 {
+  glActiveTexture(GL_TEXTURE0 + (unsigned int)10);
   for (unsigned int i = 0; i < renderList.size(); i++)
   {
     if (materials) glBindBufferRange(GL_UNIFORM_BUFFER, 0, matLib->matBuffer.getBufferId(), i * sizeof(Material), sizeof(Material));
     unsigned int bufferIndex = -1;
+    // std::cout << matLib->getMaterial(i).texture << "\n";
+    glBindTexture(GL_TEXTURE_2D, matLib->getMaterial(i).texture);
+    // glBindTexture(GL_TEXTURE_2D, matLib->getMaterial(renderList[i][j].second->materials[renderList[i][j].first]).texture);
     for (unsigned int j = 0; j < renderList[i].size(); j++)
     {
       if (bufferIndex != renderList[i][j].second->bufferIndex)
       {
+        // if (!materials && !renderList[i][j].second->castShadow) break; 
         bufferIndex = renderList[i][j].second->bufferIndex;
         glBindBufferRange(GL_SHADER_STORAGE_BUFFER, 1, matBufferer.getBufferId(), bufferIndex * sizeof(MatrixBufferObject), sizeof(MatrixBufferObject));
-        if (!materials && !renderList[i][j].second->castShadow) break; 
+  // glActiveTexture(GL_TEXTURE0 + bindingPoint);
       }
       std::vector<unsigned int> indice = geoLib->getIndice(renderList[i][j].second->model, renderList[i][j].first);
       glDrawElements(GL_TRIANGLES, indice.size(), GL_UNSIGNED_INT, &indice[0]);

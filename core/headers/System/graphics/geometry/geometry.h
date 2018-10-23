@@ -9,6 +9,8 @@
 #include "Math/vec4.h"
 #include "System/Graphics/Geometry/materialLib.h"
 #include "System/Graphics/Geometry/vertexFormat.h"
+#include "Util/picoPNG.h"
+
 class Geometry
 {
 private:
@@ -18,10 +20,10 @@ private:
   //set indices with offset for large geo buffer
   // std::map<std::string, std::vector<unsigned int>> offsetIndices;
   std::vector<std::vector<unsigned int>> offsetIndices;
-  std::vector<std::string> materials;
   int offset;
   bool parseObj(const std::string& fileName, MaterialLib * materialLib);
 public:
+  std::vector<std::string> materials;
   std::string name;
   std::vector<VertexFormat> storedVertices;
   Geometry ();

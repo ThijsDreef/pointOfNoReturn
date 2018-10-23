@@ -17,6 +17,7 @@ public:
   void removeGeometry(std::string name);
   unsigned int getTotalGroups(std::string geo);
   const std::vector<unsigned int>& getIndice(std::string geometry, int group);
+  const Geometry& getGeometry(std::string name);
   virtual ~GeometryLib ();
   unsigned int getGeoBufferId();
 };

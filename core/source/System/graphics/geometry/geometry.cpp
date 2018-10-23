@@ -19,10 +19,29 @@ void Geometry::setIndiceOffset(int offset)
       offsetIndices[i][j] = allIndices[i][j] + offset;
 }
 
+void loadFile(std::vector<unsigned char>& buffer, const std::string& filename) //designed for loading files from hard disk in an std::vector
+{
+  std::ifstream file(filename.c_str(), std::ios::in|std::ios::binary|std::ios::ate);
+
+  //get filesize
+  std::streamsize size = 0;
+  if(file.seekg(0, std::ios::end).good()) size = file.tellg();
+  if(file.seekg(0, std::ios::beg).good()) size -= file.tellg();
+
+  //read contents of the file into the vector
+  if(size > 0)
+  {
+    buffer.resize((size_t)size);
+    file.read((char*)(&buffer[0]), size);
+  }
+  else buffer.clear();
+}
+
 bool Geometry::parseObj(const std::string& name, MaterialLib * matlib)
 {
   std::map<std::string, int> unique;
   int currentMaterialGroup = -1;
+	Material currentMaterial;
 	std::vector<int> verticesIndices;
 	std::vector<int> normalsIndices;
 	std::vector<int> textureIndices;
@@ -102,17 +121,36 @@ bool Geometry::parseObj(const std::string& name, MaterialLib * matlib)
 				std::string currentMaterialName;
 				while (std::getline(mtlFile, mtlLine))
 				{
+					if (mtlLine.substr(0, 7) == "map_Kd ")
+					{
+						//add texture here
+						std::string textureName = name.substr(0, name.rfind("/") + 1) + mtlLine.substr(7, mtlLine.size());
+						std::cout << "adding texture " << textureName;
+		
+						std::vector<unsigned char> buffer, image;
+  					loadFile(buffer, textureName);
+						unsigned long w, h;
+  					int error = decodePNG(image, w, h, buffer.empty() ? 0 : &buffer[0], (unsigned long)buffer.size());	
+						if (error) std::cout << error << " " <<" error code with loading texture\n";
+						Texture * texture = new Texture(w, h, GL_RGBA, GL_RGBA, GL_LINEAR, GL_UNSIGNED_BYTE, &image[0], textureName);
+						matlib->addTexture(textureName, texture);
+						currentMaterial.texture = texture->getId();
+						std::cout << " id" << currentMaterial.texture << "\n";
+						
+					}
           // wil work as long as material only supports color
 					if (mtlLine.substr(0, 3) == "Kd ")
 					{
 						Vec4<float> matColor;
 						matColor[3] = 1;
 						sscanf(mtlLine.c_str(), "%*s %f %f %f", &matColor[0], &matColor[1], &matColor[2]);
-						matlib->addMaterial(currentMaterialName, Material(matColor));
+						currentMaterial.color = matColor;
 					}
 					else if (mtlLine.substr(0, 7) == "newmtl ")
 					{
+						matlib->addMaterial(currentMaterialName, currentMaterial);
 						currentMaterialName = mtlLine.substr(7, mtlLine.size());
+						currentMaterial = Material();
 					}
 				}
 				mtlFile.close();

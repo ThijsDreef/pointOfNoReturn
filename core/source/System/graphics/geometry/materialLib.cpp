@@ -12,6 +12,13 @@ void MaterialLib::addMaterial(const std::string& name, Material mat)
   map[name] = mat;
 }
 
+void MaterialLib::addTexture(const std::string name, Texture * texture)
+{
+  if (map.find(name) != map.end())
+    std::cout << "warning at " << name << " texture overWrite \n";
+  textures[name] = texture;
+}
+
 void MaterialLib::removeMaterial(const std::string& name)
 {
   map.erase(name);
@@ -22,7 +29,12 @@ Material& MaterialLib::getMaterial(const std::string& name)
   return map[name];
 }
 
-unsigned int MaterialLib::getMaterialId(std::string & name)
+Material& MaterialLib::getMaterial(const unsigned int id)
+{
+  return map[byId[id]];
+}
+
+unsigned int MaterialLib::getMaterialId(const std::string & name)
 {
   return loc[name] / sizeof(Material);
 }
@@ -32,14 +44,17 @@ unsigned int MaterialLib::getMaterialLoc(const std::string& name)
   return loc[name];
 }
 
+
 void MaterialLib::setUpBuffer()
 {
   unsigned int size = 0;
   //get the total buffer size
   std::vector<Material> allMats;
+  byId.clear();
   //and prepare a buffer
   for (auto & i : map)
   {
+    byId.push_back(i.first);
     loc[i.first] = size;
     allMats.push_back(i.second);
     size += sizeof(Material);

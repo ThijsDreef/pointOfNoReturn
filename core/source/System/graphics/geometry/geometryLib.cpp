@@ -20,6 +20,11 @@ void GeometryLib::removeGeometry(std::string name)
   map.erase(name);
 }
 
+const Geometry& GeometryLib::getGeometry(std::string name)
+{
+  return map[name];
+}
+
 unsigned int GeometryLib::getTotalGroups(std::string geo)
 {
   return map[geo].getMaterials().size();

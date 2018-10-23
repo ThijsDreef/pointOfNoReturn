@@ -1,5 +1,7 @@
 #include "System/Window/glew.h"
 #include <string>
+#ifndef TEXTURE__
+#define TEXTURE__ 
 
 class Texture
 {
@@ -26,3 +28,5 @@ public:
   virtual ~Texture ();
   unsigned int getId();
 };
+
+#endif

@@ -4,7 +4,9 @@
 struct Material
 {
   Vec4<float> color;
-  char chars[240];
+  unsigned int texture;
+  char chars[236];
+
   Material(const Vec4<float>& color)
   {
     this->color = color;

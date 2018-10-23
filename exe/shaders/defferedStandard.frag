@@ -8,7 +8,7 @@ layout(std140, binding = 0) uniform MaterialBuffer
   vec4 color;
 };
 
-uniform sampler2D texture4;
+uniform sampler2D texture10;
 
 in vec4 out_position;
 in vec3 out_normal;
@@ -18,5 +18,5 @@ void main(void)
 {
   rPosition = out_position;
   rNormal = out_normal;
-  rColor = color;
+  rColor = texture(texture10, out_uv) + 0.2;
 }
