@@ -15,10 +15,8 @@ class Geometry
 {
 private:
   //sort indices per material
-  // std::map<std::string, std::vector<unsigned int>> map;
   std::vector<std::vector<unsigned int>> allIndices;
   //set indices with offset for large geo buffer
-  // std::map<std::string, std::vector<unsigned int>> offsetIndices;
   std::vector<std::vector<unsigned int>> offsetIndices;
   int offset;
   bool parseObj(const std::string& fileName, MaterialLib * materialLib);

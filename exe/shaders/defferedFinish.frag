@@ -58,5 +58,4 @@ void main(void)
   out_color = getExposure(pos.xyz, normal, normalize(directionalLight), diffuse);
   out_color *= vec4(1.0) - vec4(ShadowCalculation(uLightVP * pos, normal));
   out_color += diffuse * 0.2;
-  // out_color = texture(texture3, out_uv);
 }

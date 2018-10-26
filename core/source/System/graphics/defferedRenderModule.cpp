@@ -187,7 +187,7 @@ void DefferedRenderModule::update()
   drawInstanced();
 
   //shadow map rendering
-  Vec3<float> directionalLight(0.5, 2, 1);
+  Vec3<float> directionalLight(0.2, 2, 0.5);
 
   //shadow matrix setup
   Matrix<float> lightPerspective;
@@ -251,17 +251,16 @@ void DefferedRenderModule::drawGeometry(std::vector<std::vector<std::pair<unsign
   {
     if (materials) glBindBufferRange(GL_UNIFORM_BUFFER, 0, matLib->matBuffer.getBufferId(), i * sizeof(Material), sizeof(Material));
     unsigned int bufferIndex = -1;
-    // std::cout << matLib->getMaterial(i).texture << "\n";
-    glBindTexture(GL_TEXTURE_2D, matLib->getMaterial(i).texture);
-    // glBindTexture(GL_TEXTURE_2D, matLib->getMaterial(renderList[i][j].second->materials[renderList[i][j].first]).texture);
+    unsigned int texture = matLib->getMaterial(i).texture;
+    if (texture < 1000) glBindTexture(GL_TEXTURE_2D, matLib->getMaterial(i).texture);
+    
     for (unsigned int j = 0; j < renderList[i].size(); j++)
     {
       if (bufferIndex != renderList[i][j].second->bufferIndex)
       {
-        // if (!materials && !renderList[i][j].second->castShadow) break; 
+        if (!materials && !renderList[i][j].second->castShadow) break; 
         bufferIndex = renderList[i][j].second->bufferIndex;
         glBindBufferRange(GL_SHADER_STORAGE_BUFFER, 1, matBufferer.getBufferId(), bufferIndex * sizeof(MatrixBufferObject), sizeof(MatrixBufferObject));
-  // glActiveTexture(GL_TEXTURE0 + bindingPoint);
       }
       std::vector<unsigned int> indice = geoLib->getIndice(renderList[i][j].second->model, renderList[i][j].first);
       glDrawElements(GL_TRIANGLES, indice.size(), GL_UNSIGNED_INT, &indice[0]);

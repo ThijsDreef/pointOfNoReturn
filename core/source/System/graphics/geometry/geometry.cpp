@@ -148,7 +148,8 @@ bool Geometry::parseObj(const std::string& name, MaterialLib * matlib)
 					}
 					else if (mtlLine.substr(0, 7) == "newmtl ")
 					{
-						matlib->addMaterial(currentMaterialName, currentMaterial);
+						if (currentMaterialName.size() > 0)
+							matlib->addMaterial(currentMaterialName, currentMaterial);
 						currentMaterialName = mtlLine.substr(7, mtlLine.size());
 						currentMaterial = Material();
 					}
