@@ -28,7 +28,6 @@ window("default", iWidth, iHeight, 32, true)
 void Engine::loadResources()
 {
   //load resources.txt
-
   std::ifstream resourceFile("resource.txt");
   std::string rsLine;
   while (std::getline(resourceFile, rsLine))

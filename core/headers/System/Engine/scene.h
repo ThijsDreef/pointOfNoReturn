@@ -8,10 +8,11 @@ class Scene
 {
 protected:
   std::vector<Object*> objects;
-  std::vector<Module*> modules;
+  std::vector<std::vector<Module*>> modules;
 public:
-  Scene (std::vector<Object*> startObjects, std::vector<Module*> startModules);
+  Scene (std::vector<Object*> startObjects, std::vector<std::vector<Module*>> startModules);
   void addModule(Module * module);
+  void addModule(Module * module, unsigned int index);
   void addObject(Object * object);
   virtual void update();
   virtual ~Scene ();

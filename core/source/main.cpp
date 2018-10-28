@@ -45,8 +45,11 @@ int main(int argc, char const *argv[])
     (
       objects,
       {
-        new DefferedRenderModule(engine.getGeoLib(), engine.getMatLib(), engine.getShaderManger(), engine.getWidth(), engine.getHeight()),
-        new CollisionModule(50, 4)
+        {
+          new DefferedRenderModule(engine.getGeoLib(), engine.getMatLib(), engine.getShaderManger(), engine.getWidth(), engine.getHeight()),
+          new CollisionModule(50, 4)
+
+        }
       }
     ));
   return 0;
