@@ -1,4 +1,4 @@
-#include "System/Graphics/buffer.h"
+#include "System/Graphics/Resources/buffer.h"
 
 Buffer::Buffer(const char * name, unsigned int target)
 {

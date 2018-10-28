@@ -7,7 +7,7 @@ window(title.c_str(), iWidth, iHeight, bitDepth, fullScreen)
   width = iWidth;
   height = iHeight;
   this->frameCap = frameCap;
-  UtilLoader::loadResources(geometryLib, materialLib);
+  loadResources();
   input = window.getInput();
   window.vsync(true);
 }
@@ -19,10 +19,31 @@ window("default", iWidth, iHeight, 32, true)
   width = iWidth;
   height = iHeight;
   this->frameCap = frameCap;
-  UtilLoader::loadResources(geometryLib, materialLib);
+  loadResources();
   input = window.getInput();
   window.vsync(true);
 
+}
+
+void Engine::loadResources()
+{
+  //load resources.txt
+
+  std::ifstream resourceFile("resource.txt");
+  std::string rsLine;
+  while (std::getline(resourceFile, rsLine))
+  {
+    //read lines that end with .obj
+    //then load these files into the geolib
+    if (rsLine.substr(rsLine.size() - 4, rsLine.size()) == ".obj")
+    {
+      std::string name = rsLine.substr(rsLine.rfind("/") + 1);
+      name = name.substr(0, name.size() - 4);
+      std::cout << "parsing " << name << "\n";
+
+      geometryLib.addGeometry(Geometry(rsLine.c_str(), name.c_str(), &materialLib));
+    }
+  }
 }
 
 void Engine::start(Scene * start)

@@ -1,13 +1,18 @@
 #include "System/Window/glew.h"
 #include <string>
+#include <vector>
+#include <fstream>
+#include "Util/picoPNG.h"
+#include "Util/util.h"
+
 #ifndef TEXTURE__
 #define TEXTURE__ 
 
 class Texture
 {
 private:
-  int w;
-  int h;
+  unsigned long w;
+  unsigned long h;
   unsigned int id;
   unsigned int iFormat;
   unsigned int format;
@@ -15,7 +20,8 @@ private:
   unsigned int dataType;
   std::string name;
 public:
-  Texture (int width, int height, std::string textureName);
+  Texture (const std::string & fileName);
+  Texture (int width, int height, const std::string textureName);
   Texture (int width, int height, void* data, std::string textureName);
   Texture (int width, int height, unsigned int internal, unsigned int format, void* data, std::string textureName);
   Texture (int width, int height, unsigned int internal, unsigned int format, unsigned int filter, unsigned int dataType, void* data, std::string textureName);

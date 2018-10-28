@@ -1,6 +1,5 @@
 #include "System/Physics/collider.h"
 #include "Game/Object/rotateTransform.h"
-#include "System/Graphics/renderModule.h"
 #include "System/Engine/scene.h"
 #include "System/Engine/engine.h"
 #include "System/Engine/EngineObjects/orbitalCamera.h"
@@ -13,7 +12,6 @@
 int main(int argc, char const *argv[])
 {
   Engine engine(1/60.0f, 1920, 1080);
-  if (GLEW_ARB_bindless_texture) std::cout << "PogChamp\n";
   engine.getInput()->setMouseLock(true);
   Object * camera = new Object({});
   camera->addComponent(new FpsCamera(engine.getInput(), camera));
@@ -21,11 +19,6 @@ int main(int argc, char const *argv[])
   object->addComponent(new Transform(Vec3<float>(0, 1.8, 0), Vec3<float>(1.5, 1.5, 1.5), Vec3<float>(0, 0, 0), "sponza", {"None"}, object));
   Object * bunny = new Object({});
   bunny->addComponent(new Transform(Vec3<float>(0, 6, 0), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "bunny", {}, bunny));
-
-  // object->addComponent(new OrbitalCamera(-18, Vec3<bool>(false, false, true), Vec3<float>(0, 0, 0), &object->getComponent<RotateTransform>()->rotation, &object->getComponent<Transform>()->getPos(), true, object));
-  Object * box = new Object({});
-  box->addComponent(new Transform(Vec3<float>(0, 0, 0), Vec3<float>(10, 0.1, 10), Vec3<float>(0, 0, 0), "cube", {"Material.001", "initialShadingGroup"}, box));
-  // box->getComponent<Transform>()->castShadow = false;
 
   Object * instanced = new Object({});
 
@@ -47,7 +40,6 @@ int main(int argc, char const *argv[])
   objects.push_back(bunny);
   objects.push_back(object);
   objects.push_back(camera);
-  objects.push_back(box);
 
   engine.start(new Scene
     (

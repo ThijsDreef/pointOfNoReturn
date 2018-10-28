@@ -1,5 +1,22 @@
 #include "System/Graphics/Resources/texture.h"
 
+Texture::Texture(const std::string & fileName)
+{
+  std::vector<unsigned char> buffer, image;
+  UtilLoader::loadFile(buffer, fileName);
+  //w and h members are set here
+  int error = decodePNG(image, w, h, buffer.empty() ? 0 : &buffer[0], (unsigned long)buffer.size());  
+  name = fileName;
+  iFormat = GL_RGBA;
+  format = GL_RGBA;
+
+  glGenTextures(1, &id);
+  glBindTexture(GL_TEXTURE_2D, id);
+  glTexImage2D(GL_TEXTURE_2D, 0, iFormat, w, h, 0, format, GL_UNSIGNED_BYTE, &image[0]);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+}
+
 Texture::Texture(int width, int height, std::string textureName)
 {
   w = width;

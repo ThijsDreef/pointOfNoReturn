@@ -1,11 +1,13 @@
 #ifndef RENDERMODULE__
 #define RENDERMODULE__
 #include "System/module.h"
+#include "System/Graphics/Geometry/materialLib.h"
+#include "System/Graphics/Geometry/geometryLib.h"
 #include "System/Graphics/matrixBufferer.h"
 #include "System/Graphics/Shaders/shaderManager.h"
 #include "Math/matrix.h"
 #include "System/Graphics/MatrixBufferObject.h"
-#include "System/Graphics/buffer.h"
+#include "System/Graphics/Resources/buffer.h"
 #include "Util/util.h"
 #include "System/Engine/EngineObjects/transform.h"
 #include "System/Window/wglew.h"

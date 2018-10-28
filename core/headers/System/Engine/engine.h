@@ -22,7 +22,7 @@ private:
   bool running;
   double frameCap;
   int width, height;
-
+  void loadResources();
 public:
   unsigned int frames;
   int getWidth();

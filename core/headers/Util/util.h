@@ -1,7 +1,11 @@
-#include "System/Graphics/Geometry/geometryLib.h"
-#include "System/Graphics/Geometry/materialLib.h"
+#ifndef UTIL__
+#define UTIL__
+#include <vector>
+#include <fstream>
 
 namespace UtilLoader
 {
-  void loadResources(GeometryLib& geoLib, MaterialLib& matLib);
+  void loadFile(std::vector<unsigned char>& buffer, const std::string& filename);
 } /* Util */
+
+#endif

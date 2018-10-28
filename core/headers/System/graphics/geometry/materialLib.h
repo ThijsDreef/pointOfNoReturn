@@ -4,7 +4,7 @@
 #include "System/Graphics/Geometry/material.h"
 #include <vector>
 #include <map>
-#include "System/Graphics/buffer.h"
+#include "System/Graphics/Resources/buffer.h"
 #include <string>
 #include "System/Graphics/Resources/texture.h"
 

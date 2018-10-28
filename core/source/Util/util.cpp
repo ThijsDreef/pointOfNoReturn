@@ -2,24 +2,21 @@
 
 namespace UtilLoader
 {
-  void loadResources(GeometryLib& geoLib, MaterialLib& matlib)
+  void loadFile(std::vector<unsigned char>& buffer, const std::string& filename)
   {
-    //load resources.txt
+    std::ifstream file(filename.c_str(), std::ios::in|std::ios::binary|std::ios::ate);
 
-    std::ifstream resourceFile("resource.txt");
-    std::string rsLine;
-    while (std::getline(resourceFile, rsLine))
+    //get filesize
+    std::streamsize size = 0;
+    if(file.seekg(0, std::ios::end).good()) size = file.tellg();
+    if(file.seekg(0, std::ios::beg).good()) size -= file.tellg();
+
+    //read contents of the file into the vector
+    if(size > 0)
     {
-      //read lines that end with .obj
-      //then load these files into the geolib
-      if (rsLine.substr(rsLine.size() - 4, rsLine.size()) == ".obj")
-      {
-        std::string name = rsLine.substr(rsLine.rfind("/") + 1);
-        name = name.substr(0, name.size() - 4);
-        std::cout << "parsing " << name << "\n";
-
-        geoLib.addGeometry(Geometry(rsLine.c_str(), name.c_str(), &matlib));
-      }
+      buffer.resize((size_t)size);
+      file.read((char*)(&buffer[0]), size);
     }
+    else buffer.clear();
   }
 } /* UtilLoader */
