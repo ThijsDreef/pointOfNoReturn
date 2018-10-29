@@ -8,7 +8,7 @@
 class UiRenderer : public Module
 {
 private:
-  std::vector<UIText>
+  std::vector<UIText> textObjects;
 public:
   UiRenderer();
   virtual ~UiRenderer();
