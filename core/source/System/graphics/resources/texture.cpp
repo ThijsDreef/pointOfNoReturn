@@ -114,6 +114,16 @@ void Texture::bind(unsigned int bindingPoint)
   glBindTexture(GL_TEXTURE_2D, id);
 }
 
+unsigned long Texture::getWidth() 
+{
+  return w;
+}
+
+unsigned long Texture::getHeight()
+{
+  return h;
+}
+
 unsigned int Texture::getId()
 {
   return id;

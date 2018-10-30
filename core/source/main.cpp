@@ -7,11 +7,13 @@
 #include "System/Physics/collisionModule.h"
 #include "System/Physics/octree.h"
 #include "System/Engine/EngineObjects/fpsCamera.h"
+#include "System/Graphics/Ui/font.h"
 #include <iostream>
 
 int main(int argc, char const *argv[])
 {
   Engine engine(1/60.0f, 1920, 1080);
+  Font font("fonts/text");
   engine.getInput()->setMouseLock(true);
   Object * camera = new Object({});
   camera->addComponent(new FpsCamera(engine.getInput(), camera));

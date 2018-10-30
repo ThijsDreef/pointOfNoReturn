@@ -5,19 +5,31 @@
 #include "System/Graphics/Resources/buffer.h"
 #include <vector>
 #include <map>
+#include "Math/vec2.h"
+
+struct FontGPUData
+{
+  Vec2<float> vertexPosition;
+  Vec2<float> uvCoords;
+  FontGPUData(Vec2<float> vtPos, Vec2<float> uv) 
+  {
+    vertexPosition = vtPos;
+    uvCoords = uv;
+  }
+};
 
 struct FontCharacter
 {
-  float xOffset;
-  float yOffset;
-  float x, y;
-  float xAdvance;
+  int xOffset;
+  int yOffset;
+  int x, y, w, h;
+  int xAdvance;
   std::vector<unsigned int> indice;
 };
 
 struct Kerning 
 {
-  float amount;
+  int amount;
 };
 
 class Font 
@@ -28,14 +40,15 @@ private:
   std::map<char, FontCharacter> characters;
   std::map<std::string, Kerning> kernings;
   void parseFontFile(std::string fileName);
-  Kerning parseKerning(std::string & line);
-  FontCharacter parseFontCharacter(std::string & line);
+  void parseKerning(std::string & line);
+  void parseFontCharacter(std::string & line);
 public:
   Font(std::string fontFileName);
   virtual ~Font();
   FontCharacter & getCharacter(char character);
   Kerning & getKerning(char first, char second);
   void fillBuffer();
+  Buffer & getBuffer();
 };
 
 #endif

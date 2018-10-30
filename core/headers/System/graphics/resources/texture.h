@@ -31,6 +31,8 @@ public:
   void bufferData(int width, int height, unsigned int internal, unsigned int format, std::string textureName, void* data);
   void bind(unsigned int bindingPoint);
   void setFilter(unsigned int filter);
+  unsigned long getWidth();
+  unsigned long getHeight();
   virtual ~Texture ();
   unsigned int getId();
 };
