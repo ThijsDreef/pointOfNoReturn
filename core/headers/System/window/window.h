@@ -1,6 +1,6 @@
 #ifndef WINDOW__
 #define WINDOW__
-#include <mingw.thread.h>
+#include <thread>
 #include <iostream>
 #include <vector>
 #include <System/Window/glew.h>

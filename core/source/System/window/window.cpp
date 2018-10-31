@@ -131,7 +131,7 @@ bool Window::createWindow(const char* title, int width, int height, int bits, bo
     PFD_SUPPORT_OPENGL |	//format must support opengl
     PFD_DOUBLEBUFFER,		//must support dubble buffering
     PFD_TYPE_RGBA,			// request an rgba format
-    (byte)bits,					//select color depth
+    (unsigned char)bits,					//select color depth
     0, 0, 0, 0, 0, 0,       //color bits ignored
     0,						//no alpha  buffer
     0,						//shift bit ignored

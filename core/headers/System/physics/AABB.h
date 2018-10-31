@@ -1,7 +1,7 @@
 #ifndef AABB__
 #define AABB__
 #include "System/Physics/collider.h"
-#include <math.h>
+#include <cmath>
 
 class AABB : public Collider {
 private:
