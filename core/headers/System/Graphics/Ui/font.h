@@ -20,11 +20,11 @@ struct FontGPUData
 
 struct FontCharacter
 {
-  int xOffset;
-  int yOffset;
-  int x, y, w, h;
-  int xAdvance;
-  std::vector<unsigned int> indice;
+  float xOffset;
+  float yOffset;
+  float x, y, w, h;
+  float xAdvance;
+  std::vector<FontGPUData> vertices;
 };
 
 struct Kerning 
@@ -36,19 +36,17 @@ class Font
 {
 private: 
   Texture * atlas;
-  Buffer fontData;
   std::map<char, FontCharacter> characters;
   std::map<std::string, Kerning> kernings;
   void parseFontFile(std::string fileName);
   void parseKerning(std::string & line);
   void parseFontCharacter(std::string & line);
+  void setUpCharacters();
 public:
   Font(std::string fontFileName);
   virtual ~Font();
   FontCharacter & getCharacter(char character);
   Kerning & getKerning(char first, char second);
-  void fillBuffer();
-  Buffer & getBuffer();
 };
 
 #endif

@@ -13,9 +13,9 @@ private:
 public:
   void setPos(Vec2<float> position);
   void setClean();
-  void setText(std::string text);
-  UIText(Object * object);
-  ~UIText();
+  void setText(std::string newText);
+  UIText(std::string startText, Vec2<float> position, Object * object);
+  virtual ~UIText();
 };
 
 #endif

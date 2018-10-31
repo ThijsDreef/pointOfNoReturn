@@ -1,6 +1,6 @@
 #include "System/Graphics/Ui/font.h"
 
-Font::Font(std::string fontFileName) : fontData("FontData", GL_ARRAY_BUFFER)
+Font::Font(std::string fontFileName)
 {
     atlas = new Texture(fontFileName + ".png");
     parseFontFile(fontFileName + ".fnt");
@@ -39,7 +39,7 @@ void Font::parseFontFile(std::string fileName)
                 parseKerning(line);
         }
     }
-    fillBuffer();
+    setUpCharacters();
 }
 
 void Font::parseKerning(std::string & line)
@@ -61,7 +61,7 @@ void Font::parseFontCharacter(std::string & line)
     characters[(char)id] = character;
 }
 
-void Font::fillBuffer()
+void Font::setUpCharacters()
 {
     std::vector<FontGPUData> fontBuffer;
     std::vector<unsigned int> defaultIndices = {1, 2, 0, 1, 3, 2};
@@ -75,23 +75,18 @@ void Font::fillBuffer()
         float normalizedX = (float)i.second.x / w;
         float normalizedY = (float)i.second.y / h;
 
-        fontBuffer.push_back(FontGPUData(Vec2<float>(normalizedW * -0.5, normalizedH * -0.5), Vec2<float>(normalizedX + normalizedW, normalizedY)));
-        fontBuffer.push_back(FontGPUData(Vec2<float>(normalizedW * 0.5, normalizedH * -0.5), Vec2<float>(normalizedX, normalizedY + normalizedH)));
-        fontBuffer.push_back(FontGPUData(Vec2<float>(normalizedW * -0.5, normalizedH * 0.5), Vec2<float>(normalizedX, normalizedY)));
-        fontBuffer.push_back(FontGPUData(Vec2<float>(normalizedW * 0.5, normalizedH * 0.5), Vec2<float>(normalizedX + normalizedW, normalizedY + normalizedH)));
+        i.second.xOffset /= w;
+        i.second.yOffset /= h;
+        i.second.xAdvance /= w;
+        i.second.h /= h;
+        i.second.w /= w;
+        i.second.x /= w;
+        i.second.y /= h;
 
-        for (unsigned int j = 0; j < defaultIndices.size(); j++)
-            i.second.indice.push_back(defaultIndices[j] + indiceOffset);
+        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * -0.5, normalizedH * -0.5), Vec2<float>(normalizedX + normalizedW, normalizedY)));
+        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * 0.5, normalizedH * -0.5), Vec2<float>(normalizedX, normalizedY + normalizedH)));
+        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * -0.5, normalizedH * 0.5), Vec2<float>(normalizedX, normalizedY)));
+        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * 0.5, normalizedH * 0.5), Vec2<float>(normalizedX + normalizedW, normalizedY + normalizedH)));
 
-        indiceOffset += 4;
     }
-
-    fontData.bufferData(sizeof(FontGPUData) * fontBuffer.size(), &fontBuffer[0], GL_STATIC_DRAW);
-
-
-}
-
-Buffer & Font::getBuffer()
-{
-    return fontData;
 }
