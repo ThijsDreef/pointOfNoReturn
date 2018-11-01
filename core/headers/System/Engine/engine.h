@@ -1,5 +1,8 @@
 #ifndef ENGINE__
 #define ENGINE__
+#include <stack>
+#include <thread> 
+#include <chrono>
 #include "System/Window/window.h"
 #include "System/Graphics/Geometry/geometryLib.h"
 #include "System/Graphics/Shaders/shaderManager.h"
@@ -7,8 +10,7 @@
 #include "Util/util.h"
 #include "System/Graphics/Geometry/materialLib.h"
 #include "System/Input/input.h"
-#include <stack>
-#include <chrono>
+
 class Engine {
 private:
   Window window;

@@ -8,7 +8,7 @@ Geometry::Geometry()
 Geometry::Geometry(const char* fileName, const char* name, MaterialLib * materialLib)
 {
   parseObj(fileName, materialLib);
-    this->name = name;
+	this->name = name;
 }
 
 void Geometry::setIndiceOffset(int offset)

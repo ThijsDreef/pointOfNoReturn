@@ -90,3 +90,8 @@ void Font::setUpCharacters()
 
     }
 }
+
+void Font::bindTexture(unsigned int bindingId)
+{
+    atlas->bind(bindingId);
+}

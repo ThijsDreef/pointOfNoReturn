@@ -20,28 +20,28 @@ public:
   {
     return components[i];
   }
-  Vec2<T>& operator*(Vec2<T> other)
+  Vec2<T> operator*(Vec2<T> other)
   {
     Vec2<T> vec2;
     for (int i = 0; i < 2; i++)
       vec2[i] = components[i] * other[i];
     return vec2;
   }
-  Vec2<T>& operator+(Vec2<T> other)
+  Vec2<T> operator+(Vec2<T> other)
   {
     Vec2<T> vec2;
     for (int i = 0; i < 2; i++)
       vec2[i] = components[i] + other[i];
     return vec2;
   }
-  Vec2<T>& operator-(Vec2<T> other)
+  Vec2<T> operator-(Vec2<T> other)
   {
     Vec2<T> vec2;
     for (int i = 0; i < 2; i++)
       vec2[i] = components[i] - other[i];
     return vec2;
   }
-  Vec2<T>& operator/(Vec2<T> other)
+  Vec2<T> operator/(Vec2<T> other)
   {
     Vec2<T> vec2;
     for (int i = 0; i < 2; i++)

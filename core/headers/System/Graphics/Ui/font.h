@@ -43,6 +43,7 @@ private:
   void parseFontCharacter(std::string & line);
   void setUpCharacters();
 public:
+  void bindTexture(unsigned int bindindId);
   Font(std::string fontFileName);
   virtual ~Font();
   FontCharacter & getCharacter(char character);
