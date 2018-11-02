@@ -6,6 +6,7 @@
 #include "System/Graphics/Ui/uiText.h"
 #include "System/Graphics/Resources/buffer.h"
 #include "System/Graphics/Ui/font.h"
+#include "System/Graphics/Shaders/shaderManager.h"
 
 
 struct TextGPUData
@@ -23,14 +24,17 @@ struct TextGPUData
 class UiRenderer : public Module
 {
 private:
+  unsigned int vao;
   Buffer fontBuffer;
   Font font;
   std::vector<TextGPUData> textGPUData;
   std::vector<unsigned int> textIndices;
   std::vector<UIText*> textObjects;
+  void setupFormat();
+  ShaderManager * shaderManager;
 public:
   void rebuildBuffer();
-  UiRenderer(std::string fontFileName);
+  UiRenderer(std::string fontFileName, ShaderManager * shader);
   virtual ~UiRenderer();
   void update();
   void addObject(Object * object);

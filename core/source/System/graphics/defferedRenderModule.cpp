@@ -246,6 +246,7 @@ void DefferedRenderModule::drawInstanced()
 
 void DefferedRenderModule::drawGeometry(std::vector<std::vector<std::pair<unsigned int, Transform*>>> & renderList, bool materials)
 {
+  glBindVertexBuffer(0, geoLib->getGeoBufferId(), 0, 32);
   glActiveTexture(GL_TEXTURE0 + (unsigned int)10);
   for (unsigned int i = 0; i < renderList.size(); i++)
   {

@@ -22,16 +22,8 @@ void FpsCamera::update()
         force[2] += 0.2f;
     }
     Vec3<float> rotationSpeed;
-    // if (input->getMouseButtonDown(0))/
-    // {
     rotationSpeed[0] = (input->getDy()) * 0.5;
     rotationSpeed[1] = (input->getDx()) * 0.5;
-    // }
-    // else
-    // {
-        // rotationSpeed[0] = 0;
-        // rotationSpeed[1] = 0;
-    // }
     rotation += rotationSpeed;
     Matrix<float> other;
     matrix.setAxisrotation(rotation[0], X);

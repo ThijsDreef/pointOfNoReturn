@@ -4,7 +4,7 @@
 #include "Math/matrix.h"
 class Camera : public Component
 {
-private:
+protected:
   Matrix<float> * camera;
 public:
   Camera (Object * object);

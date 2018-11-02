@@ -8,12 +8,13 @@
 #include "System/Physics/octree.h"
 #include "System/Engine/EngineObjects/fpsCamera.h"
 #include "System/Graphics/Ui/font.h"
+#include "System/Graphics/Ui/uiRenderer.h"
+#include "System/Graphics/Ui/uiText.h"
 #include <iostream>
 
 int main(int argc, char const *argv[])
 {
   Engine engine(1/60.0f, 1920, 1080);
-  Font font("fonts/text");
   engine.getInput()->setMouseLock(true);
   Object * camera = new Object({});
   camera->addComponent(new FpsCamera(engine.getInput(), camera));
@@ -21,7 +22,7 @@ int main(int argc, char const *argv[])
   object->addComponent(new Transform(Vec3<float>(0, 1.8, 0), Vec3<float>(1.5, 1.5, 1.5), Vec3<float>(0, 0, 0), "sponza", {"None"}, object));
   Object * bunny = new Object({});
   bunny->addComponent(new Transform(Vec3<float>(0, 6, 0), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "bunny", {}, bunny));
-
+  camera->addComponent(new UIText("Fps: 60", Vec2<float>(-0.8, 0.8), bunny));
   Object * instanced = new Object({});
 
   std::vector<Object*> objects;
@@ -49,8 +50,8 @@ int main(int argc, char const *argv[])
       {
         {
           new DefferedRenderModule(engine.getGeoLib(), engine.getMatLib(), engine.getShaderManger(), engine.getWidth(), engine.getHeight()),
-          new CollisionModule(50, 4)
-
+          new CollisionModule(50, 4),
+          new UiRenderer("fonts/text", engine.getShaderManger())
         }
       }
     ));

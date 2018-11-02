@@ -5,6 +5,7 @@ UIText::UIText(std::string startText, Vec2<float> position, Object * object) : C
     text = startText;
     pos = position;
     dirty = true;
+    scale = 1.0f;
 }
 
 UIText::~UIText()

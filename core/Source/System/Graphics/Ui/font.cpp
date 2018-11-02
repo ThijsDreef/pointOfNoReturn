@@ -54,20 +54,25 @@ void Font::parseKerning(std::string & line)
 
 void Font::parseFontCharacter(std::string & line)
 {
-    int id;
+    int id, x, y, w, h, xOffset, xAdvance, yOffset;
     FontCharacter character;
     sscanf(line.c_str(), "char id=%d x=%d y=%d width=%d height=%d xoffset=%d yoffset=%d xadvance=%d",
-    &id, &character.x, &character.y, &character.w, &character.h, &character.xOffset, &character.yOffset, &character.xAdvance);
+    &id, &x, &y, &w, &h, &xOffset, &yOffset, &xAdvance);
+    character.x = (float)x;
+    character.y = (float)y;
+    character.w = (float)w;
+    character.h = (float)h;
+    character.xOffset = (float)xOffset;
+    character.yOffset = (float)yOffset;
+    character.xAdvance = (float)xAdvance;
     characters[(char)id] = character;
 }
 
 void Font::setUpCharacters()
 {
     std::vector<FontGPUData> fontBuffer;
-    std::vector<unsigned int> defaultIndices = {1, 2, 0, 1, 3, 2};
     int w = atlas->getWidth();
     int h = atlas->getHeight();
-    unsigned int indiceOffset = 0;
     for (auto & i : characters)
     {
         float normalizedW = (float)i.second.w / w;
@@ -83,10 +88,10 @@ void Font::setUpCharacters()
         i.second.x /= w;
         i.second.y /= h;
 
-        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * -0.5, normalizedH * -0.5), Vec2<float>(normalizedX + normalizedW, normalizedY)));
-        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * 0.5, normalizedH * -0.5), Vec2<float>(normalizedX, normalizedY + normalizedH)));
-        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * -0.5, normalizedH * 0.5), Vec2<float>(normalizedX, normalizedY)));
-        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * 0.5, normalizedH * 0.5), Vec2<float>(normalizedX + normalizedW, normalizedY + normalizedH)));
+        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * 0.5, normalizedH * -0.5), Vec2<float>(normalizedX + normalizedW, normalizedY + normalizedH)));
+        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * -0.5, normalizedH * 0.5), Vec2<float>(normalizedX , normalizedY)));
+        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * -0.5, normalizedH * -0.5), Vec2<float>(normalizedX, normalizedY + normalizedH)));
+        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * 0.5, normalizedH * 0.5), Vec2<float>(normalizedX + normalizedW, normalizedY)));
 
     }
 }

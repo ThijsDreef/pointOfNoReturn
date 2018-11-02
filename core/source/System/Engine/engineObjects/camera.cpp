@@ -2,7 +2,7 @@
 
 Camera::Camera(Object * object) : Component(object)
 {
-
+  
 }
 
 Camera::~Camera()
