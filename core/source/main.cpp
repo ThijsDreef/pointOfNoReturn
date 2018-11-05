@@ -10,6 +10,7 @@
 #include "System/Graphics/Ui/font.h"
 #include "System/Graphics/Ui/uiRenderer.h"
 #include "System/Graphics/Ui/uiText.h"
+#include "System/Engine/EngineObjects/textDebug.h"
 #include <iostream>
 
 int main(int argc, char const *argv[])
@@ -19,10 +20,10 @@ int main(int argc, char const *argv[])
   Object * camera = new Object({});
   camera->addComponent(new FpsCamera(engine.getInput(), camera));
   Object * object = new Object({});
-  object->addComponent(new Transform(Vec3<float>(0, 1.8, 0), Vec3<float>(1.5, 1.5, 1.5), Vec3<float>(0, 0, 0), "sponza", {"None"}, object));
+  object->addComponent(new Transform(Vec3<float>(0, 1.8, 0), Vec3<float>(1.5, 1.5, 1.5), Vec3<float>(0, 0, 0), "atrium", {"None"}, object));
   Object * bunny = new Object({});
   bunny->addComponent(new Transform(Vec3<float>(0, 6, 0), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "bunny", {}, bunny));
-  camera->addComponent(new UIText("Fps: 60", Vec2<float>(-0.8, 0.8), bunny));
+  camera->addComponent(new TextDebug<unsigned int>("fps: ", Vec2<float>(-800, 500), &engine.frames, bunny));
   Object * instanced = new Object({});
 
   std::vector<Object*> objects;
@@ -32,14 +33,13 @@ int main(int argc, char const *argv[])
     for (int y = 2; y < 10; y++) {
       for (int z = -10; z < 10; z++) {
         Object * o = new Object({});
-        o->addComponent(new RotateTransform(Vec3<float>(x, 1.8 + y, z), Vec3<float>(0.2, 0.2, 0.2), Vec3<float>(0, 90, 0), "cube", {"initialShadingGroup"}, engine.getInput(), o));
+        o->addComponent(new RotateTransform(Vec3<float>(x, 1.8 + y, z), Vec3<float>(0.2, 0.2, 0.2), Vec3<float>(0, 90, 0), "bunny", {"initialShadingGroup"}, engine.getInput(), o));
         objects.push_back(o);
         it->addToInstance(o->getComponent<Transform>());
       }
     }
   }
   instanced->addComponent(it);
-  // objects.push_back(instanced);
   objects.push_back(bunny);
   objects.push_back(object);
   objects.push_back(camera);
@@ -51,7 +51,7 @@ int main(int argc, char const *argv[])
         {
           new DefferedRenderModule(engine.getGeoLib(), engine.getMatLib(), engine.getShaderManger(), engine.getWidth(), engine.getHeight()),
           new CollisionModule(50, 4),
-          new UiRenderer("fonts/text", engine.getShaderManger())
+          new UiRenderer("fonts/text", engine.getShaderManger(), 1920, 1080)
         }
       }
     ));

@@ -75,10 +75,12 @@ void Font::setUpCharacters()
     int h = atlas->getHeight();
     for (auto & i : characters)
     {
-        float normalizedW = (float)i.second.w / w;
-        float normalizedH = (float)i.second.h / h;
-        float normalizedX = (float)i.second.x / w;
-        float normalizedY = (float)i.second.y / h;
+        float normalizedW = i.second.w / w;
+        float normalizedH = i.second.h / h;
+        float normalizedX = i.second.x / w;
+        float normalizedY = i.second.y / h;
+        // push quad down by height to make sure it works with the correct baseline
+        float normalizedYOffset = -normalizedH;
 
         i.second.xOffset /= w;
         i.second.yOffset /= h;
@@ -88,10 +90,10 @@ void Font::setUpCharacters()
         i.second.x /= w;
         i.second.y /= h;
 
-        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * 0.5, normalizedH * -0.5), Vec2<float>(normalizedX + normalizedW, normalizedY + normalizedH)));
-        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * -0.5, normalizedH * 0.5), Vec2<float>(normalizedX , normalizedY)));
-        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * -0.5, normalizedH * -0.5), Vec2<float>(normalizedX, normalizedY + normalizedH)));
-        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW * 0.5, normalizedH * 0.5), Vec2<float>(normalizedX + normalizedW, normalizedY)));
+        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW, normalizedYOffset), Vec2<float>(normalizedX + normalizedW, normalizedY + normalizedH)));
+        i.second.vertices.push_back(FontGPUData(Vec2<float>(0, normalizedH + normalizedYOffset), Vec2<float>(normalizedX , normalizedY)));
+        i.second.vertices.push_back(FontGPUData(Vec2<float>(0, normalizedYOffset), Vec2<float>(normalizedX, normalizedY + normalizedH)));
+        i.second.vertices.push_back(FontGPUData(Vec2<float>(normalizedW, normalizedH + normalizedYOffset), Vec2<float>(normalizedX + normalizedW, normalizedY)));
 
     }
 }

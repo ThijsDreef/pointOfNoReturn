@@ -59,6 +59,7 @@ void Engine::run()
   double inputResetTimer = 0;
   double fpsTimer;
   frames = 0;
+  unsigned int currentFrames;
   while (!window.done && running)
   {
     auto start = std::chrono::system_clock::now();
@@ -67,11 +68,12 @@ void Engine::run()
       window.handleMessages();
       scene.top()->update();
       elapsedTime -= frameCap;
-      frames ++;
+      currentFrames ++;
       window.updateFrameBuffer();
       if (fpsTimer > 1000) {
         // log frames here or update them
-        frames = 0;
+        frames = currentFrames;
+        currentFrames = 0;
         fpsTimer = 0;
       }
     }

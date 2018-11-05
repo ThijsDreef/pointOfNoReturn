@@ -9,33 +9,21 @@
 #include "System/Graphics/Shaders/shaderManager.h"
 
 
-struct TextGPUData
-{
-  Vec2<float> vertex;
-  Vec2<float> uv;
-  TextGPUData(Vec2<float> vert, Vec2<float> texCoord)
-  {
-    vertex = vert;
-    uv = texCoord;
-  }
-};
 
 
 class UiRenderer : public Module
 {
 private:
   unsigned int vao;
-  Buffer fontBuffer;
   Font font;
-  std::vector<TextGPUData> textGPUData;
-  std::vector<unsigned int> textIndices;
   std::vector<UIText*> textObjects;
   void setupFormat();
   ShaderManager * shaderManager;
+  unsigned int w, h;
 public:
-  void rebuildBuffer();
-  UiRenderer(std::string fontFileName, ShaderManager * shader);
+  UiRenderer(std::string fontFileName, ShaderManager * shader, unsigned int width, unsigned int height);
   virtual ~UiRenderer();
+  void renderText();
   void update();
   void addObject(Object * object);
 
