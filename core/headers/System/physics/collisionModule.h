@@ -13,7 +13,6 @@ private:
   Octree octree;
   std::vector<CollisionComponent*> staticColliders;
   std::vector<CollisionComponent*> dynamicColliders;
-  std::map<std::string, Resolver*> resolvers;
 public:
   CollisionModule(int width, int octreeDepth);
   virtual ~CollisionModule();

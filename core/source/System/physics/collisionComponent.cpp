@@ -28,8 +28,3 @@ Collider * CollisionComponent::getCollider()
 {
   return coll;
 }
-
-void CollisionComponent::setResolver(std::string resolver)
-{
-  coll->setResolver(resolver);
-}

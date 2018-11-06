@@ -1,7 +1,7 @@
 #ifndef COLLISIONCOMPONENT__
 #define COLLISIONCOMPONENT__
 
-#include "System/Physics/collider.h"
+#include "System/Physics/Colliders/collider.h"
 #include "System/Physics/resolver.h"
 #include "System/Engine/EngineObjects/transform.h"
 
@@ -13,7 +13,6 @@ private:
   bool moveAble;
 public:
   CollisionComponent (bool isStatic, Collider * collider, Transform * transform, Object * object);
-  void setResolver(std::string resolver);
   bool getStatic();
   Collider * getCollider();
   virtual ~CollisionComponent ();

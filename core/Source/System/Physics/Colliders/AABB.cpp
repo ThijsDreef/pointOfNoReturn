@@ -1,4 +1,4 @@
-#include "System/Physics/AABB.h"
+#include "System/Physics/Colliders/AABB.h"
 
 AABB::AABB(Vec3<float> pos, Vec3<float> radius) : Collider()
 {

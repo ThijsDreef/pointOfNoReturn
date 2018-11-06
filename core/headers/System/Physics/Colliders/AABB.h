@@ -1,6 +1,6 @@
 #ifndef AABB__
 #define AABB__
-#include "System/Physics/collider.h"
+#include "System/Physics/Colliders/collider.h"
 #include <cmath>
 
 class AABB : public Collider {

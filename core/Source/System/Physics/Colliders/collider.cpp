@@ -1,4 +1,4 @@
-#include "System/Physics/collider.h"
+#include "System/Physics/Colliders/collider.h"
 
 Collider::Collider()
 {
@@ -20,11 +20,6 @@ Vec3<float> Collider::intersectA(Collider * other)
   return Vec3<float>();
 }
 
-void Collider::setResolver(std::string resolver)
-{
-  resolve = resolver;
-}
-
 void Collider::setPos(Vec3<float> & pos)
 {
   p = pos;
@@ -41,9 +36,4 @@ Vec3<float> & Collider::getPos()
 void Collider::syncPos(Vec3<float> * pos)
 {
   posPointer = pos;
-}
-
-std::string & Collider::getResolver()
-{
-  return resolve;
 }

@@ -1,6 +1,6 @@
 #ifndef OCTREE__
 #define OCTREE__
-#include "System/Physics/AABB.h"
+#include "System/Physics/Colliders/AABB.h"
 #include "System/Physics/bucket.h"
 
 struct Collision {

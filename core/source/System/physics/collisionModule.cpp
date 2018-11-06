@@ -12,7 +12,7 @@ void CollisionModule::update()
   std::vector<Collision> collisions = octree.getCollisions();
   for (unsigned int i = 0; i < collisions.size(); i++)
   {
-    resolvers[collisions[i].hit->resolve]->resolve(collisions[i].hit, collisions[i].other);
+    
   }
   octree.cleanDynamic();
 }
@@ -33,9 +33,4 @@ void CollisionModule::addObject(Object * object)
 CollisionModule::~CollisionModule()
 {
 
-}
-
-void CollisionModule::addResolver(Resolver * resolve, std::string name)
-{
-  resolvers[name] = resolve;
 }
