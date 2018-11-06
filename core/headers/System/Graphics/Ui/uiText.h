@@ -32,6 +32,7 @@ private:
   std::vector<unsigned int> indices;
   Buffer fontBuffer;
 public:
+  bool outLine = true;
   Matrix<float> & getMatrix();
   std::vector<unsigned int> & getIndices();
   void buildBuffer(Font * font);

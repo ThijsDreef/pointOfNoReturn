@@ -1,6 +1,6 @@
 #include "System/Graphics/Ui/uiRenderer.h"
 
-UiRenderer::UiRenderer(std::string fontFileName, ShaderManager * shader, unsigned int width, unsigned int height, int padding = 8) : font(fontFileName, padding)
+UiRenderer::UiRenderer(std::string fontFileName, ShaderManager * shader, unsigned int width, unsigned int height, int padding) : font(fontFileName, padding)
 {
     shaderManager = shader;
     shader->createShaderProgram("shaders/font.vert", "shaders/font.frag", "font");
@@ -33,10 +33,10 @@ void UiRenderer::renderText()
     glEnable (GL_BLEND); 
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBindVertexArray(vao);
-    glUseProgram(shaderManager->getShader("outLine"));
     font.bindTexture(10);
     for (unsigned int i = 0; i < textObjects.size(); i++)
     {
+        glUseProgram(shaderManager->getShader((textObjects[i]->outLine) ? "outLine" : "font"));
         if (textObjects[i]->isDead())
         {
             textObjects[i]->setRemoved();
