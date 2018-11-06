@@ -42,6 +42,11 @@ int main(int argc, char const *argv[])
   objects.push_back(bunny);
   objects.push_back(object);
   objects.push_back(camera);
+  CollisionModule * module = new CollisionModule(50, 4);
+  Object * collisionModuleDebug = new Object({});
+  collisionModuleDebug->addComponent(new TextDebug<unsigned int>("collision count: ", Vec2<float>(-800, 400), &module->collisionCount, collisionModuleDebug));
+  objects.push_back(collisionModuleDebug);
+
 
   engine.start(new Scene
     (
@@ -49,8 +54,8 @@ int main(int argc, char const *argv[])
       {
         {
           new DefferedRenderModule(engine.getGeoLib(), engine.getMatLib(), engine.getShaderManger(), engine.getWidth(), engine.getHeight()),
-          new CollisionModule(50, 4),
-          new UiRenderer("fonts/text", engine.getShaderManger(), 1920, 1080)
+          new UiRenderer("fonts/text", engine.getShaderManger(), 1920, 1080),
+          module
         }
       }
     ));

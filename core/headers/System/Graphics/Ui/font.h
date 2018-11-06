@@ -35,6 +35,7 @@ struct Kerning
 class Font 
 {
 private: 
+  int paddingX;
   Texture * atlas;
   std::map<char, FontCharacter> characters;
   std::map<std::string, Kerning> kernings;
@@ -44,7 +45,7 @@ private:
   void setUpCharacters();
 public:
   void bindTexture(unsigned int bindindId);
-  Font(std::string fontFileName);
+  Font(std::string fontFileName, int padding);
   virtual ~Font();
   FontCharacter & getCharacter(char character);
   Kerning & getKerning(char first, char second);

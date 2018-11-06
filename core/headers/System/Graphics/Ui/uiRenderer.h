@@ -21,7 +21,7 @@ private:
   ShaderManager * shaderManager;
   unsigned int w, h;
 public:
-  UiRenderer(std::string fontFileName, ShaderManager * shader, unsigned int width, unsigned int height);
+  UiRenderer(std::string fontFileName, ShaderManager * shader, unsigned int width, unsigned int height, int padding = 8);
   virtual ~UiRenderer();
   void renderText();
   void update();

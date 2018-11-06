@@ -35,10 +35,12 @@ void UIText::buildBuffer(Font * font)
         FontCharacter character = font->getCharacter(text[j]);
         for (unsigned int k = 0; k < character.vertices.size(); k++)
         {
+            float kerning = font->getKerning(text[(j + 1 >= 0 ? j + 1 : 0) ], text[j]).amount;
+            // float kerning = 0;
             Vec2<float> vt = character.vertices[k].vertexPosition;
             vt = vt + offset;
             
-            vt[0] += character.xOffset;
+            vt[0] += character.xOffset + kerning;
             vt[1] -= character.yOffset;
             textGPUData.push_back(TextGPUData(vt, character.vertices[k].uvCoords));
         }
@@ -51,7 +53,8 @@ void UIText::buildBuffer(Font * font)
     }
     Matrix<float> temp;
     temp.translateMatrix(Vec3<float>(pos[0], pos[1], 0));
-    mv.scaleMatrix(Vec3<float>(500, 500, 1));
+    // might need to fix this shit
+    mv.scaleMatrix(Vec3<float>(600, 600, 1));
     mv = temp.multiplyByMatrix(mv);
     fontBuffer.bufferData(sizeof(TextGPUData) * textGPUData.size(), &textGPUData[0], GL_STATIC_DRAW);
 }

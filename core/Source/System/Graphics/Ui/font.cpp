@@ -1,7 +1,8 @@
 #include "System/Graphics/Ui/font.h"
 
-Font::Font(std::string fontFileName)
+Font::Font(std::string fontFileName, int padding)
 {
+    paddingX = padding;
     atlas = new Texture(fontFileName + ".png");
     parseFontFile(fontFileName + ".fnt");
 }
@@ -47,6 +48,7 @@ void Font::parseKerning(std::string & line)
     Kerning kerning;
     int first, second;
     sscanf(line.c_str(), "kerning first=%d second=%d amount=%d", &first, &second, &kerning.amount);
+    kerning.amount /= atlas->getWidth();
     std::string combined;
     combined.append((char)first, (char)second);
     kernings[combined] = kerning;
@@ -64,7 +66,7 @@ void Font::parseFontCharacter(std::string & line)
     character.h = (float)h;
     character.xOffset = (float)xOffset;
     character.yOffset = (float)yOffset;
-    character.xAdvance = (float)xAdvance;
+    character.xAdvance = (float)xAdvance - paddingX;
     characters[(char)id] = character;
 }
 

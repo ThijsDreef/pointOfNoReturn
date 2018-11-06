@@ -14,6 +14,7 @@ private:
   std::vector<CollisionComponent*> staticColliders;
   std::vector<CollisionComponent*> dynamicColliders;
 public:
+  unsigned int collisionCount;
   CollisionModule(int width, int octreeDepth);
   virtual ~CollisionModule();
   void update();
