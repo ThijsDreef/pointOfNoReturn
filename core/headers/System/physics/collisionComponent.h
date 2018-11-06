@@ -2,7 +2,6 @@
 #define COLLISIONCOMPONENT__
 
 #include "System/Physics/Colliders/collider.h"
-#include "System/Physics/resolver.h"
 #include "System/Engine/EngineObjects/transform.h"
 
 class CollisionComponent : public Component

@@ -17,7 +17,6 @@ public:
   CollisionModule(int width, int octreeDepth);
   virtual ~CollisionModule();
   void update();
-  void addResolver(Resolver * resolve, std::string name);
   void addObject(Object * object);
 };
 
