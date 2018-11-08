@@ -1,5 +1,7 @@
 #ifndef VEC3__
 #define VEC3__
+#include <cmath>
+
 template<class T>
 struct Vec3
 {
@@ -117,6 +119,17 @@ public:
   void lerp(Vec3<T> target, float speed)
   {
     (*this) += speed * (target - (*this));
+  }
+
+  Vec3<T> normalize()
+  {
+    Vec3<T> normal;
+    T length = sqrtf(components[0] * components[0] + components[1] * components[1] + components[2] * components[2]);
+    normal[0] = components[0] / length;
+    normal[1] = components[1] / length;
+    normal[2] = components[2] / length;
+
+    return normal;
   }
   T dot(Vec3<T> other)
   {

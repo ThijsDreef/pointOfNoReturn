@@ -11,10 +11,12 @@ void CollisionModule::update()
     octree.addDynamicCollider(dynamicColliders[i]->getCollider());
   std::vector<Collision> collisions = octree.getCollisions();
   // please handle collisions here
-  // for (unsigned int i = 0; i < collisions.size(); i++)
-  // {
-    
-  // }
+  for (unsigned int i = 0; i < collisions.size(); i++)
+  {
+    Vec3<float> resolve = collisions[i].other->intersectA(collisions[i].hit);
+    collisions[i].other->getPos() += resolve * 0.2;
+
+  }
   // set debug count here
   collisionCount = collisions.size();
   octree.cleanDynamic();

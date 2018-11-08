@@ -31,8 +31,9 @@ int main(int argc, char const *argv[])
   Object * bunny = new Object({});
   bunny->addComponent(new Transform(Vec3<float>(0, 1.8, 0), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "bunny", {}, bunny));
   bunny->addComponent(new CollisionComponent(false, new AABB(Vec3<float>(0, 1.8, 0), Vec3<float>(1, 1, 1)), 0, bunny));
-  Object * instanced = new Object({});
+  bunny->getComponent<CollisionComponent>()->getCollider()->syncPos(&bunny->getComponent<Transform>()->getPos());
 
+  Object * instanced = new Object({});
   std::vector<Object*> objects;
 
   InstancedTransform * it = new InstancedTransform(instanced);
@@ -61,9 +62,13 @@ int main(int argc, char const *argv[])
       objects,
       {
         {
+          module,
+        },{
           new DefferedRenderModule(engine.getGeoLib(), engine.getMatLib(), engine.getShaderManger(), engine.getWidth(), engine.getHeight()),
-          new UiRenderer("fonts/text", engine.getShaderManger(), 1920, 1080),
-          module
+
+        },{
+
+          new UiRenderer("fonts/text", engine.getShaderManger(), 1920, 1080)
         }
       }
     ));
