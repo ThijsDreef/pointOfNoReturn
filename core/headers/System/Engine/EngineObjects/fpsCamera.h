@@ -10,6 +10,7 @@ private:
     Vec3<float> rotation;
 public:
     void update();
+    Vec3<float> & getPos();
     FpsCamera(Input * input, Object * object);
     virtual ~FpsCamera();
 };

@@ -7,8 +7,8 @@ class AABB : public Collider {
 private:
   Vec3<float> r;
 public:
-  AABB (Vec3<float> pos, Vec3<float> radius);
-  AABB ();
+  AABB(Vec3<float> pos, Vec3<float> radius);
+  AABB();
   Vec3<float> intersectA(Collider * other);
   bool intersectB(Collider * other);
   Vec3<float> getRadius();

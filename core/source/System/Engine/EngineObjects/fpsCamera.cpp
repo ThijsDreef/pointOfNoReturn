@@ -44,3 +44,8 @@ FpsCamera::~FpsCamera()
 {
 
 }
+
+Vec3<float> & FpsCamera::getPos()
+{
+    return position;
+}

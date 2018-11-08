@@ -16,13 +16,21 @@ int main(int argc, char const *argv[])
 {
   Engine engine(1/60.0f, 1920, 1080);
   engine.getInput()->setMouseLock(true);
+
   Object * camera = new Object({});
   camera->addComponent(new FpsCamera(engine.getInput(), camera));
+  camera->addComponent(new TextDebug<unsigned int>("fps: ", Vec2<float>(-800, 500), &engine.frames, camera));
+  AABB * coll = new AABB();
+  coll->setRadius(Vec3<float>(1, 1, 1));
+  coll->syncPos(&camera->getComponent<FpsCamera>()->getPos());
+  camera->addComponent(new CollisionComponent(false, coll, 0, camera));
+
+
   Object * object = new Object({});
-  object->addComponent(new Transform(Vec3<float>(0, 1.8, 0), Vec3<float>(1.5, 1.5, 1.5), Vec3<float>(0, 0, 0), "atrium", {"None"}, object));
+  object->addComponent(new Transform(Vec3<float>(0, 0, 0), Vec3<float>(1.5, 1.5, 1.5), Vec3<float>(0, 0, 0), "atrium", {"None"}, object));
   Object * bunny = new Object({});
-  bunny->addComponent(new Transform(Vec3<float>(0, 6, 0), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "bunny", {}, bunny));
-  camera->addComponent(new TextDebug<unsigned int>("fps: ", Vec2<float>(-800, 500), &engine.frames, bunny));
+  bunny->addComponent(new Transform(Vec3<float>(0, 1.8, 0), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "bunny", {}, bunny));
+  bunny->addComponent(new CollisionComponent(false, new AABB(Vec3<float>(0, 1.8, 0), Vec3<float>(1, 1, 1)), 0, bunny));
   Object * instanced = new Object({});
 
   std::vector<Object*> objects;
