@@ -41,7 +41,12 @@ void Engine::loadResources()
       std::cout << "parsing " << name << "\n";
 
       geometryLib.addGeometry(Geometry(rsLine.c_str(), name.c_str(), &materialLib));
+    } 
+    else if (rsLine.substr(rsLine.size() - 4, rsLine.size()) == ".png")
+    {
+      materialLib.addTexture(rsLine.substr(0, rsLine.size() - 4), new Texture(rsLine));
     }
+
   }
 }
 

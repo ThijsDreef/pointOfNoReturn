@@ -2,7 +2,7 @@
 #define MATRIXBUFFERER__
 #include "System/Graphics/Resources/buffer.h"
 #include "System/Engine/EngineObjects/transform.h"
-#include "System/Graphics/matrixBufferObject.h"
+#include "System/Graphics/Geometry/matrixBufferObject.h"
 #include <vector>
 
 class MatrixBufferer

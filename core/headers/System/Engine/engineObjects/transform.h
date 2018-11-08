@@ -4,7 +4,7 @@
 #include "System/Engine/EngineObjects/component.h"
 #include "System/Engine/EngineObjects/object.h"
 #include <string>
-#include "System/Graphics/matrixBufferObject.h"
+#include "System/Graphics/Geometry/matrixBufferObject.h"
 #include <iostream>
 
 class Transform : public Component

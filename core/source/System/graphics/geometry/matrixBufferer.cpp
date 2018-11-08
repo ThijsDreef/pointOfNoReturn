@@ -1,4 +1,4 @@
-#include "System/Graphics/matrixBufferer.h"
+#include "System/Graphics/Geometry/matrixBufferer.h"
 
 MatrixBufferer::MatrixBufferer() : matrixBuffer("matrix", GL_SHADER_STORAGE_BUFFER)
 {
