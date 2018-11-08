@@ -73,5 +73,10 @@ void MaterialLib::setUpBuffer()
 
 MaterialLib::~MaterialLib()
 {
-
+  for (auto & i : textures)
+  {
+    unsigned int id = i.second->getId();
+    glDeleteTextures(1, &id);
+    delete i.second;
+  }
 }

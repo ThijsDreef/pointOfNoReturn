@@ -73,7 +73,6 @@ unsigned int ShaderManager::createShaderProgram(const char* vertex, const char* 
       if (found != std::string::npos)
       {
         unsigned int glLocation = glGetUniformLocation(program, textureHandles[i].c_str());
-        std::cout << "textureHandle: " << textureHandles[i].c_str() << " " << glLocation << "\n";
         glUniform1i(glLocation, i);
 
       }
@@ -88,8 +87,6 @@ unsigned int ShaderManager::createShaderProgram(const char* vertex, const char* 
       found = code.find("uniform", found + 1);
       unsigned int location = glGetUniformLocation(program, key.c_str());
       uniforms[shader][key] = location;
-      std::cout << key << " " << location << " " << shader << " program: " << program<<"\n";
-
     }
   }
 	shaderlist[shader] = program;
@@ -121,7 +118,8 @@ ShaderManager::ShaderManager()
 ShaderManager::~ShaderManager()
 {
   for (auto const &x : shaderlist) {
-    deleteShader(x.first);
+    unsigned int p = x.second;
+    glDeleteProgram(p);
 
   }
 }
