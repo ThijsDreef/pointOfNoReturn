@@ -187,7 +187,7 @@ void DefferedRenderModule::update()
   drawInstanced();
 
   //shadow map rendering
-  Vec3<float> directionalLight(0.2, 2, 0.5);
+  Vec3<float> directionalLight(0.2, 2, 1);
 
   //shadow matrix setup
   Matrix<float> lightPerspective;
@@ -238,6 +238,10 @@ void DefferedRenderModule::drawInstanced()
     glBindVertexBuffer(0, geoLib->getGeoBufferId(), 0, 32);
     glBindVertexBuffer(1, instancedTransforms[i]->getBufferId(), 0, 64);
     for (unsigned int j = 0; j < geoLib->getTotalGroups(instancedTransforms[i]->getModel()); j++) {
+      unsigned int materialId = matLib->getMaterialId(instancedTransforms[i]->getMaterial(j));
+      glBindBufferRange(GL_UNIFORM_BUFFER, 0, matLib->matBuffer.getBufferId(), materialId * sizeof(Material), sizeof(Material));
+      unsigned int texture = matLib->getMaterial(materialId).texture;
+      if (texture < 1000) glBindTexture(GL_TEXTURE_2D, matLib->getMaterial(i).texture);
       std::vector<unsigned int> indice = geoLib->getIndice(instancedTransforms[i]->getModel(), j);
       glDrawElementsInstanced(GL_TRIANGLES, indice.size(), GL_UNSIGNED_INT, &indice[0], instancedTransforms[0]->getTransformSize());
     }

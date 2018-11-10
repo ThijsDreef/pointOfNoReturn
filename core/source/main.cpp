@@ -28,10 +28,11 @@ int main(int argc, char const *argv[])
 
 
   Object * object = new Object({});
-  object->addComponent(new Transform(Vec3<float>(0, 0, 0), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "atrium", {"None"}, object));
+  object->addComponent(new Transform(Vec3<float>(0, -1, 0), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "sponza", {"None"}, object));
+
   Object * bunny = new Object({});
   bunny->addComponent(new Transform(Vec3<float>(0, 1.8, 0), Vec3<float>(1, 1, 1), Vec3<float>(0, 0, 0), "bunny", {}, bunny));
-  bunny->addComponent(new CollisionComponent(false, new AABB(Vec3<float>(0, 1.8, 0), Vec3<float>(1, 1, 1)), 0, bunny));
+  bunny->addComponent(new CollisionComponent(false, new AABB(Vec3<float>(0, 1.8, 0), Vec3<float>(0.5, 0.5, 0.5)), 0, bunny));
   bunny->getComponent<CollisionComponent>()->getCollider()->syncPos(&bunny->getComponent<Transform>()->getPos());
 
   // Object * instanced = new Object({});

@@ -17,6 +17,7 @@ public:
     std::string & getModel();
     InstancedTransform(Object * object);
     ~InstancedTransform();
+    std::string getMaterial(unsigned int group);
     void addToInstance(Transform * t);
     void prepareBuffer(Matrix<float> & view, Matrix<float> & p);
     unsigned int getBufferId();

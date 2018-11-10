@@ -41,3 +41,8 @@ unsigned int InstancedTransform::getTransformSize()
 {
     return instances.size();
 }
+
+std::string InstancedTransform::getMaterial(unsigned int idGroup)
+{
+    return instances[0]->materials[idGroup];
+}
