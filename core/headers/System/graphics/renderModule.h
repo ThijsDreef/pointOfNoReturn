@@ -24,6 +24,7 @@ private:
   MaterialLib * matLib;
   MatrixBufferer bufferer;
   ShaderManager * shaderManager;
+  Camera * camObject;
   std::vector<Transform*> renderObjects;
   Matrix<float> projection;
   Matrix<float> camera;

@@ -10,12 +10,7 @@ Camera::~Camera()
 
 }
 
-void Camera::setMatrix(Matrix<float> * mat)
-{
-  camera = mat;
-}
-
-Matrix<float> * Camera::getMatrix()
+Matrix<float> & Camera::getMatrix()
 {
   return camera;
 }

@@ -20,6 +20,7 @@ RenderModule::~RenderModule()
 
 void RenderModule::update()
 {
+  camera = camObject->getMatrix();
   bufferer.setBuffer(renderObjects, camera, projection);
   glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, bufferer.getBufferId());
   std::map<std::string, std::vector<std::pair<unsigned int, Transform*>>> renderList;
@@ -82,6 +83,5 @@ void RenderModule::addObject(Object * transform)
     renderObjects.push_back(transObj);
   }
   Camera * cam = transform->getComponent<Camera>();
-  if (cam)
-    cam->setMatrix(&camera);
+  if (cam) camObject = cam;
 }
