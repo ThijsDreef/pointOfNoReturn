@@ -114,7 +114,7 @@ void DefferedRenderModule::addObject(Object * object)
       transObj->materials.push_back(materials[i]);
   }
   Camera * cam = object->getComponent<Camera>();
-  if (cam) cam->setMatrix(&camera);
+  if (cam) camObject = cam;
 
   InstancedTransform * itObj = object->getComponent<InstancedTransform>();
   if (itObj) instancedTransforms.push_back(itObj);
@@ -137,7 +137,7 @@ void DefferedRenderModule::bindDefault()
 
 void DefferedRenderModule::update()
 {
-
+  camera = camObject->getMatrix();
   //TODO: add a way to cull objects
   //bind fbo
   renderFbo.bind();

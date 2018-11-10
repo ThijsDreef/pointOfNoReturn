@@ -11,6 +11,7 @@ private:
 public:
     void update();
     Vec3<float> & getPos();
+    Matrix<float> & getMatrix();
     FpsCamera(Input * input, Object * object);
     virtual ~FpsCamera();
 };

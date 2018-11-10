@@ -32,12 +32,18 @@ void FpsCamera::update()
     force = matrix.multiplyByVector(force);
     position += force;
 
-    Matrix<float> * camera = getMatrix();
+
+}
+
+Matrix<float> & FpsCamera::getMatrix()
+{
+    Matrix<float> other;
     matrix.setAxisrotation(-rotation[0], X);
     other.setAxisrotation(-rotation[1], Y);
     matrix = matrix.multiplyByMatrix(other);
-    camera->translateMatrix(-position);
-    *camera = matrix.multiplyByMatrix(*camera);
+    camera.translateMatrix(-position);
+    camera = matrix.multiplyByMatrix(camera);
+    return camera;
 }
 
 FpsCamera::~FpsCamera()

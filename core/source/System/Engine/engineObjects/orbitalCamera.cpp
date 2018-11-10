@@ -18,7 +18,7 @@ OrbitalCamera::~OrbitalCamera()
 void OrbitalCamera::update()
 {
   //translate away from origin to rotate around a point
-  getMatrix()->translateMatrix(Vec3<float>(0, 0, offset));
+  camera.translateMatrix(Vec3<float>(0, 0, offset));
   //if interpolated == true lerp the interpolrot and use that instead of locked/normal rot
   interpolRot = lerp(interpolRot, *rotPoint, 0.1);
   //todo fix this with operater makes a vector negative
@@ -29,23 +29,28 @@ void OrbitalCamera::update()
       matrix.setAxisrotation(negativeIntePolRot[0] + rot[0], X);
   else
     matrix.setAxisrotation(-(*rotPoint)[0] + rot[0], X);
-  *getMatrix() = getMatrix()->multiplyByMatrix(matrix);
+  camera = camera.multiplyByMatrix(matrix);
   if (locked[2])
     matrix.setAxisrotation(rot[2], Z);
   else if (interpolated)
     matrix.setAxisrotation(negativeIntePolRot[2] + rot[2], Z);
   else
     matrix.setAxisrotation(-(*rotPoint)[2] + rot[2], Z);
-  *getMatrix() = getMatrix()->multiplyByMatrix(matrix);
+  camera = camera.multiplyByMatrix(matrix);
   if (locked[1])
     matrix.setAxisrotation(rot[1], Y);
   else if (interpolated)
     matrix.setAxisrotation(negativeIntePolRot[1] + rot[1], Y);
   else
     matrix.setAxisrotation(-(*rotPoint)[1] + rot[1], Y);
-  *getMatrix() = getMatrix()->multiplyByMatrix(matrix);
+  camera = camera.multiplyByMatrix(matrix);
   matrix.translateMatrix(-(*posPoint));
-  *getMatrix() = getMatrix()->multiplyByMatrix(matrix);
+  camera = camera.multiplyByMatrix(matrix);
+}
+
+Matrix<float> & OrbitalCamera::getMatrix()
+{
+  return camera;
 }
 
 Vec3<float> OrbitalCamera::lerp(Vec3<float> current, Vec3<float> target, float speed)

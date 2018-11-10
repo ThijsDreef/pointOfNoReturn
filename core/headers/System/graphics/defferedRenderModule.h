@@ -31,6 +31,7 @@ private:
   std::vector<Transform*> transforms;
   Fbo renderFbo;
   Fbo shadowFbo;
+  Camera * camObject;
   Matrix<float> camera;
   Matrix<float> projection;
   void setUpFormat();

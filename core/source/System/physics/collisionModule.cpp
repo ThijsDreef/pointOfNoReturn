@@ -13,9 +13,11 @@ void CollisionModule::update()
   // please handle collisions here
   for (unsigned int i = 0; i < collisions.size(); i++)
   {
-    Vec3<float> resolve = collisions[i].other->intersectA(collisions[i].hit);
-    collisions[i].other->getPos() += resolve * 0.2;
-
+    // reall dirty way to resolve collisions needs some better way eventually
+    while (collisions[i].hit->intersectB(collisions[i].other)) {
+      Vec3<float> resolve = collisions[i].other->intersectA(collisions[i].hit);
+      collisions[i].other->getPos() += resolve;
+    }
   }
   // set debug count here
   collisionCount = collisions.size();

@@ -5,11 +5,10 @@
 class Camera : public Component
 {
 protected:
-  Matrix<float> * camera;
+  Matrix<float> camera;
 public:
   Camera (Object * object);
-  void setMatrix(Matrix<float> * mat);
-  Matrix<float> * getMatrix();
+  virtual Matrix<float> & getMatrix();
   virtual ~Camera ();
 };
 #endif
