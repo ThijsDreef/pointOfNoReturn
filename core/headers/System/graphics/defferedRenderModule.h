@@ -8,7 +8,7 @@
 #include "System/Graphics/Geometry/MatrixBufferObject.h"
 #include "Math/matrix.h"
 #include "System/Graphics/Resources/buffer.h"
-#include "Util/util.h"
+#include "Util/loadingUtils.h"
 #include "System/Engine/EngineObjects/transform.h"
 #include "System/Window/glew.h"
 #include "System/Engine/EngineObjects/object.h"
@@ -46,6 +46,7 @@ public:
   void drawInstanced();
   void drawGeometry(std::vector<std::vector<std::pair<unsigned int, Transform*>>> & renderList, bool materials);
   void updatePerspective(int width, int height, int fov, float near, float far);
+  void updateOrthoGraphic(int width, int height, float near, float far);
   void addObject(Object * object);
   Matrix<float> * getCameraMatrix();
 };

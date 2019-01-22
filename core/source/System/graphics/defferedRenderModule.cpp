@@ -12,12 +12,11 @@ DefferedRenderModule::DefferedRenderModule(GeometryLib * geo, MaterialLib * mat,
   geoLib = geo;
   matLib = mat;
   shaderManager = shader;
-  shaderManager->createShaderProgram("shaders/defferedStandard.vert", "shaders/defferedStandard.frag", "deffered");
-  shaderManager->createShaderProgram("shaders/standard.vert", "shaders/standard.frag", "standard");
-  shaderManager->createShaderProgram("shaders/defferedFinish.vert", "shaders/defferedFinish.frag", "deffered-finish");
-  shaderManager->createShaderProgram("shaders/directionalLight.vert", "shaders/directionalLight.frag", "directionalLight");
-  shaderManager->createShaderProgram("shaders/defferedInstanced.vert", "shaders/defferedInstanced.frag", "defferedInstanced");
-  shaderManager->createShaderProgram("shaders/directionalLightInstanced.vert", "shaders/directionalLightInstanced.frag", "directionalLightInstanced");
+  shaderManager->createShaderProgram("shaders/deffered/defferedStandard.vert", "shaders/deffered/defferedStandard.frag", "deffered");
+  shaderManager->createShaderProgram("shaders/deffered/defferedFinish.vert", "shaders/deffered/defferedFinish.frag", "deffered-finish");
+  shaderManager->createShaderProgram("shaders/shadow/directionalLight.vert", "shaders/shadow/directionalLight.frag", "directionalLight");
+  shaderManager->createShaderProgram("shaders/deffered/defferedInstanced.vert", "shaders/deffered/defferedInstanced.frag", "defferedInstanced");
+  shaderManager->createShaderProgram("shaders/shadow/directionalLightInstanced.vert", "shaders/shadow/directionalLightInstanced.frag", "directionalLightInstanced");
 
 
   glEnable(GL_CULL_FACE);
@@ -45,7 +44,7 @@ void DefferedRenderModule::setUpFormat()
 {
   glBindVertexArray(defaultVao);
   // stream, buffer, offset, stride
-  glBindVertexBuffer(0, geoLib->getGeoBufferId(), 0, 32);
+  glBindVertexBuffer(0, geoLib->getGeoBufferId(), 0, sizeof(VertexFormat));
   glEnableVertexAttribArray(0);
   glVertexAttribFormat(0, 3, GL_FLOAT, false,  0); // position
   glVertexAttribBinding(0, 0); // position -> stream 0
@@ -98,6 +97,11 @@ void DefferedRenderModule::updatePerspective(int width, int height, int fov, flo
   projection.perspectiveView(fov, (float)width/(float)height, near, far);
 }
 
+void DefferedRenderModule::updateOrthoGraphic(int width, int height, float near, float far)
+{
+  projection.orthographicView((float)width / (float)height * 10, 10, near, far);
+}
+
 void DefferedRenderModule::addObject(Object * object)
 {
   Transform *  transObj = object->getComponent<Transform>();
@@ -140,17 +144,6 @@ void DefferedRenderModule::update()
   camera = camObject->getMatrix();
   //TODO: add a way to cull objects
   //bind fbo
-  renderFbo.bind();
-  glViewport(0, 0, w, h);
-
-  //bind the fbo textures to the gldrawTarget
-  renderFbo.prepareDraw();
-  //clear the fbo
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  //buffer the matrices
-  matBufferer.setBuffer(transforms, camera, projection);
-  //bind the buffer base to binding 1 hard bound in shader
-  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, matBufferer.getBufferId());
 
   //prepare vector used for rendering
   std::vector<std::vector<std::pair<unsigned int, Transform*>>> renderList;
@@ -174,6 +167,17 @@ void DefferedRenderModule::update()
   for (unsigned int i = 0; i < instancedTransforms.size(); i++)
     instancedTransforms[i]->prepareBuffer(camera, projection);
 
+  renderFbo.bind();
+  glViewport(0, 0, w, h);
+
+  //bind the fbo textures to the gldrawTarget
+  renderFbo.prepareDraw();
+  //clear the fbo
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  //buffer the matrices
+  matBufferer.setBuffer(transforms, camera, projection);
+  //bind the buffer base to binding 1 hard bound in shader
+  glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, matBufferer.getBufferId());
   //primary render loop
   glCullFace(GL_BACK);
 
@@ -187,7 +191,7 @@ void DefferedRenderModule::update()
   drawInstanced();
 
   //shadow map rendering
-  Vec3<float> directionalLight(0.2, 2, 1);
+  Vec3<float> directionalLight(0.5, 2, 0.75);
 
   //shadow matrix setup
   Matrix<float> lightPerspective;
@@ -195,12 +199,13 @@ void DefferedRenderModule::update()
   Matrix<float> lightViewMatrix;
   lightPerspective.orthographicView(35, 35, -30, 30);
   lightViewMatrix.lookAt(directionalLight, Vec3<float>(), Vec3<float>(0, 1, 0));
-  lightMatrix = lightPerspective.multiplyByMatrix(lightViewMatrix);
+  lightMatrix.translateMatrix(-camObject->getPosition());
+  lightMatrix = lightPerspective.multiplyByMatrix(lightViewMatrix.multiplyByMatrix(lightMatrix));
 
   //draw shadow map
   shadowFbo.bind();
   glViewport(0, 0, 4096, 4096);
-  glCullFace(GL_NONE);
+  glDisable(GL_CULL_FACE);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glUseProgram(shaderManager->getShader("directionalLight"));
   glUniformMatrix4fv(shaderManager->uniformLocation("directionalLight", "uLightVP"), 1, false, &lightMatrix.matrix[0]);
@@ -216,7 +221,7 @@ void DefferedRenderModule::update()
 
   // draw one screen aligned quad
   bindDefault();
-  glCullFace(GL_BACK);
+  glEnable(GL_CULL_FACE);
   glViewport(0, 0, w, h);
 
   glUseProgram(shaderManager->getShader("deffered-finish"));
@@ -235,13 +240,11 @@ void DefferedRenderModule::drawInstanced()
 {
   for (unsigned int i = 0; i < instancedTransforms.size(); i++)
   {
-    glBindVertexBuffer(0, geoLib->getGeoBufferId(), 0, 32);
+    glBindVertexBuffer(0, geoLib->getGeoBufferId(), 0, sizeof(VertexFormat));
     glBindVertexBuffer(1, instancedTransforms[i]->getBufferId(), 0, 64);
     for (unsigned int j = 0; j < geoLib->getTotalGroups(instancedTransforms[i]->getModel()); j++) {
       unsigned int materialId = matLib->getMaterialId(instancedTransforms[i]->getMaterial(j));
       glBindBufferRange(GL_UNIFORM_BUFFER, 0, matLib->matBuffer.getBufferId(), materialId * sizeof(Material), sizeof(Material));
-      unsigned int texture = matLib->getMaterial(materialId).texture;
-      if (texture < 1000) glBindTexture(GL_TEXTURE_2D, matLib->getMaterial(i).texture);
       std::vector<unsigned int> indice = geoLib->getIndice(instancedTransforms[i]->getModel(), j);
       glDrawElementsInstanced(GL_TRIANGLES, indice.size(), GL_UNSIGNED_INT, &indice[0], instancedTransforms[0]->getTransformSize());
     }
@@ -250,15 +253,11 @@ void DefferedRenderModule::drawInstanced()
 
 void DefferedRenderModule::drawGeometry(std::vector<std::vector<std::pair<unsigned int, Transform*>>> & renderList, bool materials)
 {
-  glBindVertexBuffer(0, geoLib->getGeoBufferId(), 0, 32);
-  glActiveTexture(GL_TEXTURE0 + (unsigned int)10);
+  glBindVertexBuffer(0, geoLib->getGeoBufferId(), 0, sizeof(VertexFormat));
   for (unsigned int i = 0; i < renderList.size(); i++)
   {
     if (materials) glBindBufferRange(GL_UNIFORM_BUFFER, 0, matLib->matBuffer.getBufferId(), i * sizeof(Material), sizeof(Material));
     unsigned int bufferIndex = -1;
-    unsigned int texture = matLib->getMaterial(i).texture;
-    if (texture < 1000) glBindTexture(GL_TEXTURE_2D, matLib->getMaterial(i).texture);
-    
     for (unsigned int j = 0; j < renderList[i].size(); j++)
     {
       if (bufferIndex != renderList[i][j].second->bufferIndex)

@@ -10,6 +10,11 @@ Collider::~Collider()
 
 }
 
+void Collider::setScale(Vec3<float> s)
+{
+  scale = s;
+}
+
 bool Collider::intersectB(Collider * other)
 {
   return false;
@@ -36,4 +41,14 @@ Vec3<float> & Collider::getPos()
 void Collider::syncPos(Vec3<float> * pos)
 {
   posPointer = pos;
+}
+
+void Collider::setCollisionComponent(CollisionComponent * component)
+{
+  collComponent = component;
+}
+
+CollisionComponent * Collider::getCollisionComponent()
+{
+  return collComponent;
 }

@@ -24,6 +24,11 @@ void MaterialLib::removeMaterial(const std::string& name)
   map.erase(name);
 }
 
+Texture * MaterialLib::getTexture(const std::string name)
+{
+  return textures[name];
+}
+
 Material& MaterialLib::getMaterial(const std::string& name)
 {
   return map[name];
@@ -53,7 +58,7 @@ void MaterialLib::setUpBuffer()
   byId.clear();
   //and prepare a buffer
   for (auto & i : map)
-  {
+  { 
     byId.push_back(i.first);
     loc[i.first] = size;
     allMats.push_back(i.second);
@@ -69,12 +74,13 @@ void MaterialLib::setUpBuffer()
   glBindBufferRange (GL_UNIFORM_BUFFER, 0, matBuffer.getBufferId(), 16, 16);
 
 
-}
+}	
 
 MaterialLib::~MaterialLib()
 {
   for (auto & i : textures)
   {
+	if (!i.second) continue;
     unsigned int id = i.second->getId();
     glDeleteTextures(1, &id);
     delete i.second;

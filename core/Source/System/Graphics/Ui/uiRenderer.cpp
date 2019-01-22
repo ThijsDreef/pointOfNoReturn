@@ -3,8 +3,8 @@
 UiRenderer::UiRenderer(std::string fontFileName, ShaderManager * shader, unsigned int width, unsigned int height, int padding) : font(fontFileName, padding)
 {
     shaderManager = shader;
-    shader->createShaderProgram("shaders/font.vert", "shaders/font.frag", "font");
-    shader->createShaderProgram("shaders/font.vert", "shaders/fontOutline.frag", "outLine");
+    shader->createShaderProgram("shaders/font/font.vert", "shaders/font/font.frag", "font");
+    shader->createShaderProgram("shaders/font/font.vert", "shaders/font/fontOutline.frag", "outLine");
     w = width;
     h = height;
     setupFormat();
@@ -13,7 +13,7 @@ UiRenderer::UiRenderer(std::string fontFileName, ShaderManager * shader, unsigne
 
 UiRenderer::~UiRenderer()
 {
-
+    glDeleteVertexArrays(1, &vao);
 }
 
 void UiRenderer::setupFormat()
@@ -44,17 +44,19 @@ void UiRenderer::renderText()
         }
         else if (textObjects[i]->isDirty()) 
         {
-            textObjects[i]->buildBuffer(&font);
+            textObjects[i]->buildBuffer(&font, (float)w/h);
             textObjects[i]->setClean();
         } 
 
         glBindVertexBuffer(0, textObjects[i]->getBuffer(), 0, 16);
         std::vector<unsigned int> indices = textObjects[i]->getIndices();
         Matrix<float> mvp;
-        mvp.orthographicView(w, h, 0.01, 10);
+        mvp.orthographicView(1, (float)w / h, -10, 10);
         mvp = mvp.multiplyByMatrix(textObjects[i]->getMatrix());
         glUniformMatrix4fv(shaderManager->uniformLocation("font", "mvp"), 1, false, &mvp.matrix[0]);
-        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, &indices[0]);
+        glUniform1f(shaderManager->uniformLocation("font", "uAlpha"), textObjects[i]->getAlpha());
+
+        if (indices.size() > 0) glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, &indices[0]);
 
     }
     glDisable(GL_BLEND);

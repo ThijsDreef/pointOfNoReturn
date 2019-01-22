@@ -31,9 +31,9 @@ public:
 	Matrix<T> multiplyByMatrix(Matrix<T> otherMatrix);
 	Vec3<T> multiplyByVector(Vec3<T> vec);
 	Vec3<T> translateVector(Vec3<T> vec);
-	void lightBias();
 };
 
+//stolen from the GML implemntation
 template<class T>
 inline void Matrix<T>::lookAt(Vec3<float> eye, Vec3<float> center, Vec3<float> up)
 {
@@ -111,7 +111,7 @@ inline void Matrix<T>::lookAt(Vec3<float> eye, Vec3<float> center, Vec3<float> u
     matrix[14] = -(z0 * eyex + z1 * eyey + z2 * eyez);
     matrix[15] = 1;
 }
-
+//stolen from the GLM implentation
 template<class T>
 inline Matrix<T> Matrix<T>::inverse()
 {
@@ -296,19 +296,6 @@ inline void Matrix<T>::orthographicView(float width, float height, float zNear, 
 }
 
 template<class T>
-inline void Matrix<T>::lightBias()
-{
-	resetMatrix();
-	matrix[0] = 0.5;
-	matrix[5] = 0.5;
-	matrix[10] = 0.5;
-	matrix[12] = 0.5;
-	matrix[13] = 0.5;
-	matrix[14] = 0.5;
-	matrix[15] = 1;
-}
-
-template<class T>
 inline void Matrix<T>::setAxisrotation(T angle, int axis)
 {
 	resetMatrix();
@@ -348,8 +335,8 @@ inline Matrix<T> Matrix<T>::rotation(Vec3<T> rotation)
 	//z y x rotation
 	Matrix<T> result;
 	Matrix<T> temp;
-	result.setAxisrotation(rotation[1], Y);
 	temp.setAxisrotation(rotation[0], X);
+	result.setAxisrotation(rotation[1], Y);
 	result = result.multiplyByMatrix(temp);
 	temp.setAxisrotation(rotation[2], Z);
 	return result.multiplyByMatrix(temp);

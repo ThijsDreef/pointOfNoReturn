@@ -1,3 +1,6 @@
+#ifndef FBO__
+#define FBO__
+
 #include "System/Graphics/Resources/texture.h"
 #include <vector>
 #include "System/Window/glew.h"
@@ -7,9 +10,9 @@ class Fbo
 private:
   int w;
   int h;
-  unsigned int renderBufferId;
+  unsigned int renderBufferId = -1;
   unsigned int id;
-  std::vector<Texture> textures;
+  std::vector<Texture*> textures;
   std::vector<unsigned int> attachments;
   std::vector<unsigned int> bindingPoints;
 public:
@@ -23,3 +26,5 @@ public:
   unsigned int getTextureIndex(unsigned int attachment);
   virtual ~Fbo ();
 };
+
+#endif 

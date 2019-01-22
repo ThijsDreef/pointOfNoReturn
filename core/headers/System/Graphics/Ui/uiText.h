@@ -26,20 +26,25 @@ protected:
   std::string text;
   Vec2<float> pos;
   Matrix<float> mv;
-private:
   float scale = 1.f;
+  float alpha = 1.f;
+  float centerX = 0.0f;
+private:
   bool dirty;
   std::vector<unsigned int> indices;
   Buffer fontBuffer;
+  float inverseAspect;
 public:
+  bool shouldCenter = false;
   bool outLine = true;
   Matrix<float> & getMatrix();
   std::vector<unsigned int> & getIndices();
-  void buildBuffer(Font * font);
+  void buildBuffer(Font * font, float inverseAspect);
   unsigned int getBuffer();
   void setPos(Vec2<float> position);
   Vec2<float> & getPos();
   void setClean();
+  float getAlpha();
   void setScale(float s);
   float getScale();
   bool isDirty();

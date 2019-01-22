@@ -10,11 +10,16 @@ UIText::UIText(std::string startText, Vec2<float> position, Object * object) : C
 
 UIText::~UIText()
 {
-
+    
 }
 
 Matrix<float> & UIText::getMatrix()
 {
+    Matrix<float> temp;
+    temp.translateMatrix(Vec3<float>((shouldCenter) ? centerX * scale : pos[0], pos[1] * inverseAspect, 0));
+    // might need to fix this shit
+    mv.scaleMatrix(Vec3<float>(scale, scale, 1));
+    mv = temp.multiplyByMatrix(mv);
     return mv;
 }
 
@@ -23,9 +28,15 @@ std::vector<unsigned int> & UIText::getIndices()
     return indices;
 }
 
-void UIText::buildBuffer(Font * font)
+float UIText::getAlpha()
+{
+    return alpha;
+}
+
+void UIText::buildBuffer(Font * font, float inverseAspect)
 {   
     indices.clear();
+		
     std::vector<unsigned int> defaultIndices = {0, 1, 2, 0, 3, 1};
     std::vector<TextGPUData> textGPUData;
     Vec2<float> offset;
@@ -35,7 +46,7 @@ void UIText::buildBuffer(Font * font)
         FontCharacter character = font->getCharacter(text[j]);
         for (unsigned int k = 0; k < character.vertices.size(); k++)
         {
-            float kerning = font->getKerning(text[(j + 1 >= 0 ? j + 1 : 0) ], text[j]).amount;
+            int kerning = font->getKerning(text[(j + 1 >= 0 ? j + 1 : 0) ], text[j]).amount;
             // float kerning = 0;
             Vec2<float> vt = character.vertices[k].vertexPosition;
             vt = vt + offset;
@@ -51,12 +62,14 @@ void UIText::buildBuffer(Font * font)
         offset[0] += character.xAdvance;
         indiceOffset += 4;
     }
+    this->inverseAspect = inverseAspect;
     Matrix<float> temp;
-    temp.translateMatrix(Vec3<float>(pos[0], pos[1], 0));
+    centerX = -offset[0] * 0.5;
+    temp.translateMatrix(Vec3<float>(pos[0], pos[1] * inverseAspect, 0));
     // might need to fix this shit
-    mv.scaleMatrix(Vec3<float>(600, 600, 1));
+    mv.scaleMatrix(Vec3<float>(scale, scale, 1));
     mv = temp.multiplyByMatrix(mv);
-    fontBuffer.bufferData(sizeof(TextGPUData) * textGPUData.size(), &textGPUData[0], GL_STATIC_DRAW);
+    if (textGPUData.size() > 0) fontBuffer.bufferData(sizeof(TextGPUData) * textGPUData.size(), &textGPUData[0], GL_STATIC_DRAW);
 }
 
 unsigned int UIText::getBuffer()
@@ -78,7 +91,6 @@ void UIText::setText(std::string newText)
 void UIText::setPos(Vec2<float> position)
 {
     pos = position;
-    dirty = true;
 }
 
 void UIText::setScale(float s)

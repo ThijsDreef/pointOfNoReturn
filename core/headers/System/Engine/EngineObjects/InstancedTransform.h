@@ -8,7 +8,7 @@
 
 class InstancedTransform : public Component
 {
-private:
+protected:
     std::vector<Transform*> instances;
     Buffer matrixBuffer;
     
@@ -16,13 +16,12 @@ private:
 public:
     std::string & getModel();
     InstancedTransform(Object * object);
-    ~InstancedTransform();
+    virtual ~InstancedTransform();
     std::string getMaterial(unsigned int group);
     void addToInstance(Transform * t);
-    void prepareBuffer(Matrix<float> & view, Matrix<float> & p);
+    virtual void prepareBuffer(Matrix<float> & view, Matrix<float> & p);
     unsigned int getBufferId();
     unsigned int getTransformSize();
-
 };
 
 #endif

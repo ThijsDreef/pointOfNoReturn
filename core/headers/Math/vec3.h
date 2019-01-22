@@ -121,6 +121,11 @@ public:
     (*this) += speed * (target - (*this));
   }
 
+  T length() 
+  {
+    return sqrtf(components[0] * components[0] + components[1] * components[1] + components[2] * components[2]);
+  }
+
   Vec3<T> normalize()
   {
     Vec3<T> normal;
@@ -131,6 +136,22 @@ public:
 
     return normal;
   }
+  Vec3<T> abs() 
+  {
+    Vec3<T> absolute;
+    for (unsigned int i = 0; i < 3; i++) {
+      absolute[i] = std::fabs(components[i]);
+    }
+    return absolute;
+  }
+  Vec3<T> sign() 
+  {
+    Vec3<T> sign;
+    for (unsigned int i = 0; i < 3; i++) {
+      sign[i] = (components[i] > 0) ? 1 : (components[i] < 0) ? -1 : 0;
+    }
+    return sign;
+  }
   T dot(Vec3<T> other)
   {
     T result = 0;
@@ -138,9 +159,13 @@ public:
       result += components[i] * other[i];
     return result;
   }
-  T cross(Vec3<T> other, Vec3<T> another)
+  Vec3<T> cross(Vec3<T> another)
   {
-    return ((other[0] - components[0]) * (another[1] - components[1]) - (other[1] - components[1]) * (another[0] - components[0]));
+    Vec3<T> crossResult;
+    crossResult[0] = components[1] * another[2] - another[1] * components[2];
+    crossResult[1] = components[2] * another[0] - another[2] * components[0];
+    crossResult[2] = components[0] * another[1] - another[0] * components[1];
+    return crossResult;
   }
   friend Vec3<T> operator/ (T other, Vec3<T> otherVec)
   {
@@ -157,6 +182,15 @@ public:
   friend Vec3<T> operator* (T other, Vec3<T> otherVec)
   {
     return otherVec * other;
+  }
+  friend bool operator!= (Vec3<T> other, Vec3<T> otherVec) 
+  {
+    int correct = 0;
+    for (unsigned int i = 0; i < 3; i++) {
+      if (other[i] != otherVec[i])
+        correct++;
+    }
+    return (correct != 0 ) ? true : false;
   }
 
   ~Vec3 ()
