@@ -1,4 +1,8 @@
 .vscode
+.vs
+Debug/
+x64/
+x86/
 build
 exe/*
 !exe/shaders/*
